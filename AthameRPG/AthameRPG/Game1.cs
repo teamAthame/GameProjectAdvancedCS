@@ -12,6 +12,7 @@ namespace AthameRPG
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static bool exitGame;
 
         public Game1()
         {
@@ -31,6 +32,7 @@ namespace AthameRPG
             graphics.PreferredBackBufferWidth = (int)ScreenManager.Instance.Dimension.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.Instance.Dimension.Y;
             graphics.ApplyChanges();
+            this.IsMouseVisible = true;
 
             base.Initialize();
         }
@@ -71,6 +73,10 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
+            if (exitGame)
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -90,5 +96,8 @@ namespace AthameRPG
 
             base.Draw(gameTime);
         }
+
+        
+        
     }
 }

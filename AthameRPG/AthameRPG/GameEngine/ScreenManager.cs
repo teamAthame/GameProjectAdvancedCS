@@ -12,8 +12,8 @@ namespace AthameRPG.GameEngine
 {
     public class ScreenManager
     {
-        private const float SCREEN_WIDTH = 800f;
-        private const float SCREEN_HEIGHT = 600f;
+        public const float SCREEN_WIDTH = 800f;
+        public const float SCREEN_HEIGHT = 600f;
 
         private static ScreenManager instance;
         
