@@ -16,6 +16,9 @@ namespace AthameRPG.GameEngine
         public const float SCREEN_HEIGHT = 600f;
 
         private static ScreenManager instance;
+
+        GameScreen currentScreen;
+        GameScreen newScreen;
         
 
         public ScreenManager()
@@ -24,9 +27,9 @@ namespace AthameRPG.GameEngine
             currentScreen = new MenuScreen();
         }
 
+        public bool IsTransitioning { get; private set; }
         public ContentManager Content { get; private set; }
         public Vector2 Dimension { get; private set; }
-        GameScreen currentScreen;
 
         public static ScreenManager Instance
         {
@@ -38,6 +41,23 @@ namespace AthameRPG.GameEngine
                 }
 
                 return instance;
+            }
+        }
+
+        public void ChangeScreens(string screenName)
+        {
+            newScreen = (GameScreen)Activator.CreateInstance(Type.GetType("AthameRPG.GameEngine.Screens." + screenName));
+
+            IsTransitioning = true;
+        }
+        private void Transition()
+        {
+            if (IsTransitioning)
+            {
+                currentScreen.UnloadContent();
+                currentScreen = newScreen;
+                currentScreen.LoadContent();
+                IsTransitioning = false;
             }
         }
 
@@ -55,6 +75,7 @@ namespace AthameRPG.GameEngine
         public void Update(GameTime gameTime)
         {
             currentScreen.Update(gameTime);
+            Transition();
         }
 
         public void Draw(SpriteBatch spriteBatch)

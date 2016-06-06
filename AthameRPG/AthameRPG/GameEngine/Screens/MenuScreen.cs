@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.GameEngine.Screens
 {
-    public class MenuScreen :GameScreen
+    public class MenuScreen : GameScreen
     {
         private const string NEW_GAME_TEXT = "NEW GAME";
         private const string EXIT_TEXT = "EXIT";
@@ -90,6 +90,8 @@ namespace AthameRPG.GameEngine.Screens
         {
             mouse = Mouse.GetState();
 
+            PositioningInTheMiddleOfTheScreen();
+
             willChangeColor = IsMouseOverText(NEW_GAME_TEXT, NEW_GAME_Y);
 
             newGameColor = willChangeColor == true ? Color.White : Color.Red;
@@ -97,6 +99,10 @@ namespace AthameRPG.GameEngine.Screens
             if (willChangeColor)
             {
                 // GO TO THE GAME !!!
+                if (mouse.LeftButton == ButtonState.Pressed)
+                {
+                    ScreenManager.Instance.ChangeScreens("MapScreen");
+                }
             }
 
             willChangeColor = IsMouseOverText(EXIT_TEXT, EXIT_Y);
@@ -118,8 +124,8 @@ namespace AthameRPG.GameEngine.Screens
             base.Draw(spriteBatch);
 
             // Center the 'IMAGE','New Game' and 'EXIT' in the middle of the screen
-            PositioningInTheMiddleOfTheScreen();
-            
+            //PositioningInTheMiddleOfTheScreen();
+
             spriteBatch.Draw(image, ImagePosition, Color.Gold);
             spriteBatch.DrawString(spriteFont, NEW_GAME_TEXT, NewGameTextPosition, newGameColor);
             spriteBatch.DrawString(spriteFont, EXIT_TEXT, ExitTextPosition, exitColor);

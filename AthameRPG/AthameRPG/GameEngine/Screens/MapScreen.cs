@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace AthameRPG.GameEngine.Screens
+{
+    public class MapScreen : GameScreen
+    {
+
+        private string newScreen;
+        private SpriteFont spriteFont;
+        private Vector2 newScreenPosition;
+
+
+        public MapScreen()
+        {
+            this.NewScreen = newScreen;
+            this.NewScreenPosition = newScreenPosition;
+        }
+
+        public string NewScreen
+        {
+            get
+            {
+                return this.newScreen;
+            }
+            private set
+            {
+                this.newScreen = "VOALA";
+            }
+        }
+
+        public Vector2 NewScreenPosition
+        {
+            get
+            {
+                return this.newScreenPosition;
+            }
+            private set
+            {
+                this.newScreenPosition = new Vector2(0, 0);
+            }
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+        }
+        public override void UnloadContent()
+        {
+            base.UnloadContent();
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            spriteBatch.DrawString(spriteFont, NewScreen, NewScreenPosition, Color.Green);
+        }
+    }
+}
