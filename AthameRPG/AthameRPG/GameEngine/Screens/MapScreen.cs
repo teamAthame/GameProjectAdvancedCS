@@ -51,20 +51,24 @@ namespace AthameRPG.GameEngine.Screens
             base.LoadContent();
 
             spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+            MapManager.Instance.LoadContent(content);
         }
         public override void UnloadContent()
         {
             base.UnloadContent();
+            MapManager.Instance.UnloadContent();
         }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            MapManager.Instance.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
             spriteBatch.DrawString(spriteFont, NewScreen, NewScreenPosition, Color.Green);
+            MapManager.Instance.Draw(spriteBatch);
         }
     }
 }

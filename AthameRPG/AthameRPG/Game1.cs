@@ -59,6 +59,7 @@ namespace AthameRPG
         {
             // TODO: Unload any non ContentManager content here
             ScreenManager.Instance.UnloadContent();
+            
         }
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
+            
             if (exitGame)
             {
                 Exit();

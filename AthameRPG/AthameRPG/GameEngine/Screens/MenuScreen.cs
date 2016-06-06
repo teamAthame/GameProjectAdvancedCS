@@ -81,15 +81,17 @@ namespace AthameRPG.GameEngine.Screens
             
             image = content.Load<Texture2D>(imagePath);
             spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+            
         }
         public override void UnloadContent()
         {
             base.UnloadContent();
+            
         }
         public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
-
+            
             PositioningInTheMiddleOfTheScreen();
 
             willChangeColor = IsMouseOverText(NEW_GAME_TEXT, NEW_GAME_Y);

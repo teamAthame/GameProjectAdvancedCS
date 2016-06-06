@@ -39,6 +39,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="GameEngine\FileLoader.cs" />
+    <Compile Include="GameEngine\MapManager.cs" />
+    <Compile Include="GameEngine\Maps\Map.cs" />
+    <Compile Include="GameEngine\Maps\Wall.cs" />
+    <Compile Include="GameEngine\Maps\VerticalBricks.cs" />
     <Compile Include="GameEngine\ScreenManager.cs" />
     <Compile Include="GameEngine\Screens\GameScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
@@ -54,7 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
+    <Content Include="Content\Maps\01-level.txt" />
+    <Content Include="Content\Maps\mapList.txt" />
+    <Content Include="Content\Maps\terrain.png" />
     <Content Include="Content\Resource\athame3.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
