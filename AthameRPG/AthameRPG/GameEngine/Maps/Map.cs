@@ -68,7 +68,7 @@ namespace AthameRPG.GameEngine.Maps
                             break;
                         
                     }
-                    Vector2 currentCoor = new Vector2((float)(i * 50), (float)(j * 50));
+                    Vector2 currentCoor = new Vector2((float)(j * 50), (float)(i * 50));
                     spriteBatch.Draw(MapManager.Instance.Terrain, currentCoor, cropWall, Color.White);
                 }
             }
