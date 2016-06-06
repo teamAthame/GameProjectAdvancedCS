@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DisciplesRpgGame.GameObject" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.RpgGameMain" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>RpgGameMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Acolyte" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAACAAAgAAEAAAAAAAAAAAAAAAgAABAAAA=</HashCode>
+      <FileName>Units\Empire\Acolyte.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Cleric" Collapsed="true">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAABCAAAAAAIAAABAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Units\Empire\Cleric.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Healer" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Units\Empire\Healer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Heirophant" Collapsed="true">
+    <Position X="11.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAIAAAAAAAAQQAABAAAAACAA=</HashCode>
+      <FileName>Units\Empire\Heirophant.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.ImperialPriest" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAEAAQAAAAAAAAAAAAAABAAAAAEA=</HashCode>
+      <FileName>Units\Empire\ImperialPriest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Matriarch" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAIAEAAAAAAABAQAAgAAAAAAAA=</HashCode>
+      <FileName>Units\Empire\Matriarch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Priest" Collapsed="true">
+    <Position X="9.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAABAAAAIAAAAAAAAAAAAACAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Units\Empire\Priest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Empire.Prophetess" Collapsed="true">
+    <Position X="14" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABABAAAAAAAAAAAAAAIAAIAAAAAAAAAAAAAAACEAAA=</HashCode>
+      <FileName>Units\Empire\Prophetess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisciplesRpgGame.Units.Unit" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAABAAAAAQAAAAAAAAAAAAAAEABAgBAAQAg=</HashCode>
+      <FileName>Units\Unit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DisciplesRpgGame.Interfaces.IHeal" Collapsed="true">
+    <Position X="16.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IHeal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="DisciplesRpgGame.Enums.Target" Collapsed="true">
+    <Position X="16.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Enums\Target.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
