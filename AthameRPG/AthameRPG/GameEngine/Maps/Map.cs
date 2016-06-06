@@ -12,16 +12,16 @@ namespace AthameRPG.GameEngine.Maps
     public class Map 
     {
         private string mapPath;
-        //private Texture2D terrain;
         private List<List<int>> fullMap;
         public static List<Map> obstacle;
         private Rectangle cropWall;
-        private Vector2 coordinates;
+        private Vector2 currentCoord;
 
         public Map(string mapPath)
         {
             this.MapPath = mapPath;
             this.FullMap = new List<List<int>>();
+            
         }
 
         public string MapPath
@@ -35,7 +35,7 @@ namespace AthameRPG.GameEngine.Maps
                 this.mapPath = value;
             }
         }
-
+        
         public void LoadContent()
         {
             
@@ -66,10 +66,16 @@ namespace AthameRPG.GameEngine.Maps
                         case 1:
                             cropWall = new Rectangle(50, 0, 50, 50);
                             break;
+                        case 2:
+                            cropWall = new Rectangle(100, 0, 50, 50);
+                            break;
                         
                     }
-                    Vector2 currentCoor = new Vector2((float)(j * 50), (float)(i * 50));
-                    spriteBatch.Draw(MapManager.Instance.Terrain, currentCoor, cropWall, Color.White);
+                    
+                    currentCoord.X = (float)(j * 50);
+                    currentCoord.Y = (float)(i * 50);
+
+                    spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, Color.White);
                 }
             }
         }

@@ -13,19 +13,22 @@ namespace AthameRPG.GameEngine
     public class MapManager
     {
         private const string MAP_LIST_PATH = @"../../../../Content/Maps/mapList.txt";
-        private static MapManager instance;
         private Texture2D terrain;
-        private Map currentMap;
-        public ContentManager ContentManager { get; private set; }
         private int mapIndex;
         private List<string> mapListPath;
+        private static MapManager instance;
+        private Map currentMap;
+        private CharacterManager charManager;
 
         public MapManager()
         {
-            this.MapIndex = 0;
+            this.MapIndex = 0; /// TODO 
             this.MapListPath = new List<string>();
             currentMap = new Map(MapListPath[MapIndex]);
+            charManager = new CharacterManager();
         }
+
+        public ContentManager ContentManager { get; private set; }
 
         public static MapManager Instance
         {
@@ -76,6 +79,7 @@ namespace AthameRPG.GameEngine
             this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
             terrain = ContentManager.Load<Texture2D>("../Content/Fonts/terrain");
             currentMap.LoadContent();
+            charManager.LoadContent(ContentManager);
 
         }
 
@@ -87,11 +91,15 @@ namespace AthameRPG.GameEngine
         public void Update(GameTime gameTime)
         {
             currentMap.Update(gameTime);
+            charManager.Update(gameTime);
+
+
         }
 
         public void Draw(SpriteBatch spriteBantch)
         {
             currentMap.Draw(spriteBantch);
+            charManager.Draw(spriteBantch);
         }
 
         

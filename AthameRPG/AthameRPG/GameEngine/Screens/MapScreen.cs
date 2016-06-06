@@ -14,12 +14,12 @@ namespace AthameRPG.GameEngine.Screens
         private string newScreen;
         private SpriteFont spriteFont;
         private Vector2 newScreenPosition;
-
-
+        
         public MapScreen()
         {
             this.NewScreen = newScreen;
             this.NewScreenPosition = newScreenPosition;
+            
         }
 
         public string NewScreen
@@ -52,6 +52,7 @@ namespace AthameRPG.GameEngine.Screens
 
             spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
             MapManager.Instance.LoadContent(content);
+            
         }
         public override void UnloadContent()
         {
@@ -62,12 +63,13 @@ namespace AthameRPG.GameEngine.Screens
         {
             base.Update(gameTime);
             MapManager.Instance.Update(gameTime);
+            
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
-            spriteBatch.DrawString(spriteFont, NewScreen, NewScreenPosition, Color.Green);
+            //spriteBatch.DrawString(spriteFont, NewScreen, NewScreenPosition, Color.Green);
             MapManager.Instance.Draw(spriteBatch);
         }
     }

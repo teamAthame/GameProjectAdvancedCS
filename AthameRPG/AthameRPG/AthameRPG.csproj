@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GameEngine\CharacterManager.cs" />
+    <Compile Include="Characters\Unit.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameEngine\FileLoader.cs" />
     <Compile Include="GameEngine\MapManager.cs" />
@@ -59,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
     <Content Include="Content\Maps\01-level.txt" />
@@ -75,6 +78,7 @@
     <None Include="Content\Fonts\ArialBig.spritefont" />
     <None Include="Content\Resource\Arial.spritefont" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
