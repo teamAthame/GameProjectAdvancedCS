@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AthameRPG.Characters
 {
-    public class Barbarian : Unit
+    public class Barbarian : Character
     {
         private const int cropWidth = 32;
         private const int cropHeight = 48;
@@ -19,14 +19,12 @@ namespace AthameRPG.Characters
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
-        private float startPositionX, startPositionY;
-
+        
         private float mapDetectionFromTop;
         private float mapDetectionFromBottom;
         private float mapDetectionFromLeft;
         private float mapDetectionFromRight;
-
-
+        
         private Rectangle cropCurrentFramePlayer;
         private Vector2 coordPlayer;
         private Vector2 lastMouseClickPosition;
@@ -75,16 +73,16 @@ namespace AthameRPG.Characters
             }
         }
 
-        public virtual void LoadContent()
+        public override void LoadContent()
         {
 
         }
-        public virtual void UnloadContent()
+        public override void UnloadContent()
         {
 
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
 
@@ -248,11 +246,10 @@ namespace AthameRPG.Characters
             return result;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CharacterManager.Instance.PlayerImage, coordPlayer, CropCurrentFramePlayer, Color.White);
         }
-
-
+        
     }
 }
