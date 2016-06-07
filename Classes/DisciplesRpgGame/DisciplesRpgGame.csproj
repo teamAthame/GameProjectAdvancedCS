@@ -43,19 +43,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\AttackSource.cs" />
+    <Compile Include="Enums\Immunity.cs" />
     <Compile Include="Enums\Target.cs" />
+    <Compile Include="Enums\Ward.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Interfaces\IAttack.cs" />
     <Compile Include="Interfaces\IHeal.cs" />
     <Compile Include="RpgGameMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\Empire\Acolyte.cs" />
+    <Compile Include="Units\Empire\Angel.cs" />
     <Compile Include="Units\Empire\Cleric.cs" />
+    <Compile Include="Units\Empire\DefenderOfFaith.cs" />
+    <Compile Include="Units\Empire\Fighter.cs" />
+    <Compile Include="Units\Empire\GrandInquisitor.cs" />
     <Compile Include="Units\Empire\Healer.cs" />
     <Compile Include="Units\Empire\Heirophant.cs" />
+    <Compile Include="Units\Empire\HolyAvenger.cs" />
+    <Compile Include="Units\Empire\ImperialKnight.cs" />
     <Compile Include="Units\Empire\ImperialPriest.cs" />
+    <Compile Include="Units\Empire\Inquisitor.cs" />
+    <Compile Include="Units\Empire\Knight.cs" />
     <Compile Include="Units\Empire\Matriarch.cs" />
+    <Compile Include="Units\Empire\Paladin.cs" />
     <Compile Include="Units\Empire\Priest.cs" />
     <Compile Include="Units\Empire\Prophetess.cs" />
+    <Compile Include="Units\Empire\Squire.cs" />
     <Compile Include="Units\Unit.cs" />
   </ItemGroup>
   <ItemGroup>

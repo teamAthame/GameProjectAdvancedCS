@@ -9,14 +9,18 @@ namespace DisciplesRpgGame.Units
         private int health;
         private int armor;
         private int initiative;
+        private int chanceToHit;
 
-        protected Unit(int experience, int health, int armor, int initiative, Target targetType)
+        protected Unit(int experience, int health, int armor, int initiative, int chanceToHit, Target targetType, AttackSource attackSource)
         {
             this.Experience = experience;
             this.Health = health;
             this.Armor = armor;
             this.Initiative = initiative;
+            this.ChanceToHit = chanceToHit;
             this.TargetType = targetType;
+            this.AttackSource = attackSource;
+            this.IsAlive = true;
         }
 
         public int Experience
@@ -62,7 +66,7 @@ namespace DisciplesRpgGame.Units
                 return this.armor;
             }
 
-            protected set
+            set
             {
                 if (value < 0 || value > 100)
                 {
@@ -80,7 +84,7 @@ namespace DisciplesRpgGame.Units
                 return this.initiative;
             }
 
-            protected set
+            set
             {
                 if (value < 0 || value > 100)
                 {
@@ -91,6 +95,28 @@ namespace DisciplesRpgGame.Units
             }
         }
 
-        public Target TargetType { get; protected set; }
+        public int ChanceToHit
+        {
+            get
+            {
+                return this.chanceToHit;
+            }
+
+            set
+            {
+                if (value < 0 || value > 100)
+                {
+                    throw new ArgumentOutOfRangeException("ChanceToHit", "ChanceToHit must be in the range [0...100] percent.");
+                }
+
+                this.chanceToHit = value;
+            }
+        }
+
+        public Target TargetType { get; set; }
+
+        public AttackSource AttackSource { get; set; }
+
+        public bool IsAlive { get; set; }
     }
 }
