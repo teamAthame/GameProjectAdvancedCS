@@ -18,15 +18,19 @@ namespace AthameRPG.Characters
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
+        private float startPositionX, startPositionY;
+
+
         private Rectangle cropCurrentFramePlayer;
         private Vector2 coordPlayer;
         private Vector2 lastMouseClickPosition;
 
         private MouseState mouse;
 
-        public Barbarian()
+        public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
+            coordPlayer = new Vector2(startPositionX, startPositionY);
         }
 
         public float PlayerCenterCoordX

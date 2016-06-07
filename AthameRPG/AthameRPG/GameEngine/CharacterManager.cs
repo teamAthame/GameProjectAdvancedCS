@@ -12,6 +12,9 @@ namespace AthameRPG.GameEngine
 {
     public class CharacterManager
     {
+        private const float PLAYER_START_POSITION_X = 400;
+        private const float PLAYER_START_POSITION_Y = 305;
+
         private static CharacterManager instance;
         private Texture2D playerImage;
         private Vector2 playerCoordinates;
@@ -27,7 +30,7 @@ namespace AthameRPG.GameEngine
 
         public CharacterManager()
         {
-            barbarian = new Barbarian();
+            barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
         }
 
         public Texture2D PlayerImage

@@ -16,12 +16,39 @@ namespace AthameRPG.Characters
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
 
+        private float startPositionX, startPositionY;
         
-        public Unit()
+        public Unit(float startPositionX, float startPositionY)
         {
-
+            this.StartPositionX = startPositionX;
+            this.StartPositionY = startPositionY;
             
         }
+
+        private float StartPositionX
+        {
+            get
+            {
+                return this.startPositionX;
+            }
+            set
+            {
+                this.startPositionX = value;
+            }
+        }
+        private float StartPositionY
+        {
+            get
+            {
+                return this.startPositionY;
+            }
+            set
+            {
+                this.startPositionY = value;
+            }
+        }
+
+
 
         public virtual void LoadContent()
         {
