@@ -28,7 +28,6 @@ namespace AthameRPG.GameEngine
             charManager = new CharacterManager();
         }
 
-        public ContentManager ContentManager { get; private set; }
 
         public static MapManager Instance
         {
@@ -73,6 +72,8 @@ namespace AthameRPG.GameEngine
                 this.mapListPath = FileLoader.PathsReader(MAP_LIST_PATH);
             }
         }
+
+        public ContentManager ContentManager { get; private set; }
 
         public void LoadContent(ContentManager ContentManager)
         {

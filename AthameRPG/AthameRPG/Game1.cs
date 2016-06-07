@@ -49,6 +49,7 @@ namespace AthameRPG
             // TODO: use this.Content to load your game content here
 
             ScreenManager.Instance.LoadContent(Content);
+            MapManager.Instance.LoadContent(Content);//
             CharacterManager.Instance.LoadContent(Content);
         }
 
@@ -60,6 +61,7 @@ namespace AthameRPG
         {
             // TODO: Unload any non ContentManager content here
             ScreenManager.Instance.UnloadContent();
+            MapManager.Instance.UnloadContent();
             CharacterManager.Instance.UnloadContent();
             
         }
@@ -76,6 +78,7 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
+            MapManager.Instance.Update(gameTime);
             CharacterManager.Instance.Update(gameTime);
             
             if (exitGame)
@@ -97,6 +100,7 @@ namespace AthameRPG
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             ScreenManager.Instance.Draw(spriteBatch);
+            
             ScreenManager.Instance.Draw(spriteBatch);
             spriteBatch.End();
 

@@ -1,4 +1,5 @@
 ﻿using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Maps;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,6 +20,11 @@ namespace AthameRPG.Characters
         private float playerCenterCoordX;
         private float playerCenterCoordY;
         private float startPositionX, startPositionY;
+
+        private float mapDetectionFromTop;
+        private float mapDetectionFromBottom;
+        private float mapDetectionFromLeft;
+        private float mapDetectionFromRight;
 
 
         private Rectangle cropCurrentFramePlayer;
@@ -82,12 +88,18 @@ namespace AthameRPG.Characters
         {
             mouse = Mouse.GetState();
 
+            MovingWithMouse();
+
+        }
+
+        private void MovingWithMouse()
+        {
             if (mouse.LeftButton == ButtonState.Pressed)
             {
                 // take position where need to go
                 lastMouseClickPosition.X = mouse.X;
                 lastMouseClickPosition.Y = mouse.Y;
-                
+
             }
 
             PlayerCenterCoordX = coordPlayer.X + (cropWidth / 2);
@@ -97,23 +109,143 @@ namespace AthameRPG.Characters
             {
                 if (lastMouseClickPosition.X > PlayerCenterCoordX)
                 {
-                    coordPlayer.X += moveSpeedPlayer;
+                    coordPlayer.X += ObstacleDetectionWhenGoesRight(moveSpeedPlayer);
                 }
                 if (lastMouseClickPosition.X < PlayerCenterCoordX)
                 {
-                    coordPlayer.X -= moveSpeedPlayer;
+                    coordPlayer.X -= ObstacleDetectionWhenGoesLeft(moveSpeedPlayer);
                 }
                 if (lastMouseClickPosition.Y > PlayerCenterCoordY)
                 {
-                    coordPlayer.Y += moveSpeedPlayer;
+                    coordPlayer.Y += ObstacleDetectionWhenGoesDown(moveSpeedPlayer);
                 }
                 if (lastMouseClickPosition.Y < PlayerCenterCoordY)
                 {
-                    coordPlayer.Y -= moveSpeedPlayer;
+                    coordPlayer.Y -= ObstacleDetectionWhenGoesUp(moveSpeedPlayer);
+                }
+            }
+        }
+
+        private float ObstacleDetectionWhenGoesUp(float moveSpeedPlayer)
+        {
+            var aa = Map.Obstacles;
+
+            float result = moveSpeedPlayer;
+
+            foreach (Vector2 coordinates in Map.Obstacles)
+            {
+                mapDetectionFromTop = coordinates.Y;
+                mapDetectionFromBottom = coordinates.Y + 50f;
+                mapDetectionFromLeft = coordinates.X;//
+                mapDetectionFromRight = coordinates.X + 50f;
+                
+                if (Math.Abs(coordPlayer.Y - mapDetectionFromBottom) <= 2f)
+                {
+                    if ((coordPlayer.X > mapDetectionFromRight) || ((coordPlayer.X + cropWidth) < mapDetectionFromLeft))
+                    {
+                        result = moveSpeedPlayer;
+                    }
+                    else
+                    {
+                        result = 0f;
+                        break;
+                    }
+                    
                 }
             }
 
+            return result ;
+        }
+
+        private float ObstacleDetectionWhenGoesLeft(float moveSpeedPlayer)
+        {
+            float result = moveSpeedPlayer;
+
+            foreach (Vector2 coordinates in Map.Obstacles)
+            {
+                mapDetectionFromTop = coordinates.Y;
+                mapDetectionFromBottom = coordinates.Y + 50f;
+                mapDetectionFromLeft = coordinates.X;//
+                mapDetectionFromRight = coordinates.X + 50f;
+                
+                if (Math.Abs(coordPlayer.X - mapDetectionFromRight) <= 2f)
+                {
+                    if ((coordPlayer.Y > mapDetectionFromBottom) || ((coordPlayer.Y + cropHeight) < mapDetectionFromTop))
+                    {
+                        result = moveSpeedPlayer;
+                    }
+                    else
+                    {
+                        result = 0f;
+                        break;
+                    }
+
+                }
+            }
+
+            return result;
+        }
+
+        private float ObstacleDetectionWhenGoesDown(float moveSpeedPlayer)
+        {
             
+            float result = moveSpeedPlayer;
+
+            foreach (Vector2 coordinates in Map.Obstacles)
+            {
+                mapDetectionFromTop = coordinates.Y;
+                mapDetectionFromBottom = coordinates.Y + 50f;
+                mapDetectionFromLeft = coordinates.X;
+                mapDetectionFromRight = coordinates.X + 50f;
+                
+                if (Math.Abs((coordPlayer.Y + cropHeight)- mapDetectionFromTop) <= 2f)
+                {
+                    if ((coordPlayer.X > mapDetectionFromRight) || ((coordPlayer.X + cropWidth) < mapDetectionFromLeft))
+                    {
+                        result = moveSpeedPlayer;
+                    }
+                    else
+                    {
+                        result = 0f;
+                        break;
+                    }
+
+                }
+                
+            }
+
+            return result;
+        }
+
+        private float ObstacleDetectionWhenGoesRight(float moveSpeedPlayer)
+        {
+
+            float result = moveSpeedPlayer;
+
+            foreach (Vector2 coordinates in Map.Obstacles)
+            {
+                mapDetectionFromTop = coordinates.Y;
+                mapDetectionFromBottom = coordinates.Y + 50f;
+                mapDetectionFromLeft = coordinates.X;
+                mapDetectionFromRight = coordinates.X + 50f;
+
+                if (Math.Abs((coordPlayer.X + cropWidth) - mapDetectionFromLeft) <= 2f)
+                {
+                    if ((coordPlayer.Y > mapDetectionFromBottom) || ((coordPlayer.Y + cropHeight) < mapDetectionFromTop))
+                    {
+                        result = moveSpeedPlayer;
+                    }
+                    else
+                    {
+                        result = 0f;
+                        break;
+                    }
+
+                }
+
+            }
+
+            return result;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -45,8 +45,6 @@
     <Compile Include="GameEngine\FileLoader.cs" />
     <Compile Include="GameEngine\MapManager.cs" />
     <Compile Include="GameEngine\Maps\Map.cs" />
-    <Compile Include="GameEngine\Maps\Wall.cs" />
-    <Compile Include="GameEngine\Maps\VerticalBricks.cs" />
     <Compile Include="GameEngine\ScreenManager.cs" />
     <Compile Include="GameEngine\Screens\GameScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
