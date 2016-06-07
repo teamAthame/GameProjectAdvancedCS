@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Units.Empire
+﻿namespace DisciplesRpgGame.Units.Empire.Melee
 {
     public class Inquisitor : Fighter
     {

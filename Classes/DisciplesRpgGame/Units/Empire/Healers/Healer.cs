@@ -2,7 +2,7 @@
 using DisciplesRpgGame.Interfaces;
 using DisciplesRpgGame.Enums;
 
-namespace DisciplesRpgGame.Units.Empire
+namespace DisciplesRpgGame.Units.Empire.Healers
 {
     public abstract class Healer : Unit, IHeal
     {
