@@ -15,13 +15,19 @@ namespace AthameRPG.GameEngine
         private static CharacterManager instance;
         private Texture2D playerImage;
         private Vector2 playerCoordinates;
-        private Unit player;
+
+
+        /// <summary>
+        /// all other good classess like : Wizard wizard ; Witch witch ....
+        /// </summary>
+        /// 
+        private Barbarian barbarian;
 
         protected ContentManager content;
 
         public CharacterManager()
         {
-            player = new Unit();
+            barbarian = new Barbarian();
         }
 
         public Texture2D PlayerImage
@@ -53,7 +59,7 @@ namespace AthameRPG.GameEngine
             //this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
             Content = new ContentManager(Content.ServiceProvider, "Content");
             playerImage = Content.Load<Texture2D>("../Content/Character/superman");
-            player.LoadContent();
+            barbarian.LoadContent();
         }
 
         public void UnloadContent()
@@ -63,11 +69,11 @@ namespace AthameRPG.GameEngine
 
         public void Update(GameTime gameTime)
         {
-            player.Update(gameTime);
+            barbarian.Update(gameTime);
         }
         public void Draw(SpriteBatch spritebatch)
         {
-            player.Draw(spritebatch);
+            barbarian.Draw(spritebatch);
         }
     }
 }

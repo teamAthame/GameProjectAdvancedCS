@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Characters\Barbarian.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Unit.cs" />
     <Compile Include="Game1.cs" />
