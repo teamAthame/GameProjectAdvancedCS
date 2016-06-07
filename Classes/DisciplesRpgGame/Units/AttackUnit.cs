@@ -2,18 +2,14 @@
 using DisciplesRpgGame.Enums;
 using DisciplesRpgGame.Interfaces;
 
-namespace DisciplesRpgGame.Units.Empire
+namespace DisciplesRpgGame.Units
 {
-    public abstract class Fighter : Unit, IAttack
+    public abstract class AttackUnit : Unit, IAttack
     {
-        private const int FighterChanceToHit = 80;
-        private const Target FighterTarget = Target.Adjacent;
-        private const AttackSource FigtherAttackSource = AttackSource.Weapon;
-
         private int damage;
 
-        protected Fighter(int experience, int health, int armor, int initiative, int damage) 
-            : base(experience, health, armor, initiative, FighterChanceToHit, FighterTarget, FigtherAttackSource)
+        protected AttackUnit(int experience, int health, int armor, int initiative, int chanceToHit, Target targetType, AttackSource attackSource, int damage) 
+            : base(experience, health, armor, initiative, chanceToHit, targetType, attackSource)
         {
             this.Damage = damage;
         }
