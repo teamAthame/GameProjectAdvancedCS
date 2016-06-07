@@ -7,6 +7,7 @@ namespace AthameRPG.Characters
 {
     public abstract class Unit 
     {
+        private bool isAlive;
 
         private float startPositionX, startPositionY;
 
@@ -14,27 +15,44 @@ namespace AthameRPG.Characters
         {
             this.StartPositionX = startPositionX;
             this.StartPositionY = startPositionY;
+            this.IsAlive = true;
         }
 
-        private float StartPositionX
+        public bool IsAlive
+        {
+            get
+            {
+                return this.isAlive;
+            }
+            private set
+            {
+                this.isAlive = value;
+            }
+        }
+        public void KillTarget()
+        {
+            IsAlive = false;
+        }
+
+        public float StartPositionX
         {
             get
             {
                 return this.startPositionX;
             }
-            set
+            private set
             {
                 this.startPositionX = value;
             }
         }
 
-        private float StartPositionY
+        public float StartPositionY
         {
             get
             {
                 return this.startPositionY;
             }
-            set
+            private set
             {
                 this.startPositionY = value;
             }

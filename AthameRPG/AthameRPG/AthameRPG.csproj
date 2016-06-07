@@ -39,6 +39,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Characters\Barbarian.cs" />
+    <Compile Include="Characters\Enemy.cs" />
+    <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
@@ -64,6 +66,7 @@
     <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
+    <Content Include="Content\Maps\01-enemy.txt" />
     <Content Include="Content\Maps\01-level.txt" />
     <Content Include="Content\Maps\mapList.txt" />
     <Content Include="Content\Maps\terrain.png" />

@@ -25,6 +25,7 @@ namespace AthameRPG.GameEngine.Maps
             obstacles = new List<Vector2>();
             
         }
+        
 
         public string MapPath
         {
@@ -73,8 +74,7 @@ namespace AthameRPG.GameEngine.Maps
                     /// 
                     switch (currentNum)
                     {
-                        case 1: 
-                        case 9:
+                        case 1:
                             AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
                             break;
                         default:

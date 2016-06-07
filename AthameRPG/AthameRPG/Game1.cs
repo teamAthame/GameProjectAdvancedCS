@@ -78,8 +78,8 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
-            MapManager.Instance.Update(gameTime);
-            CharacterManager.Instance.Update(gameTime);
+            //MapManager.Instance.Update(gameTime);
+            //CharacterManager.Instance.Update(gameTime);
             
             if (exitGame)
             {

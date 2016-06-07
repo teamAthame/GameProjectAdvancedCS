@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace AthameRPG.GameEngine
 {
@@ -73,8 +74,31 @@ namespace AthameRPG.GameEngine
             {
                 throw new ArgumentNullException("Map path", "Invalid path!");
             }
-
+            
             return currentMap;
+        }
+
+        public static void ReadEnemyPosition(string path) 
+        {
+            List<List<int>> currentEnemyMap = MapReader(path);
+
+            for (int i = 0; i < currentEnemyMap.Count(); i++)
+            {
+                for (int j = 0; j < currentEnemyMap[i].Count(); j++)
+                {
+                    int currentEnemyPosition = currentEnemyMap[i][j];
+
+                    switch (currentEnemyPosition)
+                    {
+                        case 9:
+                            CharacterManager.AddEnemies(new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
         }
     }
 }

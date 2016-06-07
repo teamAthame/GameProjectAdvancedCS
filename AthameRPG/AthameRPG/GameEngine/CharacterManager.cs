@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using AthameRPG.Characters;
+using AthameRPG.GameEngine.Maps;
 
 namespace AthameRPG.GameEngine
 {
@@ -14,23 +15,50 @@ namespace AthameRPG.GameEngine
     {
         private const float PLAYER_START_POSITION_X = 400;
         private const float PLAYER_START_POSITION_Y = 305;
+        private const string PATH_ENEMY_POSITION_ON_MAP = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
+        private static List<Vector2> enemiesPositionList;
+
+
+        // Maybe these will be in Dictionary and will be read from txt fail !
         private Texture2D playerImage;
-        private Vector2 playerCoordinates;
+        private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/superman";
+        private Texture2D gargamelImage;
+        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
 
 
-        /// <summary>
-        /// all other good classess like : Wizard wizard ; Witch witch ....
-        /// </summary>
-        /// 
+
         private Barbarian barbarian;
+        //private Gargamel gargamel;
+
+        private static List<Enemy> enemiesList;
 
         protected ContentManager content;
 
         public CharacterManager()
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
+            enemiesPositionList = new List<Vector2>();
+            enemiesList = new List<Enemy>();
+        }
+
+        public static List<Vector2> EnemiesPositionList
+        {
+            get
+            {
+                List<Vector2> copyOfEnemiesList = enemiesPositionList;
+                return copyOfEnemiesList; 
+            }
+            private set
+            {
+                enemiesPositionList = value;
+            }
+        }
+
+        public static void AddEnemies(Vector2 enemyPosition)
+        {
+            enemiesPositionList.Add(enemyPosition);
         }
 
         public Texture2D PlayerImage
@@ -38,6 +66,14 @@ namespace AthameRPG.GameEngine
             get
             {
                 return this.playerImage;
+            }
+        }
+
+        public Texture2D GargamelImage
+        {
+            get
+            {
+                return this.gargamelImage;
             }
         }
 
@@ -58,25 +94,53 @@ namespace AthameRPG.GameEngine
 
         public void LoadContent(ContentManager Content)
         {
-            //content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
-            //this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
+            
             Content = new ContentManager(Content.ServiceProvider, "Content");
-            playerImage = Content.Load<Texture2D>("../Content/Character/superman");
+            playerImage = Content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);
             barbarian.LoadContent();
+
+            gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
+
+            FileLoader.ReadEnemyPosition(PATH_ENEMY_POSITION_ON_MAP);
+
+            foreach (var enemyPos in EnemiesPositionList)
+            {
+                Gargamel newGargamel = new Gargamel(enemyPos.X, enemyPos.Y);
+                newGargamel.LoadContent();
+                enemiesList.Add(newGargamel);
+            }
+
+
         }
 
         public void UnloadContent()
         {
+            //barbarian.UnloadContent();
 
+            //foreach (var garga in enemiesList)
+            //{
+            //    gargamel.UnloadContent();
+
+            //}
         }
 
         public void Update(GameTime gameTime)
         {
             barbarian.Update(gameTime);
+
+            foreach (var gargamelcho in enemiesList)
+            {
+                gargamelcho.Update(gameTime);
+            }
         }
         public void Draw(SpriteBatch spritebatch)
         {
             barbarian.Draw(spritebatch);
+
+            foreach (var gargamelcho in enemiesList)
+            {
+                gargamelcho.Draw(spritebatch);
+            }
         }
     }
 }
