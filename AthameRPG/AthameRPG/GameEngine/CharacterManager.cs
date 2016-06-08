@@ -14,7 +14,7 @@ namespace AthameRPG.GameEngine
     public class CharacterManager
     {
         private const float PLAYER_START_POSITION_X = 400;
-        private const float PLAYER_START_POSITION_Y = 305;
+        private const float PLAYER_START_POSITION_Y = 300;
         private const string PATH_ENEMY_POSITION_ON_MAP = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
@@ -29,7 +29,10 @@ namespace AthameRPG.GameEngine
 
 
 
-        private Barbarian barbarian;
+        public static Barbarian barbarian; /// <summary>
+        /// /// ----------------------------------------------- private-------------------
+        /// </summary>
+        
         //private Gargamel gargamel;
 
         private static List<Enemy> enemiesList;
@@ -42,7 +45,7 @@ namespace AthameRPG.GameEngine
             enemiesPositionList = new List<Vector2>();
             enemiesList = new List<Enemy>();
         }
-
+        
         public static List<Vector2> EnemiesPositionList
         {
             get

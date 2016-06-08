@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using AthameRPG.Characters;
 
 namespace AthameRPG.GameEngine.Maps
 {
@@ -91,11 +92,12 @@ namespace AthameRPG.GameEngine.Maps
 
         public void Update(GameTime gameTime)
         {
-
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            
             for (int i = 0; i < FullMap.Count(); i++)
             {
                 for (int j = 0; j < FullMap[i].Count(); j++)
@@ -115,10 +117,12 @@ namespace AthameRPG.GameEngine.Maps
                         
                     }
                     
-                    currentCoord.X = (float)(j * 50);
-                    currentCoord.Y = (float)(i * 50);
-
+                    currentCoord.X = (float)(j * 50) + CharacterManager.barbarian.CoordP().X;
+                    currentCoord.Y = (float)(i * 50) + CharacterManager.barbarian.CoordP().Y;
+                    
+                    spriteBatch.Begin();
                     spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, Color.White);
+                    spriteBatch.End();
                 }
             }
         }

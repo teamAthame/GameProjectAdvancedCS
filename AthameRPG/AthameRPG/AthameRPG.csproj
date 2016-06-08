@@ -42,6 +42,7 @@
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="GameEngine\Camera.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />

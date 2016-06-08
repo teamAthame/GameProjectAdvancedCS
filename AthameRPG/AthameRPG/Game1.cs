@@ -1,4 +1,5 @@
-﻿using AthameRPG.GameEngine;
+﻿using AthameRPG.Characters;
+using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +13,7 @@ namespace AthameRPG
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //Camera camera = new Camera();
         public static bool exitGame;
 
         public Game1()
@@ -36,7 +38,7 @@ namespace AthameRPG
 
             base.Initialize();
         }
-
+        
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -78,6 +80,8 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
+            //camera.Update(Barbarian.Instance.CoordPlayer);
+            
             //MapManager.Instance.Update(gameTime);
             //CharacterManager.Instance.Update(gameTime);
             
@@ -98,11 +102,12 @@ namespace AthameRPG
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
+
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.ViewMatrix);
             ScreenManager.Instance.Draw(spriteBatch);
-            
-            ScreenManager.Instance.Draw(spriteBatch);
-            spriteBatch.End();
+            //ScreenManager.Instance.Draw(spriteBatch);
+            //spriteBatch.End();
 
             base.Draw(gameTime);
         }

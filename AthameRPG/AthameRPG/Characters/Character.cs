@@ -15,11 +15,15 @@ namespace AthameRPG.Characters
         /// <summary>
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
+
         
+
         public Character(float startPositionX, float startPositionY) : base(startPositionX, startPositionY )
         {
              
         }
+
         
+
     }
 }
