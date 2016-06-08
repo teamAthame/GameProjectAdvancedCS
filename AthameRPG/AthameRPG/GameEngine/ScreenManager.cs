@@ -23,7 +23,7 @@ namespace AthameRPG.GameEngine
         public ScreenManager()
         {
             Dimension = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
-            currentScreen = new MenuScreen();
+            currentScreen = new SplashScreen();
         }
 
         public bool IsTransitioning { get; private set; }
