@@ -19,21 +19,14 @@ namespace AthameRPG.GameEngine
 
         private static CharacterManager instance;
         private static List<Vector2> enemiesPositionList;
-
-
+        
         // Maybe these will be in Dictionary and will be read from txt fail !
         private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/superman";
         private Texture2D gargamelImage;
         private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
-
-
-
-        public static Barbarian barbarian; /// <summary>
-        /// /// ----------------------------------------------- private-------------------
-        /// </summary>
         
-        //private Gargamel gargamel;
+        public static Barbarian barbarian;
 
         private static List<Enemy> enemiesList;
 
@@ -112,8 +105,6 @@ namespace AthameRPG.GameEngine
                 newGargamel.LoadContent();
                 enemiesList.Add(newGargamel);
             }
-
-
         }
 
         public void UnloadContent()

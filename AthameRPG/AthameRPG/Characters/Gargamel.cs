@@ -27,7 +27,6 @@ namespace AthameRPG.Characters
         {
             this.CropCurrentFrameGargamel = cropCurrentFrameGargamel;
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
-            //this.CoordGargamel = coordGargamel;
         }
 
         public Rectangle CropCurrentFrameGargamel
@@ -55,16 +54,12 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            // TEST
-            //coordGargamel.X += 0.1f;
-            //coordGargamel.Y += 0.1f;
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(CharacterManager.Instance.GargamelImage, coordGargamel, CropCurrentFrameGargamel, Color.White);
-            spriteBatch.End();
         }
     }
 }

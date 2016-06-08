@@ -120,9 +120,7 @@ namespace AthameRPG.GameEngine.Maps
                     currentCoord.X = (float)(j * 50) + CharacterManager.barbarian.CoordP().X;
                     currentCoord.Y = (float)(i * 50) + CharacterManager.barbarian.CoordP().Y;
                     
-                    spriteBatch.Begin();
                     spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, Color.White);
-                    spriteBatch.End();
                 }
             }
         }
@@ -139,7 +137,6 @@ namespace AthameRPG.GameEngine.Maps
                 fullMap = FileLoader.MapReader(mapPath);
             }
         }
-
         
     }
 }

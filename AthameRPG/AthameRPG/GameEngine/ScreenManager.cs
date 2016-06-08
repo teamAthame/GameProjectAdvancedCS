@@ -20,7 +20,6 @@ namespace AthameRPG.GameEngine
         GameScreen currentScreen;
         GameScreen newScreen;
         
-
         public ScreenManager()
         {
             Dimension = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);

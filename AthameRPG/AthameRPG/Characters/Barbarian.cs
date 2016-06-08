@@ -29,8 +29,7 @@ namespace AthameRPG.Characters
         private Rectangle cropCurrentFramePlayer;
         private Vector2 coordPlayer;
         private Vector2 lastMouseClickPosition;
-
-        //private static Barbarian instance; // proba
+        
         //Camera camera = new Camera();// proba
         public  Vector2 playerPositon; /// proba 
         private SpriteFont font;
@@ -42,7 +41,6 @@ namespace AthameRPG.Characters
         {
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
             coordPlayer = new Vector2(startPositionX, startPositionY);
-            //playerPositon = new Vector2(0, 0);
         }
         
         public float PlayerCenterCoordX
@@ -428,12 +426,8 @@ namespace AthameRPG.Characters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
-            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.ViewMatrix);
-            spriteBatch.Begin();
             spriteBatch.Draw(CharacterManager.Instance.PlayerImage, coordPlayer, CropCurrentFramePlayer, Color.White);
-            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
-            spriteBatch.End();
+            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);;
         }
         
     }

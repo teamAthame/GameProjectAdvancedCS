@@ -127,11 +127,9 @@ namespace AthameRPG.GameEngine.Screens
 
             // Center the 'IMAGE','New Game' and 'EXIT' in the middle of the screen
             //PositioningInTheMiddleOfTheScreen();
-            spriteBatch.Begin();
             spriteBatch.Draw(image, ImagePosition, Color.Gold);
             spriteBatch.DrawString(spriteFont, NEW_GAME_TEXT, NewGameTextPosition, newGameColor);
             spriteBatch.DrawString(spriteFont, EXIT_TEXT, ExitTextPosition, exitColor);
-            spriteBatch.End();
         }
 
         private void PositioningInTheMiddleOfTheScreen()

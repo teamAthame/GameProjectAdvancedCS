@@ -80,7 +80,6 @@ namespace AthameRPG
 
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
-            //camera.Update(Barbarian.Instance.CoordPlayer);
             
             //MapManager.Instance.Update(gameTime);
             //CharacterManager.Instance.Update(gameTime);
@@ -102,12 +101,12 @@ namespace AthameRPG
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            //spriteBatch.Begin();
-
-            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.ViewMatrix);
+            spriteBatch.Begin();
             ScreenManager.Instance.Draw(spriteBatch);
             //ScreenManager.Instance.Draw(spriteBatch);
-            //spriteBatch.End();
+
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
