@@ -2,6 +2,7 @@
 {
     public enum AttackSource
     {
+        None,
         Fire,
         Water,
         Air,
@@ -10,6 +11,6 @@
         Poison,
         Life,
         Death,
-        Weapon
+        Weapon,
     }
 }
