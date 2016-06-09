@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace AthameRPG.Characters
 {
+    using AthameRPG.Controls;
+
     public class Barbarian : Character
     {
         private const int cropWidth = 32;
@@ -99,8 +101,7 @@ namespace AthameRPG.Characters
             mouse = Mouse.GetState();
 
             //MovingWithMouse();
-
-            if (mouse.LeftButton == ButtonState.Pressed)
+            /*if (mouse.LeftButton == ButtonState.Pressed)
             {
                 // take position where need to go
                 lastMouseClickPosition.X = mouse.X - cropWidth / 2;
@@ -110,7 +111,36 @@ namespace AthameRPG.Characters
                  
                  ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! In this way we have -+ 25 -+ 75 to adjust enemy detection !!!!
                  
-                 */
+                 #1#
+
+                if (lastMouseClickPosition.Y < coordPlayer.Y)
+                {
+                    playerPositon.Y += GoUp();
+                }
+                if (lastMouseClickPosition.Y > coordPlayer.Y)
+                {
+                    playerPositon.Y -= GoDown();
+                }
+
+                if (lastMouseClickPosition.X < coordPlayer.X)
+                {
+                    playerPositon.X += GoLeft();
+                }
+
+                if (lastMouseClickPosition.X > coordPlayer.X)
+                {
+                    playerPositon.X -= GoRight();
+                }
+            }
+*/
+
+            KeyboardExtended.Current.GetState(gameTime);
+            MouseExtended.Current.GetState(gameTime);
+
+            if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+            {
+                lastMouseClickPosition.X = mouse.X - cropWidth / 2;
+                lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
 
                 if (lastMouseClickPosition.Y < coordPlayer.Y)
                 {
