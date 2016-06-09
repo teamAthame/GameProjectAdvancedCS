@@ -20,18 +20,18 @@ namespace AthameRPG.Characters
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
-        
+
         private float mapDetectionFromTop;
         private float mapDetectionFromBottom;
         private float mapDetectionFromLeft;
         private float mapDetectionFromRight;
-        
+
         private Rectangle cropCurrentFramePlayer;
         private Vector2 coordPlayer;
         private Vector2 lastMouseClickPosition;
-        
+
         //Camera camera = new Camera();// proba
-        public  Vector2 playerPositon; /// proba 
+        public Vector2 playerPositon; /// proba 
         private SpriteFont font;
         protected ContentManager content;
 
@@ -42,7 +42,7 @@ namespace AthameRPG.Characters
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
             coordPlayer = new Vector2(startPositionX, startPositionY);
         }
-        
+
         public float PlayerCenterCoordX
         {
             get
@@ -88,7 +88,7 @@ namespace AthameRPG.Characters
         {
 
         }
-        
+
         public Vector2 CoordP()
         {
             return playerPositon;
@@ -103,8 +103,14 @@ namespace AthameRPG.Characters
             if (mouse.LeftButton == ButtonState.Pressed)
             {
                 // take position where need to go
-                lastMouseClickPosition.X = mouse.X;
-                lastMouseClickPosition.Y = mouse.Y;
+                lastMouseClickPosition.X = mouse.X - cropWidth / 2;
+                lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
+
+                /*
+                 
+                 ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! In this way we have -+ 25 -+ 75 to adjust enemy detection !!!!
+                 
+                 */
 
                 if (lastMouseClickPosition.Y < coordPlayer.Y)
                 {
@@ -126,41 +132,68 @@ namespace AthameRPG.Characters
                 }
             }
         }
-        
+
         private float GoUp()
         {
             float result = moveSpeedPlayer;
             
             foreach (Vector2 coordinates in Map.Obstacles)
             {
+                
                 mapDetectionFromTop = coordinates.Y + playerPositon.Y;
                 mapDetectionFromBottom = coordinates.Y + 50f + playerPositon.Y;
                 mapDetectionFromLeft = coordinates.X + playerPositon.X;//
                 mapDetectionFromRight = coordinates.X + 50f + playerPositon.X;
-                
-                float pUp = coordPlayer.Y;// - cropHeight / 2;
-                float pDown = coordPlayer.Y;// + cropHeight / 2;
-                float pLeft = coordPlayer.X;// - cropWidth / 2;
-                float pRight = coordPlayer.X;// + cropWidth / 2;
+
+                float pUp = coordPlayer.Y;
+                float pDown = coordPlayer.Y + cropHeight;
+                float pLeft = coordPlayer.X;
+                float pRight = coordPlayer.X + cropWidth;
 
 
-                if (Math.Abs(pUp - mapDetectionFromBottom) <= 2)
+                /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                result = HaveCollision(pUp, mapDetectionFromBottom, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedPlayer);
+
+                if (result == 0)
                 {
-                    if ((pLeft > mapDetectionFromRight) || (pRight < mapDetectionFromLeft) )
+                    break;
+                }
+                
+            }
+
+            if (result != 0)
+            {
+                int count = 0;
+
+                foreach (var enemy in CharacterManager.EnemiesPositionList)
+                {
+                    count++;
+
+                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
+                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
+                    float enemyLeft = enemy.X + playerPositon.X - 25f;
+                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+
+                    float pUp = coordPlayer.Y;
+                    float pDown = coordPlayer.Y + cropHeight;
+                    float pLeft = coordPlayer.X;
+                    float pRight = coordPlayer.X + cropWidth;
+
+                    /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                    result = HaveCollision(pUp, enemyBottom, pLeft, enemyRight, pRight, enemyLeft , moveSpeedPlayer);
+
+                    if (result == 0)
                     {
-                        result = moveSpeedPlayer;
-                    }
-                    else
-                    {
-                        result = 0;
                         break;
                     }
+
                 }
             }
 
+
             return result;
         }
-
+        
         private float GoDown()
         {
             float result = moveSpeedPlayer;
@@ -175,18 +208,39 @@ namespace AthameRPG.Characters
                 float pUp = coordPlayer.Y;
                 float pDown = coordPlayer.Y + cropHeight;
                 float pLeft = coordPlayer.X;
-                float pRight = coordPlayer.X + cropHeight;
+                float pRight = coordPlayer.X + cropWidth;
 
+                result = HaveCollision(pDown, mapDetectionFromTop, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedPlayer);
 
-                if (Math.Abs(pDown - mapDetectionFromTop) <= 2)
+                if (result == 0)
                 {
-                    if ((pLeft > mapDetectionFromRight) || (pRight < mapDetectionFromLeft))
+                    break;
+                }
+            }
+
+            if (result != 0)
+            {
+                int count = 0;
+
+                foreach (var enemy in CharacterManager.EnemiesPositionList)
+                {
+                    count++;
+
+                    float enemyTop = enemy.Y + playerPositon.Y - 25f; 
+                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
+                    float enemyLeft = enemy.X + playerPositon.X - 25f;
+                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+
+                    float pUp = coordPlayer.Y;
+                    float pDown = coordPlayer.Y + cropHeight;
+                    float pLeft = coordPlayer.X;
+                    float pRight = coordPlayer.X + cropWidth;
+
+                    /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                    result = HaveCollision(pDown, enemyTop, pLeft, enemyRight, pRight, enemyLeft , moveSpeedPlayer);
+
+                    if (result == 0)
                     {
-                        result = moveSpeedPlayer;
-                    }
-                    else
-                    {
-                        result = 0;
                         break;
                     }
                 }
@@ -209,18 +263,39 @@ namespace AthameRPG.Characters
                 float pUp = coordPlayer.Y;
                 float pDown = coordPlayer.Y + cropHeight;
                 float pLeft = coordPlayer.X;
-                float pRight = coordPlayer.X + cropHeight;
+                float pRight = coordPlayer.X + cropWidth;
 
+                result = HaveCollision(pLeft, mapDetectionFromRight, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedPlayer);
 
-                if (Math.Abs(pLeft - mapDetectionFromRight) <= 2)
+                if (result == 0)
                 {
-                    if ((pUp > mapDetectionFromBottom) || (pDown < mapDetectionFromTop))
+                    break;
+                }
+                
+            }
+            if (result != 0)
+            {
+                int count = 0;
+
+                foreach (var enemy in CharacterManager.EnemiesPositionList)
+                {
+                    count++;
+
+                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
+                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
+                    float enemyLeft = enemy.X + playerPositon.X - 25f;
+                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+
+                    float pUp = coordPlayer.Y;
+                    float pDown = coordPlayer.Y + cropHeight;
+                    float pLeft = coordPlayer.X;
+                    float pRight = coordPlayer.X + cropWidth;
+
+                    /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                    result = HaveCollision(pLeft, enemyRight, pUp, enemyBottom, pDown, enemyTop, moveSpeedPlayer);
+
+                    if (result == 0)
                     {
-                        result = moveSpeedPlayer;
-                    }
-                    else
-                    {
-                        result = 0;
                         break;
                     }
                 }
@@ -245,16 +320,38 @@ namespace AthameRPG.Characters
                 float pLeft = coordPlayer.X;
                 float pRight = coordPlayer.X + cropWidth;
 
+                /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                result = HaveCollision(pRight, mapDetectionFromLeft, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedPlayer);
 
-                if (Math.Abs(pRight - mapDetectionFromLeft) <= 2)
+                if (result == 0)
                 {
-                    if ((pUp > mapDetectionFromBottom) || (pDown < mapDetectionFromTop))
+                    break;
+                }
+                
+            }
+            if (result != 0)
+            {
+                int count = 0;
+
+                foreach (var enemy in CharacterManager.EnemiesPositionList)
+                {
+                    count++;
+
+                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
+                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
+                    float enemyLeft = enemy.X + playerPositon.X - 25f;
+                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+
+                    float pUp = coordPlayer.Y;
+                    float pDown = coordPlayer.Y + cropHeight;
+                    float pLeft = coordPlayer.X;
+                    float pRight = coordPlayer.X + cropWidth;
+
+                    /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+                    result = HaveCollision(pRight, enemyLeft, pUp, enemyBottom, pDown, enemyTop, moveSpeedPlayer);
+
+                    if (result == 0)
                     {
-                        result = moveSpeedPlayer;
-                    }
-                    else
-                    {
-                        result = 0;
                         break;
                     }
                 }
@@ -263,6 +360,24 @@ namespace AthameRPG.Characters
             return result;
         }
 
+        private float HaveCollision(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, float moveSpeedPlayer)
+        {
+            float result = moveSpeedPlayer;
+
+            if (Math.Abs(pSide - enemySide) <= 2)
+            {
+                if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
+                {
+                    result = moveSpeedPlayer;
+                }
+                else
+                {
+                    result = 0;
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// //////////////////////////////   NEEEEEEEEEEEEEEEEEE TRIIIIIIIIIIIIIIIIIIIII -----------------------------
@@ -427,8 +542,8 @@ namespace AthameRPG.Characters
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(CharacterManager.Instance.PlayerImage, coordPlayer, CropCurrentFramePlayer, Color.White);
-            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);;
+            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue); ;
         }
-        
+
     }
 }

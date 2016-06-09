@@ -11,13 +11,8 @@ namespace AthameRPG.Characters
 {
     public class Gargamel : Enemy
     {
-        private const int cropWidth = 90;
-        private const int cropHeight = 121;
-
+        
         private const float moveSpeedPlayer = 0.8f;
-
-        private float gargamelCenterCoordX;
-        private float gargamelCenterCoordY;
 
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
