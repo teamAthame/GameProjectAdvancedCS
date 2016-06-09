@@ -92,6 +92,9 @@ namespace AthameRPG.GameEngine
                     {
                         case 9:
                             CharacterManager.AddEnemies(new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
+
+                            //// test trii me posleee 
+                            //CharacterManager.AddEnemies(new Vector2((float)(j * 50), (float)(i * 50)));
                             break;
 
                         default:

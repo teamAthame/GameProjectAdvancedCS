@@ -24,11 +24,15 @@ namespace AthameRPG.GameEngine
         private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/superman";
         private Texture2D gargamelImage;
-        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
-        
+        //private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
+        private const string PATH_GARGAMEL_IMAGE = @"../Content/Fonts/terrain";
+
         public static Barbarian barbarian;
 
-        private static List<Enemy> enemiesList;
+        /// <summary>
+        ///  return again private only for test and ENEMY
+        /// </summary>
+        public static List<Gargamel> enemiesList;
 
         protected ContentManager content;
 
@@ -36,7 +40,7 @@ namespace AthameRPG.GameEngine
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
             enemiesPositionList = new List<Vector2>();
-            enemiesList = new List<Enemy>();
+            enemiesList = new List<Gargamel>();
         }
         
         public static List<Vector2> EnemiesPositionList
@@ -46,7 +50,7 @@ namespace AthameRPG.GameEngine
                 List<Vector2> copyOfEnemiesList = enemiesPositionList;
                 return copyOfEnemiesList; 
             }
-            private set
+            set
             {
                 enemiesPositionList = value;
             }
@@ -99,11 +103,14 @@ namespace AthameRPG.GameEngine
 
             FileLoader.ReadEnemyPosition(PATH_ENEMY_POSITION_ON_MAP);
 
+            int id = 0;
+           
             foreach (var enemyPos in EnemiesPositionList)
             {
-                Gargamel newGargamel = new Gargamel(enemyPos.X, enemyPos.Y);
+                Gargamel newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
                 newGargamel.LoadContent();
                 enemiesList.Add(newGargamel);
+                id++;
             }
         }
 

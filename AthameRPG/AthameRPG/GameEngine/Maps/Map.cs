@@ -52,6 +52,7 @@ namespace AthameRPG.GameEngine.Maps
                 obstacles = value;
             }
         }
+
         private void AddObstacle(Vector2 coordObstacle)
         {
             obstacles.Add(coordObstacle); 

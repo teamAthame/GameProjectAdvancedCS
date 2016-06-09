@@ -51,7 +51,7 @@ namespace AthameRPG
             // TODO: use this.Content to load your game content here
 
             ScreenManager.Instance.LoadContent(Content);
-            MapManager.Instance.LoadContent(Content);//
+            //MapManager.Instance.LoadContent(Content);//
             CharacterManager.Instance.LoadContent(Content);
         }
 

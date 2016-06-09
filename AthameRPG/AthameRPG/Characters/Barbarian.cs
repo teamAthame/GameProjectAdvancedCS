@@ -29,8 +29,7 @@ namespace AthameRPG.Characters
         private Rectangle cropCurrentFramePlayer;
         private Vector2 coordPlayer;
         private Vector2 lastMouseClickPosition;
-
-        //Camera camera = new Camera();// proba
+        
         public Vector2 playerPositon; /// proba 
         private SpriteFont font;
         protected ContentManager content;
@@ -40,7 +39,7 @@ namespace AthameRPG.Characters
         public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
-            coordPlayer = new Vector2(startPositionX, startPositionY);
+            coordPlayer = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
         }
 
         public float PlayerCenterCoordX
@@ -108,7 +107,7 @@ namespace AthameRPG.Characters
 
                 /*
                  
-                 ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! In this way we have -+ 25 -+ 75 to adjust enemy detection !!!!
+                 ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
                  
                  */
 
@@ -145,7 +144,7 @@ namespace AthameRPG.Characters
                 mapDetectionFromLeft = coordinates.X + playerPositon.X;//
                 mapDetectionFromRight = coordinates.X + 50f + playerPositon.X;
 
-                float pUp = coordPlayer.Y;
+                float pUp =  coordPlayer.Y;
                 float pDown = coordPlayer.Y + cropHeight;
                 float pLeft = coordPlayer.X;
                 float pRight = coordPlayer.X + cropWidth;
@@ -156,6 +155,7 @@ namespace AthameRPG.Characters
 
                 if (result == 0)
                 {
+                    result = 0;
                     break;
                 }
                 
@@ -167,23 +167,26 @@ namespace AthameRPG.Characters
 
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
-                    count++;
 
-                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
-                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
-                    float enemyLeft = enemy.X + playerPositon.X - 25f;
-                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+
+                    float enemyTop = enemy.Y;// + playerPositon.Y;
+                    float enemyBottom = enemy.Y + Enemy.cropHeight;// + playerPositon.Y);
+                    float enemyLeft = enemy.X;// + playerPositon.X;
+                    float enemyRight = enemy.X + Enemy.cropWidth;// + playerPositon.X;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
                     float pLeft = coordPlayer.X;
                     float pRight = coordPlayer.X + cropWidth;
 
+                    count++;
+
                     /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
                     result = HaveCollision(pUp, enemyBottom, pLeft, enemyRight, pRight, enemyLeft , moveSpeedPlayer);
 
                     if (result == 0)
                     {
+                        result = 0;
                         break;
                     }
 
@@ -226,10 +229,10 @@ namespace AthameRPG.Characters
                 {
                     count++;
 
-                    float enemyTop = enemy.Y + playerPositon.Y - 25f; 
-                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
-                    float enemyLeft = enemy.X + playerPositon.X - 25f;
-                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+                    float enemyTop = enemy.Y; 
+                    float enemyBottom = enemy.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.X;
+                    float enemyRight = enemy.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -275,16 +278,14 @@ namespace AthameRPG.Characters
             }
             if (result != 0)
             {
-                int count = 0;
 
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
-                    count++;
 
-                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
-                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
-                    float enemyLeft = enemy.X + playerPositon.X - 25f;
-                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+                    float enemyTop = enemy.Y;
+                    float enemyBottom = enemy.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.X;
+                    float enemyRight = enemy.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -331,16 +332,14 @@ namespace AthameRPG.Characters
             }
             if (result != 0)
             {
-                int count = 0;
-
+                
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
-                    count++;
 
-                    float enemyTop = enemy.Y + playerPositon.Y - 25f;
-                    float enemyBottom = (enemy.Y + playerPositon.Y) + Enemy.cropHeight - 70f;
-                    float enemyLeft = enemy.X + playerPositon.X - 25f;
-                    float enemyRight = enemy.X + Enemy.cropWidth + playerPositon.X - 65f;
+                    float enemyTop = enemy.Y;
+                    float enemyBottom = enemy.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.X;
+                    float enemyRight = enemy.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -537,12 +536,15 @@ namespace AthameRPG.Characters
         //    }
 
         //    return result;
-        //}
+        //}7
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            
             spriteBatch.Draw(CharacterManager.Instance.PlayerImage, coordPlayer, CropCurrentFramePlayer, Color.White);
-            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue); ;
+            spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
+            spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
+            spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);
         }
 
     }
