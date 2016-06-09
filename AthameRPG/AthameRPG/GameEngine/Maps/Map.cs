@@ -103,6 +103,7 @@ namespace AthameRPG.GameEngine.Maps
                 for (int j = 0; j < FullMap[i].Count(); j++)
                 {
                     int currentNum = FullMap[i][j];
+                    Color currentColor = Color.White;
                     
                     switch (currentNum)
                     {
@@ -114,13 +115,17 @@ namespace AthameRPG.GameEngine.Maps
                         case 2:
                             cropWall = new Rectangle(100, 0, 50, 50);
                             break;
+                        default:
+                            cropWall = new Rectangle(250, 0, 50, 50);
+                            currentColor = Color.Black;
+                            break;
                         
                     }
                     
                     currentCoord.X = (float)(j * 50) + CharacterManager.barbarian.CoordP().X;
                     currentCoord.Y = (float)(i * 50) + CharacterManager.barbarian.CoordP().Y;
                     
-                    spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, Color.White);
+                    spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, currentColor);
                 }
             }
         }

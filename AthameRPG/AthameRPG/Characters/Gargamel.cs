@@ -11,8 +11,8 @@ namespace AthameRPG.Characters
 {
     public class Gargamel : Enemy
     {
-        private const int cropWidth = 126;
-        private const int cropHeight = 168;
+        private const int cropWidth = 90;
+        private const int cropHeight = 121;
 
         private const float moveSpeedPlayer = 0.8f;
 
@@ -21,6 +21,7 @@ namespace AthameRPG.Characters
 
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
+        private Vector2 drawCoordGargamel;
 
 
         public Gargamel(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
@@ -54,12 +55,15 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            
+            drawCoordGargamel.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
+            drawCoordGargamel.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, coordGargamel, CropCurrentFrameGargamel, Color.White);
+            
+
+            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordGargamel, CropCurrentFrameGargamel, Color.White);
         }
     }
 }
