@@ -50,6 +50,7 @@
     <Compile Include="GameEngine\Maps\Map.cs" />
     <Compile Include="GameEngine\ScreenManager.cs" />
     <Compile Include="GameEngine\Screens\GameScreen.cs" />
+    <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
     <Compile Include="StartUp.cs" />
@@ -63,9 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Character\GoblinWalk.png" />
     <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
+    <Content Include="Content\Image\AthameSplashScreen.jpg" />
+    <Content Include="Content\Image\Image.jpg" />
     <Content Include="Content\Maps\01-enemy.txt" />
     <Content Include="Content\Maps\01-level.txt" />
     <Content Include="Content\Maps\mapList.txt" />
