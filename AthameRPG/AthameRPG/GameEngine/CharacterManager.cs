@@ -24,8 +24,8 @@ namespace AthameRPG.GameEngine
         private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/superman";
         private Texture2D gargamelImage;
-        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
-        //private const string PATH_GARGAMEL_IMAGE = @"../Content/Fonts/terrain";
+        //private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
+        private const string PATH_GARGAMEL_IMAGE = @"../Content/Fonts/terrain";
 
         public static Barbarian barbarian;
 

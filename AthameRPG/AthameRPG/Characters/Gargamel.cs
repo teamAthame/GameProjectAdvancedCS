@@ -14,13 +14,14 @@ namespace AthameRPG.Characters
     public class Gargamel : Enemy
     {
         
-        private const float moveSpeedGargamel = 2f;
-
+        private const float moveSpeedEnemy = 2f;
+        
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
-        private Vector2 drawCoordGargamel;
+        private Vector2 drawCoordEnemy;
+        
 
-        //
+        // za triene po nqkoe vreme TEST garga collision
         KeyboardState key;
 
 
@@ -44,23 +45,15 @@ namespace AthameRPG.Characters
                 this.cropCurrentFrameGargamel = new Rectangle(0, 0, cropWidth, cropHeight);
             }
         }
-        
-        public Vector2 GARGAcoor
+
+        public Vector2 DetectionEnemyCoord
         {
             get
             {
                 return new Vector2(coordGargamel.X + CharacterManager.barbarian.CoordP().X, coordGargamel.Y + CharacterManager.barbarian.CoordP().Y);
             }
         }
-
-        public Vector2 GARGA
-        {
-            get
-            {
-                return new Vector2(coordGargamel.X, coordGargamel.Y);
-            }
-        }
-
+        
         public override void LoadContent()
         {
 
@@ -78,33 +71,41 @@ namespace AthameRPG.Characters
 
             key = Keyboard.GetState();
 
-            if (key.IsKeyDown(Keys.Left))
+            if (ID == 0)
             {
-                coordGargamel.X -= GoLeft();
+                if (key.IsKeyDown(Keys.Up))
+                {
+                    coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+                }
+
+                if (key.IsKeyDown(Keys.Down))
+                {
+                    coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+                }
+
+                if (key.IsKeyDown(Keys.Left))
+                {
+                    coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+                }
+
+                if (key.IsKeyDown(Keys.Right))
+                {
+                    coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+                }
             }
-            if (key.IsKeyDown(Keys.Right))
-            {
-                coordGargamel.X += GoRight();
-            }
+
+
+            /// testovo ------------------------------------------------------
+            //if (true)
+            //{
+            //    coordGargamel.X -= GoLeft();
+            //}
+
+            drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
+            drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
             
-            if (key.IsKeyDown(Keys.Up))
-            {
-                coordGargamel.Y -= GoUp();
-            }
-            if (key.IsKeyDown(Keys.Down))
-            {
-                coordGargamel.Y += GoDown();
-            }
-
-            if (true)
-            {
-                coordGargamel.X -= GoLeft();
-            }
-
-            drawCoordGargamel.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
-            drawCoordGargamel.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
-
-            CharacterManager.EnemiesPositionList[ID] = drawCoordGargamel;
+            /// Re-Write new position on the screen of enemy  
+            CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
 
         }
 
@@ -112,170 +113,261 @@ namespace AthameRPG.Characters
         {
             
 
-            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordGargamel, CropCurrentFrameGargamel, Color.White);
+            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrameGargamel, Color.White);
         }
 
-        private float GoDown()
-        {
-            float result = moveSpeedGargamel;
+        //private float GoUp()
+        //{
+        //    float result = moveSpeedEnemy;
 
-            foreach (Vector2 coordinates in Map.Obstacles)
-            {
-                float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
-                //                                           CharacterManager.barbarian.CoordP().X
-                float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
+        //    foreach (Vector2 coordinates in Map.Obstacles)
+        //    {
+        //        float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
+        //        float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
 
-                float pUp = GARGAcoor.Y ;
-                float pDown = GARGAcoor.Y + cropHeight;
-                float pLeft = GARGAcoor.X;
-                float pRight = GARGAcoor.X + cropWidth;
+        //        float pUp = DetectionEnemyCoord.Y;
+        //        float pDown = DetectionEnemyCoord.Y + cropHeight;
+        //        float pLeft = DetectionEnemyCoord.X ;
+        //        float pRight = DetectionEnemyCoord.X + cropWidth;
 
-                result = HaveCollision(pDown, mapDetectionFromTop, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedGargamel);
+        //        result = HaveCollision(pUp, mapDetectionFromBottom, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedEnemy);
 
-                if (result == 0)
-                {
-                    break;
-                }
+        //        if (result == 0)
+        //        {
+        //            break;
+        //        }
 
-            }
+        //    }
+
+        //    if (result != 0)
+        //    {
+
+        //        foreach (var enemy in CharacterManager.EnemiesPositionList)
+        //        {
+        //            //if (drawCoordGargamel.X != enemy.X && drawCoordGargamel.Y != enemy.Y )
+        //            // Does not WORK with this ckeck ...
+        //            // when there are on same X ... they don't detect collision
+
+        //            float enemyTop = enemy.Y;
+        //            float enemyBottom = enemy.Y + (cropHeight);
+        //            float enemyLeft = enemy.X;
+        //            float enemyRight = enemy.X + (cropWidth);
+
+        //            float pUp = drawCoordEnemy.Y;
+        //            float pDown = drawCoordEnemy.Y + cropHeight;
+        //            float pLeft = drawCoordEnemy.X;
+        //            float pRight = drawCoordEnemy.X + cropWidth;
+
+        //            ////////////////////// if (1 -2) ...... if (3 > 4) ||   (5 lower than 6) 
+        //            result = HaveCollision(pUp, enemyBottom, pLeft, enemyRight, pRight, enemyLeft, moveSpeedEnemy);
+
+        //            if (result == 0)
+        //            {
+        //                break;
+        //            }
+
+        //        }
+        //    }
+
+        //    return result;
+        //}
+        
+        //private float GoDown()
+        //{
+        //    float result = moveSpeedEnemy;
+
+        //    foreach (Vector2 coordinates in Map.Obstacles)
+        //    {
+        //        float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
+        //        float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
+
+        //        float pUp = DetectionEnemyCoord.Y ;
+        //        float pDown = DetectionEnemyCoord.Y + cropHeight;
+        //        float pLeft = DetectionEnemyCoord.X;
+        //        float pRight = DetectionEnemyCoord.X + cropWidth;
+
+        //        result = HaveCollision(pDown, mapDetectionFromTop, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedEnemy);
+
+        //        if (result == 0)
+        //        {
+        //            break;
+        //        }
+
+        //    }
+
+        //    if (result != 0)
+        //    {
+
+        //        foreach (var enemy in CharacterManager.EnemiesPositionList)
+        //        {
+        //            //if (drawCoordGargamel.X != enemy.X && drawCoordGargamel.Y != enemy.Y )
+        //            // Does not WORK with this ckeck ...
+        //            // when there are on same X ... they don't detect collision
+
+        //            float enemyTop = enemy.Y;
+        //            float enemyBottom = enemy.Y + (cropHeight);
+        //            float enemyLeft = enemy.X;
+        //            float enemyRight = enemy.X + (cropWidth);
+
+        //            float pUp = drawCoordEnemy.Y;
+        //            float pDown = drawCoordEnemy.Y + cropHeight;
+        //            float pLeft = drawCoordEnemy.X;
+        //            float pRight = drawCoordEnemy.X + cropWidth;
+
+        //            ////////////////////// if (1 -2) ...... if (3 > 4) ||   (5 lower than 6) 
+        //            result = HaveCollision(pDown, enemyTop, pLeft, enemyRight, pRight, enemyLeft, moveSpeedEnemy);
+
+        //            if (result == 0)
+        //            {
+        //                break;
+        //            }
+
+        //        }
+        //    }
+
+        //    return result;
+        //}
+        
+        //private float GoLeft()
+        //{
+        //    float result = moveSpeedEnemy;
+
+        //    foreach (Vector2 coordinates in Map.Obstacles)
+        //    {
+        //        float mapDetectionFromTop = coordinates.Y+ CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
+        //        float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
+
+        //        float pUp = DetectionEnemyCoord.Y;
+        //        float pDown = DetectionEnemyCoord.Y + cropHeight;
+        //        float pLeft = DetectionEnemyCoord.X;
+        //        float pRight = DetectionEnemyCoord.X + cropWidth;
+
+        //        result = HaveCollision(pLeft, mapDetectionFromRight, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedEnemy);
+
+        //        if (result == 0)
+        //        {
+        //            break;
+        //        }
+
+        //    }
+        //    if (result != 0)
+        //    {
+
+        //        foreach (var enemy in CharacterManager.EnemiesPositionList)
+        //        {
+        //            //if (drawCoordGargamel.X != enemy.X && drawCoordGargamel.Y != enemy.Y )
+        //            //{
+
+        //            //}
+
+        //            float enemyTop = enemy.Y;
+        //            float enemyBottom = enemy.Y + (cropHeight);
+        //            float enemyLeft = enemy.X;
+        //            float enemyRight = enemy.X + (cropWidth);
+
+        //            float pUp = drawCoordEnemy.Y;
+        //            float pDown = drawCoordEnemy.Y + cropHeight;
+        //            float pLeft = drawCoordEnemy.X;
+        //            float pRight = drawCoordEnemy.X + cropWidth;
+
+        //            /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
+        //            result = HaveCollision(pLeft, enemyRight, pUp, enemyBottom, pDown, enemyTop, moveSpeedEnemy);
+
+        //            if (result == 0)
+        //            {
+        //                break;
+        //            }
+
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        //private float GoRight()
+        //{
+        //    float result = moveSpeedEnemy;
+
+        //    foreach (Vector2 coordinates in Map.Obstacles)
+        //    {
 
 
+        //        float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
+        //        float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
+        //        float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
 
-            return result;
-        }
+        //        float pUp = DetectionEnemyCoord.Y ;
+        //        float pDown = DetectionEnemyCoord.Y + cropHeight;
+        //        float pLeft = DetectionEnemyCoord.X;
+        //        float pRight = DetectionEnemyCoord.X + cropWidth;
 
-        private float GoUp()
-        {
-            float result = moveSpeedGargamel;
+        //        result = HaveCollision(mapDetectionFromLeft, pRight, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedEnemy);
 
-            foreach (Vector2 coordinates in Map.Obstacles)
-            {
-                float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
-                float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
+        //        if (result == 0)
+        //        {
+        //            break;
+        //        }
 
-                float pUp = GARGAcoor.Y;
-                float pDown = GARGAcoor.Y + cropHeight;
-                float pLeft = GARGAcoor.X ;
-                float pRight = GARGAcoor.X + cropWidth;
+        //    }
 
-                result = HaveCollision(pUp, mapDetectionFromBottom, pLeft, mapDetectionFromRight, pRight, mapDetectionFromLeft, moveSpeedGargamel);
+        //    if (result != 0)
+        //    {
 
-                if (result == 0)
-                {
-                    break;
-                }
-
-            }
-
-
-
-            return result;
-        }
-
-        private float GoRight()
-        {
-            float result = moveSpeedGargamel;
-
-            foreach (Vector2 coordinates in Map.Obstacles)
-            {
-                float mapDetectionFromTop = coordinates.Y + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
-                float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
-
-                float pUp = GARGAcoor.Y ;
-                float pDown = GARGAcoor.Y + cropHeight;
-                float pLeft = GARGAcoor.X;
-                float pRight = GARGAcoor.X + cropWidth;
-
-                result = HaveCollision(mapDetectionFromLeft, pRight, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedGargamel);
-
-                if (result == 0)
-                {
-                    break;
-                }
-
-            }
-
-
-
-            return result;
-        }
-
-        private float GoLeft()
-        {
-            float result = moveSpeedGargamel;
-
-            foreach (Vector2 coordinates in Map.Obstacles)
-            {
-                float mapDetectionFromTop = coordinates.Y+ CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromBottom = coordinates.Y + 50f + CharacterManager.barbarian.CoordP().Y;
-                float mapDetectionFromLeft = coordinates.X + CharacterManager.barbarian.CoordP().X;
-                float mapDetectionFromRight = coordinates.X + 50f + CharacterManager.barbarian.CoordP().X;
-
-                float pUp = GARGAcoor.Y;
-                float pDown = GARGAcoor.Y + cropHeight;
-                float pLeft = GARGAcoor.X;
-                float pRight = GARGAcoor.X + cropWidth;
-
-                result = HaveCollision(pLeft, mapDetectionFromRight, pUp, mapDetectionFromBottom, pDown, mapDetectionFromTop, moveSpeedGargamel);
-
-                if (result == 0)
-                {
-                    break;
-                }
-
-            }
-            //if (result != 0)
-            //{
-                
-            //    foreach (var enemy in CharacterManager.EnemiesPositionList)
-            //    {
+        //        foreach (var enemy in CharacterManager.EnemiesPositionList)
+        //        {
+        //            //if (drawCoordGargamel.X != enemy.X && drawCoordGargamel.Y != enemy.Y )
+        //            // Does not WORK with this ckeck ...
+        //            // when there are on same X ... they don't detect collision
                     
-            //        float enemyTop = enemy.Y + drawCoordGargamel.Y - 25f;
-            //        float enemyBottom = (enemy.Y + drawCoordGargamel.Y) + Enemy.cropHeight - 70f;
-            //        float enemyLeft = enemy.X + drawCoordGargamel.X - 25f;
-            //        float enemyRight = enemy.X + Enemy.cropWidth + drawCoordGargamel.X - 65f;
+        //            float enemyTop = enemy.Y;
+        //            float enemyBottom = enemy.Y + (cropHeight);
+        //            float enemyLeft = enemy.X;
+        //            float enemyRight = enemy.X + (cropWidth);
 
-            //        float pUp = drawCoordGargamel.Y;
-            //        float pDown = drawCoordGargamel.Y + cropHeight;
-            //        float pLeft = drawCoordGargamel.X;
-            //        float pRight = drawCoordGargamel.X + cropWidth;
+        //            float pUp = drawCoordEnemy.Y;
+        //            float pDown = drawCoordEnemy.Y + cropHeight;
+        //            float pLeft = drawCoordEnemy.X;
+        //            float pRight = drawCoordEnemy.X + cropWidth;
 
-            //        /// if (1 -2) ...... if 3 > 4 | 5 lower than 6 
-            //        result = HaveCollision(pLeft, enemyRight, pUp, enemyBottom, pDown, enemyTop, moveSpeedGargamel);
+        //            ////////////////////// if (1 -2) ...... if (3 > 4) ||   (5 lower than 6) 
+        //            result = HaveCollision(pRight, enemyLeft, pUp, enemyBottom, pDown, enemyTop, moveSpeedEnemy);
 
-            //        if (result == 0)
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
+        //            if (result == 0)
+        //            {
+        //                break;
+        //            }
 
-            return result;
-        }
+        //        }
+        //    }
 
-        private float HaveCollision(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, float moveSpeedGargamel)
-        {
-            float result = moveSpeedGargamel;
+        //    return result;
+        //}
 
-            if (Math.Abs(pSide - enemySide) <= 2)
-            {
-                if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
-                {
-                    result = moveSpeedGargamel;
-                }
-                else
-                {
-                    result = 0;
-                }
-            }
 
-            return result;
-        }
+        //private float HaveCollision(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, float moveSpeedGargamel)
+        //{
+        //    float result = moveSpeedGargamel;
+
+        //    if (Math.Abs(pSide - enemySide) <= 2)
+        //    {
+        //        if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
+        //        {
+        //            result = moveSpeedGargamel;
+        //        }
+        //        else
+        //        {
+        //            result = 0;
+        //        }
+        //    }
+
+        //    return result;
+        //}
     }
 }

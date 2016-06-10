@@ -29,6 +29,7 @@ namespace AthameRPG.Characters
                 this.isAlive = value;
             }
         }
+
         public void KillTarget()
         {
             IsAlive = false;
@@ -57,6 +58,7 @@ namespace AthameRPG.Characters
                 this.startPositionY = value;
             }
         }
+
         public abstract void LoadContent();
 
         public abstract void UnloadContent();

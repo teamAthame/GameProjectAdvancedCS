@@ -52,6 +52,7 @@
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameEngine\CollisionDetection.cs" />
     <Compile Include="GameEngine\FileLoader.cs" />
     <Compile Include="GameEngine\MapManager.cs" />
     <Compile Include="GameEngine\Maps\Map.cs" />
