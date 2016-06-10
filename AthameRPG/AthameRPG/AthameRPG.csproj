@@ -42,6 +42,13 @@
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Controls\GamepadExtended.cs" />
+    <Compile Include="Controls\InputDeviceConstants.cs" />
+    <Compile Include="Controls\InputDeviceExtended.cs" />
+    <Compile Include="Controls\InputStateExtended.cs" />
+    <Compile Include="Controls\KeyboardExtended.cs" />
+    <Compile Include="Controls\MouseButton.cs" />
+    <Compile Include="Controls\MouseExtended.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />

@@ -100,17 +100,17 @@ namespace AthameRPG.Characters
             mouse = Mouse.GetState();
 
             //MovingWithMouse();
-            /*if (mouse.LeftButton == ButtonState.Pressed)
+            if (mouse.LeftButton == ButtonState.Pressed)
             {
                 // take position where need to go
                 lastMouseClickPosition.X = mouse.X - cropWidth / 2;
                 lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
 
-                /*
+                
                  
-                 ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
+                 //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
                  
-                 #1#
+                 //#1#
 
                 if (lastMouseClickPosition.Y < coordPlayer.Y)
                 {
@@ -131,35 +131,35 @@ namespace AthameRPG.Characters
                     playerPositon.X -= GoRight();
                 }
             }
-*/
 
-            KeyboardExtended.Current.GetState(gameTime);
-            MouseExtended.Current.GetState(gameTime);
+            //// -------------- Double Click Movement -------------
+            //KeyboardExtended.Current.GetState(gameTime);
+            //MouseExtended.Current.GetState(gameTime);
 
-            if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-            {
-                lastMouseClickPosition.X = mouse.X - cropWidth / 2;
-                lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
+            //if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+            //{
+            //    lastMouseClickPosition.X = mouse.X - cropWidth / 2;
+            //    lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
 
-                if (lastMouseClickPosition.Y < coordPlayer.Y)
-                {
-                    playerPositon.Y += GoUp();
-                }
-                if (lastMouseClickPosition.Y > coordPlayer.Y)
-                {
-                    playerPositon.Y -= GoDown();
-                }
+            //    if (lastMouseClickPosition.Y < coordPlayer.Y)
+            //    {
+            //        playerPositon.Y += GoUp();
+            //    }
+            //    if (lastMouseClickPosition.Y > coordPlayer.Y)
+            //    {
+            //        playerPositon.Y -= GoDown();
+            //    }
 
-                if (lastMouseClickPosition.X < coordPlayer.X)
-                {
-                    playerPositon.X += GoLeft();
-                }
+            //    if (lastMouseClickPosition.X < coordPlayer.X)
+            //    {
+            //        playerPositon.X += GoLeft();
+            //    }
 
-                if (lastMouseClickPosition.X > coordPlayer.X)
-                {
-                    playerPositon.X -= GoRight();
-                }
-            }
+            //    if (lastMouseClickPosition.X > coordPlayer.X)
+            //    {
+            //        playerPositon.X -= GoRight();
+            //    }
+            //}
         }
 
         private float GoUp()

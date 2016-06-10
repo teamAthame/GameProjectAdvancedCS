@@ -41,7 +41,7 @@ namespace AthameRPG.Characters
             }
             private set
             {
-                this.cropCurrentFrameGargamel = new Rectangle(150, 0, cropWidth, cropHeight);
+                this.cropCurrentFrameGargamel = new Rectangle(0, 0, cropWidth, cropHeight);
             }
         }
         
