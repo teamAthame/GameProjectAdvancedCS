@@ -294,9 +294,12 @@ namespace AthameRPG.GameEngine
                 }
             }
 
+            result = DetectionWithPlayerEnemyGoesUp(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            
+
             return result;
         }
-
+        
         public static float EnemyGoDown(Vector2 DetectionEnemyCoord, Vector2 drawCoordEnemy, int cropHeight, int cropWidth, float moveSpeedEnemy)
         {
             float result = moveSpeedEnemy;
@@ -351,6 +354,8 @@ namespace AthameRPG.GameEngine
 
                 }
             }
+
+            result = DetectionWithPlayerEnemyGoesDown(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
 
             return result;
         }
@@ -409,6 +414,8 @@ namespace AthameRPG.GameEngine
 
                 }
             }
+
+            result = DetectionWithPlayerEnemyGoesLeft(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
 
             return result;
         }
@@ -470,7 +477,81 @@ namespace AthameRPG.GameEngine
                 }
             }
 
+            result = DetectionWithPlayerEnemyGoesRight(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+
             return result;
+        }
+
+        private static float DetectionWithPlayerEnemyGoesUp(float moveSpeedEnemy, Vector2 drawCoordEnemy, int cropWidth, int cropHeight)
+        {
+
+            float playerTop = Character.DrawCoordPlayer.Y;
+            float playerBottom = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float playerLeft = Character.DrawCoordPlayer.X;
+            float playerRight = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
+
+            float enemyTop = drawCoordEnemy.Y;
+            float enemyBottom = drawCoordEnemy.Y + cropHeight;
+            float enemyLeft = drawCoordEnemy.X;
+            float enemyRight = drawCoordEnemy.X + cropWidth;
+
+            moveSpeedEnemy = HaveCollision(enemyTop, playerBottom, enemyLeft, playerRight, enemyRight, playerLeft, moveSpeedEnemy);
+
+            return moveSpeedEnemy;
+        }
+
+        private static float DetectionWithPlayerEnemyGoesDown(float moveSpeedEnemy, Vector2 drawCoordEnemy, int cropWidth, int cropHeight)
+        {
+
+            float playerTop = Character.DrawCoordPlayer.Y;
+            float playerBottom = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float playerLeft = Character.DrawCoordPlayer.X;
+            float playerRight = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
+
+            float enemyTop = drawCoordEnemy.Y;
+            float enemyBottom = drawCoordEnemy.Y + cropHeight;
+            float enemyLeft = drawCoordEnemy.X;
+            float enemyRight = drawCoordEnemy.X + cropWidth;
+
+            moveSpeedEnemy = HaveCollision(enemyBottom, playerTop, enemyLeft, playerRight, enemyRight, playerLeft, moveSpeedEnemy);
+
+            return moveSpeedEnemy;
+        }
+
+        private static float DetectionWithPlayerEnemyGoesLeft(float moveSpeedEnemy, Vector2 drawCoordEnemy, int cropWidth, int cropHeight)
+        {
+
+            float playerTop = Character.DrawCoordPlayer.Y;
+            float playerBottom = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float playerLeft = Character.DrawCoordPlayer.X;
+            float playerRight = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
+
+            float enemyTop = drawCoordEnemy.Y;
+            float enemyBottom = drawCoordEnemy.Y + cropHeight;
+            float enemyLeft = drawCoordEnemy.X;
+            float enemyRight = drawCoordEnemy.X + cropWidth;
+
+            moveSpeedEnemy = HaveCollision(enemyLeft, playerRight, enemyTop, playerBottom, enemyBottom, playerTop, moveSpeedEnemy);
+
+            return moveSpeedEnemy;
+        }
+
+        private static float DetectionWithPlayerEnemyGoesRight(float moveSpeedEnemy, Vector2 drawCoordEnemy, int cropWidth, int cropHeight)
+        {
+
+            float playerTop = Character.DrawCoordPlayer.Y;
+            float playerBottom = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float playerLeft = Character.DrawCoordPlayer.X;
+            float playerRight = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
+
+            float enemyTop = drawCoordEnemy.Y;
+            float enemyBottom = drawCoordEnemy.Y + cropHeight;
+            float enemyLeft = drawCoordEnemy.X;
+            float enemyRight = drawCoordEnemy.X + cropWidth;
+
+            moveSpeedEnemy = HaveCollision(enemyRight, playerLeft, enemyTop, playerBottom, enemyBottom, playerTop, moveSpeedEnemy);
+
+            return moveSpeedEnemy;
         }
 
         private static float HaveCollision(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, float moveSpeedPlayer)

@@ -16,18 +16,19 @@ namespace AthameRPG.Characters
 
     public class Barbarian : Character
     {
-        private const int cropWidth = 32;
-        private const int cropHeight = 48;
         private const float moveSpeedPlayer = 2f;
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
         
         private Rectangle cropCurrentFramePlayer;
-        private Vector2 coordPlayer;
+
+        public Vector2 abstractPlayerPositon;
+
         private Vector2 lastMouseClickPosition;
 
-        public Vector2 playerPositon; /// proba 
+        
+        /// proba 
         //private SpriteFont font;
         //protected ContentManager content;
 
@@ -36,7 +37,6 @@ namespace AthameRPG.Characters
         public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
-            coordPlayer = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
         }
 
         public float PlayerCenterCoordX
@@ -90,7 +90,7 @@ namespace AthameRPG.Characters
 
         public Vector2 CoordP()
         {
-            return playerPositon;
+            return abstractPlayerPositon;
         }
 
         public override void Update(GameTime gameTime)
@@ -108,23 +108,23 @@ namespace AthameRPG.Characters
 
                 //#1#
 
-                if (lastMouseClickPosition.Y < coordPlayer.Y)
+                if (lastMouseClickPosition.Y < drawCoordPlayer.Y)
                 {
-                    playerPositon.Y += CollisionDetection.GoUp(playerPositon, moveSpeedPlayer, coordPlayer, cropWidth, cropHeight);
+                    abstractPlayerPositon.Y += CollisionDetection.GoUp(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
                 }
-                if (lastMouseClickPosition.Y > coordPlayer.Y)
+                if (lastMouseClickPosition.Y > drawCoordPlayer.Y)
                 {
-                    playerPositon.Y -= CollisionDetection.GoDown(playerPositon, moveSpeedPlayer, coordPlayer, cropWidth, cropHeight);
-                }
-
-                if (lastMouseClickPosition.X < coordPlayer.X)
-                {
-                    playerPositon.X += CollisionDetection.GoLeft(playerPositon, moveSpeedPlayer, coordPlayer, cropWidth, cropHeight);
+                    abstractPlayerPositon.Y -= CollisionDetection.GoDown(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
                 }
 
-                if (lastMouseClickPosition.X > coordPlayer.X)
+                if (lastMouseClickPosition.X < drawCoordPlayer.X)
                 {
-                    playerPositon.X -= CollisionDetection.GoRight(playerPositon, moveSpeedPlayer, coordPlayer, cropWidth, cropHeight);
+                    abstractPlayerPositon.X += CollisionDetection.GoLeft(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
+                }
+
+                if (lastMouseClickPosition.X > drawCoordPlayer.X)
+                {
+                    abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
                 }
             }
 
@@ -163,7 +163,7 @@ namespace AthameRPG.Characters
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(CharacterManager.Instance.PlayerImage, coordPlayer, CropCurrentFramePlayer, Color.White);
+            spriteBatch.Draw(CharacterManager.Instance.PlayerImage, drawCoordPlayer, CropCurrentFramePlayer, Color.White);
             //spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);

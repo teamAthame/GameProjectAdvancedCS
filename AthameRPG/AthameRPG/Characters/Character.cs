@@ -16,11 +16,37 @@ namespace AthameRPG.Characters
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
 
-        
+        protected const int cropWidth = 32;
+        protected const int cropHeight = 48;
+
+        protected static Vector2 drawCoordPlayer;
 
         public Character(float startPositionX, float startPositionY) : base(startPositionX, startPositionY )
         {
-             
+            drawCoordPlayer = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
+        }
+
+        public static Vector2 DrawCoordPlayer
+        {
+            get
+            {
+                return drawCoordPlayer;
+            }
+        }
+
+        public static int PlayerCropWidth
+        {
+            get
+            {
+                return cropWidth;
+            }
+        }
+        public static int PlayerCropHeight
+        {
+            get
+            {
+                return cropHeight;
+            }
         }
 
         
