@@ -294,9 +294,11 @@ namespace AthameRPG.GameEngine
                 }
             }
 
-            result = DetectionWithPlayerEnemyGoesUp(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            if (result != 0)
+            {
+                result = DetectionWithPlayerEnemyGoesUp(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            }
             
-
             return result;
         }
         
@@ -355,8 +357,10 @@ namespace AthameRPG.GameEngine
                 }
             }
 
-            result = DetectionWithPlayerEnemyGoesDown(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
-
+            if (result != 0)
+            {
+                result = DetectionWithPlayerEnemyGoesDown(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            }
             return result;
         }
 
@@ -415,8 +419,10 @@ namespace AthameRPG.GameEngine
                 }
             }
 
-            result = DetectionWithPlayerEnemyGoesLeft(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
-
+            if (result != 0)
+            {
+                result = DetectionWithPlayerEnemyGoesLeft(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            }
             return result;
         }
         
@@ -477,8 +483,10 @@ namespace AthameRPG.GameEngine
                 }
             }
 
-            result = DetectionWithPlayerEnemyGoesRight(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
-
+            if (result != 0)
+            {
+                result = DetectionWithPlayerEnemyGoesRight(moveSpeedEnemy, drawCoordEnemy, cropWidth, cropHeight);
+            }
             return result;
         }
 
