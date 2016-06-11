@@ -38,7 +38,7 @@ namespace AthameRPG.Characters
         public Gargamel(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY, id)
         {
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
-            
+            direction = "NW";
 
             //-------------------------------------------------------------------------------------------------------------
             //coordGargamel = new Vector2(startPositionX , startPositionY);
@@ -64,7 +64,8 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            lastAbstractCoord = drawCoordEnemy;
+            //lastAbstractCoord = drawCoordEnemy;
+            lastAbstractCoord = coordGargamel;
 
             float plTopSide = Character.DrawCoordPlayer.Y;
             float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
@@ -108,9 +109,9 @@ namespace AthameRPG.Characters
             {
                 frameCounter = 0;
 
-                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, drawCoordEnemy,
-                    direction, cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west, northEast,
-                    northWest, southEast, southWest);
+                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, coordGargamel,
+                    direction, cropFrame, cropWidth, cropHeight, cropStay, south, north, west, east, southWest,
+                    southEast, northWest, northEast);
 
                 cropCurrentFrame = returnedValue.ImageCrop;
                 direction = returnedValue.Direction;
