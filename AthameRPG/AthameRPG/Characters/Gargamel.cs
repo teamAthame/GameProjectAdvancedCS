@@ -66,39 +66,35 @@ namespace AthameRPG.Characters
         public override void Update(GameTime gameTime)
         {
 
-            // test
+            float plTopSide = Character.DrawCoordPlayer.Y;
+            float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float plLeftSide = Character.DrawCoordPlayer.X;
+            float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
-            key = Keyboard.GetState();
+            bool isPlayerDown = CollisionDetection.IsNear(plTopSide, drawCoordEnemy.Y + cropHeight);
+            bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, drawCoordEnemy.Y);
+            bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, drawCoordEnemy.X);
+            bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);
 
-            if (ID == 0)
+            if (isPlayerUp && (isPlayerRight || isPlayerLeft))
             {
-                if (key.IsKeyDown(Keys.Up))
-                {
-                    coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
-
-                if (key.IsKeyDown(Keys.Down))
-                {
-                    coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
-
-                if (key.IsKeyDown(Keys.Left))
-                {
-                    coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
-
-                if (key.IsKeyDown(Keys.Right))
-                {
-                    coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
+                coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
             }
 
+            if (isPlayerDown && (isPlayerRight || isPlayerLeft))
+            {
+                coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
 
-            /// testovo ------------------------------------------------------
-            //if (true)
-            //{
-            //    coordGargamel.X -= GoLeft();
-            //}
+            if (isPlayerLeft && (isPlayerUp || isPlayerDown))
+            {
+                coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
+
+            if (isPlayerRight && (isPlayerUp || isPlayerDown))
+            {
+                coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
 
             drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
             drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;

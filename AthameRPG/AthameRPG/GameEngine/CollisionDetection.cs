@@ -581,7 +581,15 @@ namespace AthameRPG.GameEngine
             return result;
         }
 
-
+        public static bool IsNear(float playerDrawPosition, float enemyDrawPosition)
+        {
+            if (Math.Abs(playerDrawPosition - enemyDrawPosition) < Enemy.SearchingRadius)
+            {
+                return true;
+            }
+            
+            return false;
+        }
 
         /// <summary>
         /// //////////////////////////////   NEEEEEEEEEEEEEEEEEE TRIIIIIIIIIIIIIIIIIIIII -----------------------------

@@ -18,6 +18,11 @@ namespace AthameRPG.Characters
 
         private int id;//  NUMBER IN THE ENEMY LIST //
 
+        public static float SearchingRadius
+        {
+            get { return 100f; }
+        }
+
         public Enemy(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY)
         {
             this.ID = id;
