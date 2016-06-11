@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,26 @@ namespace AthameRPG.Characters
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
-        
+
+        // Animation values
+        private int cropFrame;
+        private int frameCounter;
+        private int switchCounter;
+        private string direction;
+        private const int cropStay = 360;
+        private const int north = 395;
+        private const int south = 20;
+        private const int east = 580;
+        private const int west = 210;
+        private const int northEast = 485;
+        private const int northWest = 300;
+        private const int southEast = 675;
+        private const int southWest = 120;
+        private AnimationReturnedValue returnedValue;
+
+        //private Texture2D playerImage;
+        private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
+
         private Rectangle cropCurrentFramePlayer;
 
         public Vector2 abstractPlayerPositon;
@@ -30,13 +50,16 @@ namespace AthameRPG.Characters
         
         /// proba 
         //private SpriteFont font;
-        //protected ContentManager content;
+        protected ContentManager content;
 
         private MouseState mouse;
 
         public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
             this.CropCurrentFramePlayer = cropCurrentFramePlayer;
+            cropFrame = 0;
+            switchCounter = 100;
+            returnedValue = new AnimationReturnedValue();
         }
 
         public float PlayerCenterCoordX
@@ -71,7 +94,8 @@ namespace AthameRPG.Characters
             }
             private set
             {
-                this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+                //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+                this.cropCurrentFramePlayer = value;
             }
         }
 
@@ -79,7 +103,9 @@ namespace AthameRPG.Characters
         {
 
             // komplekt ! :)
-            //content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
+            content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
+            playerImage = content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);
+
             //font = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
         }
 
@@ -96,6 +122,7 @@ namespace AthameRPG.Characters
         public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
+            Vector2 lastAbstractCoord = abstractPlayerPositon;
 
             //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
 
@@ -165,12 +192,37 @@ namespace AthameRPG.Characters
             //    }
             //}
             */
+
+            /// take animation direction 
+            /// mostra --- CropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+            /// 
+
+            frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (frameCounter >= switchCounter)
+            {
+                frameCounter = 0;
+                
+                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, abstractPlayerPositon,
+                    direction, cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west, northEast,
+                    northWest, southEast, southWest);
+
+                cropCurrentFramePlayer = returnedValue.ImageCrop;
+                direction = returnedValue.Direction;
+
+                cropFrame++;
+                
+                if (cropFrame == 4)
+                {
+                    cropFrame = 0;
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(CharacterManager.Instance.PlayerImage, drawCoordPlayer, CropCurrentFramePlayer, Color.White);
+            spriteBatch.Draw(playerImage, drawCoordPlayer, CropCurrentFramePlayer, Color.White);
             //spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);

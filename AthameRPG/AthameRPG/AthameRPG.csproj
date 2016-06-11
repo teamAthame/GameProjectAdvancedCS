@@ -49,6 +49,8 @@
     <Compile Include="Controls\KeyboardExtended.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseExtended.cs" />
+    <Compile Include="GameEngine\Animation.cs" />
+    <Compile Include="GameEngine\AnimationReturnedValue.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />
@@ -73,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Character\GoblinWalk.png" />
+    <Content Include="Content\Character\HexenFighter.png" />
     <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
