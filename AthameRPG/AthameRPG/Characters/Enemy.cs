@@ -13,8 +13,8 @@ namespace AthameRPG.Characters
         //public const int cropHeight = 75;
         //public const int cropWidth = 90;
         //public const int cropHeight = 121;
-        public const int cropWidth = 50;
-        public const int cropHeight = 50;
+        public const int cropWidth = 126;
+        public const int cropHeight = 130;
 
         private int id;//  NUMBER IN THE ENEMY LIST //
 

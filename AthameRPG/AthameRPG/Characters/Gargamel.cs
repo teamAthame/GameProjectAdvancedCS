@@ -16,6 +16,17 @@ namespace AthameRPG.Characters
         
         private const float moveSpeedEnemy = 1f;
         
+        // Animation values
+        private const int cropStay = 0;
+        private const int north = 690;
+        private const int south = 25;
+        private const int east = 1030;
+        private const int west = 355;
+        private const int northEast = 860;
+        private const int northWest = 525;
+        private const int southEast = 1205;
+        private const int southWest = 195;
+
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
         private Vector2 drawCoordEnemy;
@@ -26,25 +37,13 @@ namespace AthameRPG.Characters
         
         public Gargamel(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY, id)
         {
-            this.CropCurrentFrameGargamel = cropCurrentFrameGargamel;
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
             
+
             //-------------------------------------------------------------------------------------------------------------
             //coordGargamel = new Vector2(startPositionX , startPositionY);
         }
-
-        public Rectangle CropCurrentFrameGargamel
-        {
-            get
-            {
-                return this.cropCurrentFrameGargamel;
-            }
-            private set
-            {
-                this.cropCurrentFrameGargamel = new Rectangle(0, 0, cropWidth, cropHeight);
-            }
-        }
-
+        
         public Vector2 DetectionEnemyCoord
         {
             get
@@ -65,7 +64,8 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            
+            lastAbstractCoord = drawCoordEnemy;
+
             float plTopSide = Character.DrawCoordPlayer.Y;
             float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
             float plLeftSide = Character.DrawCoordPlayer.X;
@@ -102,13 +102,34 @@ namespace AthameRPG.Characters
             /// Re-Write new position on the screen of enemy  
             CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
 
+            frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (frameCounter >= switchCounter)
+            {
+                frameCounter = 0;
+
+                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, drawCoordEnemy,
+                    direction, cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west, northEast,
+                    northWest, southEast, southWest);
+
+                cropCurrentFrame = returnedValue.ImageCrop;
+                direction = returnedValue.Direction;
+
+                cropFrame++;
+
+                if (cropFrame == 4)
+                {
+                    cropFrame = 0;
+                }
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             
 
-            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrameGargamel, Color.White);
+            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
         }
 
         

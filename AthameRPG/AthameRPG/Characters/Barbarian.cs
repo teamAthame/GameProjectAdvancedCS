@@ -23,10 +23,6 @@ namespace AthameRPG.Characters
         private float playerCenterCoordY;
 
         // Animation values
-        private int cropFrame;
-        private int frameCounter;
-        private int switchCounter;
-        private string direction;
         private const int cropStay = 360;
         private const int north = 395;
         private const int south = 20;
@@ -36,12 +32,11 @@ namespace AthameRPG.Characters
         private const int northWest = 300;
         private const int southEast = 675;
         private const int southWest = 120;
-        private AnimationReturnedValue returnedValue;
 
         //private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
 
-        private Rectangle cropCurrentFramePlayer;
+        //private Rectangle cropCurrentFrame;
 
         public Vector2 abstractPlayerPositon;
 
@@ -56,10 +51,7 @@ namespace AthameRPG.Characters
 
         public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
-            this.CropCurrentFramePlayer = cropCurrentFramePlayer;
-            cropFrame = 0;
-            switchCounter = 100;
-            returnedValue = new AnimationReturnedValue();
+            //this.CropCurrentFrame = cropCurrentFrame;
         }
 
         public float PlayerCenterCoordX
@@ -86,18 +78,18 @@ namespace AthameRPG.Characters
             }
         }
 
-        public Rectangle CropCurrentFramePlayer
-        {
-            get
-            {
-                return this.cropCurrentFramePlayer;
-            }
-            private set
-            {
-                //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
-                this.cropCurrentFramePlayer = value;
-            }
-        }
+        //public Rectangle CropCurrentFrame
+        //{
+        //    get
+        //    {
+        //        return this.cropCurrentFrame;
+        //    }
+        //    private set
+        //    {
+        //        //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+        //        this.cropCurrentFrame = value;
+        //    }
+        //}
 
         public override void LoadContent()
         {
@@ -122,7 +114,7 @@ namespace AthameRPG.Characters
         public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
-            Vector2 lastAbstractCoord = abstractPlayerPositon;
+            lastAbstractCoord = abstractPlayerPositon;
 
             //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
 
@@ -207,7 +199,7 @@ namespace AthameRPG.Characters
                     direction, cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west, northEast,
                     northWest, southEast, southWest);
 
-                cropCurrentFramePlayer = returnedValue.ImageCrop;
+                cropCurrentFrame = returnedValue.ImageCrop;
                 direction = returnedValue.Direction;
 
                 cropFrame++;
@@ -222,7 +214,7 @@ namespace AthameRPG.Characters
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(playerImage, drawCoordPlayer, CropCurrentFramePlayer, Color.White);
+            spriteBatch.Draw(playerImage, drawCoordPlayer, CropCurrentFrame, Color.White);
             //spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);

@@ -1,5 +1,6 @@
 ﻿
 
+using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,7 +8,16 @@ namespace AthameRPG.Characters
 {
     public abstract class Unit 
     {
-        private bool isAlive;
+        
+        internal int frameCounter;
+        internal int switchCounter;
+        internal string direction;
+        internal int cropFrame;
+        internal AnimationReturnedValue returnedValue;
+        internal Vector2 lastAbstractCoord;
+        internal Rectangle cropCurrentFrame;
+
+        internal bool isAlive;
 
         private float startPositionX, startPositionY;
 
@@ -16,6 +26,23 @@ namespace AthameRPG.Characters
             this.StartPositionX = startPositionX;
             this.StartPositionY = startPositionY;
             this.IsAlive = true;
+            switchCounter = 100;
+            cropFrame = 0;
+            returnedValue = new AnimationReturnedValue();
+            this.CropCurrentFrame = cropCurrentFrame;
+        }
+
+        public Rectangle CropCurrentFrame
+        {
+            get
+            {
+                return this.cropCurrentFrame;
+            }
+            private set
+            {
+                //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+                this.cropCurrentFrame = value;
+            }
         }
 
         public bool IsAlive
