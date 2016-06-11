@@ -21,8 +21,9 @@ namespace AthameRPG.Characters
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;
+        public Vector2 abstractPlayerPositon;
 
-        // Animation values
+        // Animation values // Pixels on .png where starts current row
         private const int cropStay = 360;
         private const int north = 395;
         private const int south = 20;
@@ -35,19 +36,14 @@ namespace AthameRPG.Characters
 
         //private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
-
-        //private Rectangle cropCurrentFrame;
-
-        public Vector2 abstractPlayerPositon;
-
+        
+        private MouseState mouse;
         private Vector2 lastMouseClickPosition;
-
+        protected ContentManager content;
         
         /// proba 
         //private SpriteFont font;
-        protected ContentManager content;
 
-        private MouseState mouse;
 
         public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
         {
@@ -77,20 +73,7 @@ namespace AthameRPG.Characters
                 this.playerCenterCoordY = value;
             }
         }
-
-        //public Rectangle CropCurrentFrame
-        //{
-        //    get
-        //    {
-        //        return this.cropCurrentFrame;
-        //    }
-        //    private set
-        //    {
-        //        //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
-        //        this.cropCurrentFrame = value;
-        //    }
-        //}
-
+        
         public override void LoadContent()
         {
 
