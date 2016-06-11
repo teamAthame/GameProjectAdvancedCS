@@ -17,7 +17,7 @@ namespace AthameRPG.Characters
 
     public class Barbarian : Character
     {
-        private const float moveSpeedPlayer = 2f;
+        private const float moveSpeedPlayer = 3f;
 
         private float playerCenterCoordX;
         private float playerCenterCoordY;

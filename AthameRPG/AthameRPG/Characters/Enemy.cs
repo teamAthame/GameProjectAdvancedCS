@@ -9,12 +9,9 @@ namespace AthameRPG.Characters
 {
     public abstract class Enemy : Unit
     {
-        //public const int cropWidth = 75;
-        //public const int cropHeight = 75;
-        //public const int cropWidth = 90;
-        //public const int cropHeight = 121;
-        public const int cropWidth = 126;
-        public const int cropHeight = 130;
+        
+        public const int cropWidth = 80;
+        public const int cropHeight = 85;
 
         private int id;//  NUMBER IN THE ENEMY LIST //
 

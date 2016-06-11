@@ -18,14 +18,14 @@ namespace AthameRPG.Characters
         
         // Animation values
         private const int cropStay = 0;
-        private const int north = 690;
-        private const int south = 25;
-        private const int east = 1030;
-        private const int west = 355;
-        private const int northEast = 860;
-        private const int northWest = 525;
-        private const int southEast = 1205;
-        private const int southWest = 195;
+        private const int north = 440;
+        private const int south = 15;
+        private const int east = 660;
+        private const int west = 224;
+        private const int northEast = 550;
+        private const int northWest = 330;
+        private const int southEast = 770;
+        private const int southWest = 122;
 
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
