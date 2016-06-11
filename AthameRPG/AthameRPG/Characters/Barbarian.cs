@@ -97,35 +97,42 @@ namespace AthameRPG.Characters
         {
             mouse = Mouse.GetState();
 
+            //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
+
+            //#1#
+
             //MovingWithMouse();
+            // mouse.LeftButton == ButtonState.Pressed
+
+            // take position where need to go
             if (mouse.LeftButton == ButtonState.Pressed)
             {
-                // take position where need to go
-                lastMouseClickPosition.X = mouse.X - cropWidth / 2;
-                lastMouseClickPosition.Y = mouse.Y - cropHeight / 2;
-                
-                //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
+                lastMouseClickPosition.X = mouse.X;
+                lastMouseClickPosition.Y = mouse.Y;
+            }
+            
+            if (lastMouseClickPosition.Y < drawCoordPlayer.Y)
+            {
+                abstractPlayerPositon.Y += CollisionDetection.GoUp(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
+                lastMouseClickPosition.Y += moveSpeedPlayer;
+            }
 
-                //#1#
+            if (lastMouseClickPosition.Y > drawCoordPlayer.Y + cropHeight)
+            {
+                abstractPlayerPositon.Y -= CollisionDetection.GoDown(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
+                lastMouseClickPosition.Y -= moveSpeedPlayer;
+            }
 
-                if (lastMouseClickPosition.Y < drawCoordPlayer.Y)
-                {
-                    abstractPlayerPositon.Y += CollisionDetection.GoUp(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
-                }
-                if (lastMouseClickPosition.Y > drawCoordPlayer.Y)
-                {
-                    abstractPlayerPositon.Y -= CollisionDetection.GoDown(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
-                }
+            if (lastMouseClickPosition.X < drawCoordPlayer.X)
+            {
+                abstractPlayerPositon.X += CollisionDetection.GoLeft(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
+                lastMouseClickPosition.X += moveSpeedPlayer;
+            }
 
-                if (lastMouseClickPosition.X < drawCoordPlayer.X)
-                {
-                    abstractPlayerPositon.X += CollisionDetection.GoLeft(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
-                }
-
-                if (lastMouseClickPosition.X > drawCoordPlayer.X)
-                {
-                    abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
-                }
+            if (lastMouseClickPosition.X > drawCoordPlayer.X + cropWidth)
+            {
+                abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon, moveSpeedPlayer, drawCoordPlayer, cropWidth, cropHeight);
+                lastMouseClickPosition.X -= moveSpeedPlayer;
             }
 
             /*

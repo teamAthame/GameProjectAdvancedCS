@@ -22,7 +22,7 @@ namespace AthameRPG.Characters
         
 
         // za triene po nqkoe vreme TEST garga collision
-        KeyboardState key;
+        //KeyboardState key;
         
         public Gargamel(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY, id)
         {
@@ -65,7 +65,7 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-
+            
             float plTopSide = Character.DrawCoordPlayer.Y;
             float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
             float plLeftSide = Character.DrawCoordPlayer.X;
