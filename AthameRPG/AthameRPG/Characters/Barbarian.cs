@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace AthameRPG.Characters
 {
+    using Atack;
     using AthameRPG.Controls;
 
     public class Barbarian : Character
@@ -22,6 +23,10 @@ namespace AthameRPG.Characters
         private float playerCenterCoordX;
         private float playerCenterCoordY;
         public Vector2 abstractPlayerPositon;
+
+        private const int DefaultBarbarianAttackPoints = 120;
+        private const int DefaultBarbarianHealthPoints = 180;
+        private const int DefaultBarbarianDefencePoints = 70;
 
         // Animation values // Pixels on .png where starts current row
         private const int cropStay = 360;
@@ -45,11 +50,14 @@ namespace AthameRPG.Characters
         //private SpriteFont font;
 
 
-        public Barbarian(float startPositionX, float startPositionY) : base(startPositionX, startPositionY)
+        public Barbarian(float startPositionX, float startPositionY) 
+            : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints, 
+                  DefaultBarbarianDefencePoints)
         {
             //this.CropCurrentFrame = cropCurrentFrame;
+            //this.AtackHandler =new AtackBarbarian();
         }
-
+       
         public float PlayerCenterCoordX
         {
             get
@@ -201,7 +209,8 @@ namespace AthameRPG.Characters
             //spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
             //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);
-        }
+        }    
+
         
     }
 

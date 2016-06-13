@@ -133,6 +133,7 @@ namespace AthameRPG.GameEngine
             foreach (var gargamelcho in enemiesList)
             {
                 gargamelcho.Update(gameTime);
+                gargamelcho.LoadContent();
             }
         }
         public void Draw(SpriteBatch spritebatch)

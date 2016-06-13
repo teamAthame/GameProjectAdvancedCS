@@ -13,9 +13,13 @@ namespace AthameRPG.Characters
 {
     public class Gargamel : Enemy
     {
-        
-        private const float moveSpeedEnemy = 1f;
-        
+
+        private float moveSpeedEnemy = 1f;
+
+        private const int DefaultWariorAttackPoints = 80;
+        private const int DefaultWariorHealthPoints = 80;
+        private const int DefaultWariorDefence = 40;
+
         // Animation values
         private const int cropStay = 0;
         private const int north = 440;
@@ -30,20 +34,23 @@ namespace AthameRPG.Characters
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
         private Vector2 drawCoordEnemy;
-        
+
 
         // za triene po nqkoe vreme TEST garga collision
         //KeyboardState key;
-        
-        public Gargamel(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY, id)
+
+        public Gargamel(float startPositionX, float startPositionY, int id)
+            : base(startPositionX, startPositionY, id, DefaultWariorAttackPoints, DefaultWariorHealthPoints, DefaultWariorDefence)
         {
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
             direction = "NW";
 
+
+
             //-------------------------------------------------------------------------------------------------------------
             //coordGargamel = new Vector2(startPositionX , startPositionY);
         }
-        
+
         public Vector2 DetectionEnemyCoord
         {
             get
@@ -51,7 +58,7 @@ namespace AthameRPG.Characters
                 return new Vector2(coordGargamel.X + CharacterManager.barbarian.CoordP().X, coordGargamel.Y + CharacterManager.barbarian.CoordP().Y);
             }
         }
-        
+
         public override void LoadContent()
         {
 
@@ -59,14 +66,13 @@ namespace AthameRPG.Characters
 
         public override void UnloadContent()
         {
-            
+
         }
 
         public override void Update(GameTime gameTime)
         {
             //lastAbstractCoord = drawCoordEnemy;
             lastAbstractCoord = coordGargamel;
-
             float plTopSide = Character.DrawCoordPlayer.Y;
             float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
             float plLeftSide = Character.DrawCoordPlayer.X;
@@ -75,7 +81,7 @@ namespace AthameRPG.Characters
             bool isPlayerDown = CollisionDetection.IsNear(plTopSide, drawCoordEnemy.Y + cropHeight);
             bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, drawCoordEnemy.Y);
             bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, drawCoordEnemy.X);
-            bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);
+            bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);      
 
             if (isPlayerUp && (isPlayerRight || isPlayerLeft))
             {
@@ -99,7 +105,7 @@ namespace AthameRPG.Characters
 
             drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
             drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
-            
+
             /// Re-Write new position on the screen of enemy  
             CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
 
@@ -124,15 +130,29 @@ namespace AthameRPG.Characters
                 }
             }
 
+            var mouseState = Mouse.GetState();
+            var mousePosition = coordGargamel;
+            Rectangle area = new Rectangle(new Point((int)coordGargamel.X, (int)drawCoordEnemy.X), new Point((int)coordGargamel.Y, (int)drawCoordEnemy.Y));
+
+            // Check if the mouse position is inside the rectangle
+
+            if (area.Contains(mousePosition))
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    moveSpeedEnemy = 0f;
+                    //isAlive = false;
+                 
+                }
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
+
 
             spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
         }
-
-        
     }
 }

@@ -23,7 +23,8 @@ namespace AthameRPG.Characters
 
         protected static Vector2 drawCoordPlayer;
 
-        public Character(float startPositionX, float startPositionY) : base(startPositionX, startPositionY )
+        public Character(float startPositionX, float startPositionY, int atack, int health, int defence) 
+            : base(startPositionX, startPositionY, atack, health, defence)
         {
             drawCoordPlayer = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
         }
@@ -56,7 +57,7 @@ namespace AthameRPG.Characters
             }
         }
 
-        
+
 
     }
 }

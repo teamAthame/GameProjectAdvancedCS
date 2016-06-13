@@ -21,7 +21,7 @@ namespace AthameRPG.Characters
 
         private float startPositionX, startPositionY;
 
-        public Unit(float startPositionX, float startPositionY)
+        public Unit(float startPositionX, float startPositionY, int atack, int health, int defence)
         {
             this.StartPositionX = startPositionX;
             this.StartPositionY = startPositionY;
@@ -30,7 +30,14 @@ namespace AthameRPG.Characters
             cropFrame = 0;
             returnedValue = new AnimationReturnedValue();
             this.CropCurrentFrame = cropCurrentFrame;
+            this.AtackPoints = atack;
+            this.HealthPoints = health;
+            this.DefencePoints = defence;
         }
+
+        public int AtackPoints { get; set; }
+        public int DefencePoints { get; set; }
+        public int HealthPoints { get; set; }
 
         public Rectangle CropCurrentFrame
         {

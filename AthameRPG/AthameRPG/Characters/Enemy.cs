@@ -20,7 +20,8 @@ namespace AthameRPG.Characters
             get { return 100f; }
         }
 
-        public Enemy(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY)
+        public Enemy(float startPositionX, float startPositionY, int id, int atack, int health, int defence)
+            : base(startPositionX, startPositionY, atack, health, defence)
         {
             this.ID = id;
         }

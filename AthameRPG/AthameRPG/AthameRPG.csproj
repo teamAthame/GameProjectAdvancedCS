@@ -38,10 +38,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Atack\Atack.cs" />
+    <Compile Include="Atack\AtackBarbarian.cs" />
+    <Compile Include="Atack\CombatHandler.cs" />
     <Compile Include="Characters\Barbarian.cs" />
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Contracts\IAtack.cs" />
+    <Compile Include="Contracts\ICombatHandler.cs" />
     <Compile Include="Controls\GamepadExtended.cs" />
     <Compile Include="Controls\InputDeviceConstants.cs" />
     <Compile Include="Controls\InputDeviceExtended.cs" />
