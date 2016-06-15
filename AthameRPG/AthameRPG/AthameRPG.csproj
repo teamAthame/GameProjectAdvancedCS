@@ -86,6 +86,7 @@
     <Content Include="Content\Image\athame3.jpg" />
     <Content Include="Content\Image\AthameSplashScreen.jpg" />
     <Content Include="Content\Image\Image.jpg" />
+    <Content Include="Content\MapImages\terrain.png" />
     <Content Include="Content\Maps\01-enemy.txt" />
     <Content Include="Content\Maps\01-level.txt" />
     <Content Include="Content\Maps\mapList.txt" />

@@ -130,21 +130,26 @@ namespace AthameRPG.Characters
                 }
             }
 
-            var mouseState = Mouse.GetState();
-            var mousePosition = coordGargamel;
-            Rectangle area = new Rectangle(new Point((int)coordGargamel.X, (int)drawCoordEnemy.X), new Point((int)coordGargamel.Y, (int)drawCoordEnemy.Y));
 
             // Check if the mouse position is inside the rectangle
-
-            if (area.Contains(mousePosition))
-            {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    moveSpeedEnemy = 0f;
-                    //isAlive = false;
+            // fix it !
+            
+            //var mouseState = Mouse.GetState();
+            //var mousePosition = coordGargamel;
+            //Rectangle area = new Rectangle(new Point((int)coordGargamel.X, (int)drawCoordEnemy.X), new Point((int)coordGargamel.Y, (int)drawCoordEnemy.Y));
+            
+            /// fix the problem !!!
+            
+            
+            //if (area.Contains(mousePosition))
+            //{
+            //    if (mouseState.LeftButton == ButtonState.Pressed)
+            //    {
+            //        moveSpeedEnemy = 0f;
+            //        //isAlive = false;
                  
-                }
-            }
+            //    }
+            //}
 
         }
 

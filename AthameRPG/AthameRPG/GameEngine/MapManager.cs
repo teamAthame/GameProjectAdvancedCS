@@ -78,7 +78,7 @@ namespace AthameRPG.GameEngine
         public void LoadContent(ContentManager ContentManager)
         {
             this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
-            terrain = ContentManager.Load<Texture2D>("../Content/Fonts/terrain");
+            terrain = ContentManager.Load<Texture2D>("../Content/MapImages/terrain");
             currentMap.LoadContent();
             charManager.LoadContent(ContentManager);
 
