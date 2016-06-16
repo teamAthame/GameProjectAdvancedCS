@@ -12,8 +12,7 @@ namespace AthameRPG.GameEngine
         public static AnimationReturnedValue SpriteSheetAnimation(Vector2 lastAbstractCoord, Vector2 abstractPlayerPositon,string direction, int cropFrame, int cropWidth, int cropHeight, int cropStay, int north, int south, int east, int west, int northEast, int northWest, int southEast, int southWest)
         {
             Rectangle CropCurrentFramePlayer = new Rectangle();
-            //string direction = string.Empty;
-
+            
             if (lastAbstractCoord.X != abstractPlayerPositon.X && lastAbstractCoord.Y != abstractPlayerPositon.Y)
             {
                 if (lastAbstractCoord.X < abstractPlayerPositon.X && lastAbstractCoord.Y < abstractPlayerPositon.Y)

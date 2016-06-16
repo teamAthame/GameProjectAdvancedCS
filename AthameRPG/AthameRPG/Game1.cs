@@ -13,7 +13,7 @@ namespace AthameRPG
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //Camera camera = new Camera();
+
         public static bool exitGame;
 
         public Game1()
@@ -31,6 +31,7 @@ namespace AthameRPG
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
             graphics.PreferredBackBufferWidth = (int)ScreenManager.Instance.Dimension.X;
             graphics.PreferredBackBufferHeight = (int)ScreenManager.Instance.Dimension.Y;
             graphics.ApplyChanges();
@@ -51,8 +52,6 @@ namespace AthameRPG
             // TODO: use this.Content to load your game content here
 
             ScreenManager.Instance.LoadContent(Content);
-            //MapManager.Instance.LoadContent(Content);//
-            CharacterManager.Instance.LoadContent(Content);
         }
 
         /// <summary>
@@ -81,9 +80,6 @@ namespace AthameRPG
             // TODO: Add your update logic here
             ScreenManager.Instance.Update(gameTime);
             
-            //MapManager.Instance.Update(gameTime);
-            //CharacterManager.Instance.Update(gameTime);
-            
             if (exitGame)
             {
                 Exit();
@@ -102,8 +98,8 @@ namespace AthameRPG
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
             ScreenManager.Instance.Draw(spriteBatch);
-            //ScreenManager.Instance.Draw(spriteBatch);
 
 
             spriteBatch.End();

@@ -35,20 +35,13 @@ namespace AthameRPG.Characters
         private Vector2 coordGargamel;
         private Vector2 drawCoordEnemy;
 
-
-        // za triene po nqkoe vreme TEST garga collision
-        //KeyboardState key;
-
+        
         public Gargamel(float startPositionX, float startPositionY, int id)
             : base(startPositionX, startPositionY, id, DefaultWariorAttackPoints, DefaultWariorHealthPoints, DefaultWariorDefence)
         {
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
             direction = "NW";
-
-
-
-            //-------------------------------------------------------------------------------------------------------------
-            //coordGargamel = new Vector2(startPositionX , startPositionY);
+            
         }
 
         public Vector2 DetectionEnemyCoord

@@ -13,18 +13,18 @@ namespace AthameRPG.GameEngine.Screens
     {
         private const float HALF_SCREEN_WIDTH = ScreenManager.SCREEN_WIDTH / 2;
         private const float HALF_SCREEN_HEIGHT = ScreenManager.SCREEN_HEIGHT / 2;
-        private const string INTRO_IMAGE_PATH =  @"../Content/Image/AthameSplashScreen";
 
         private Color colorIntro = Color.White;
-        private Texture2D imageIntro;
-        private Vector2 positionIntro;
+
+        private const string INTRO_IMAGE_PATH =  @"../Content/Image/AthameSplashScreen";
+        private Texture2D imageIntro; /// where image is keep
+        private Vector2 positionIntro; /// draw coordinates of image
+
         private MouseState mouse;
 
         public IntroScreen()
         {
-            imageIntro = imageIntro;
-            positionIntro = positionIntro;
-
+            
         }
 
         public Vector2 PositionIntro
