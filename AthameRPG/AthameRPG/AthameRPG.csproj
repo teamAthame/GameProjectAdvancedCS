@@ -37,6 +37,9 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>AthameRPG.StartUp</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Characters\Barbarian.cs" />
     <Compile Include="Characters\Enemy.cs" />
@@ -61,7 +64,9 @@
     <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
-    <Compile Include="StartUp.cs" />
+    <Compile Include="StartUp.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
