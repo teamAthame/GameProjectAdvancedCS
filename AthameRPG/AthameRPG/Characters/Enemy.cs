@@ -9,16 +9,19 @@ namespace AthameRPG.Characters
 {
     public abstract class Enemy : Unit
     {
-        //public const int cropWidth = 75;
-        //public const int cropHeight = 75;
-        //public const int cropWidth = 90;
-        //public const int cropHeight = 121;
-        public const int cropWidth = 50;
-        public const int cropHeight = 50;
+        
+        public const int cropWidth = 80;
+        public const int cropHeight = 85;
 
         private int id;//  NUMBER IN THE ENEMY LIST //
 
-        public Enemy(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY)
+        public static float SearchingRadius
+        {
+            get { return 100f; }
+        }
+
+        public Enemy(float startPositionX, float startPositionY, int id, int atack, int health, int defence)
+            : base(startPositionX, startPositionY, atack, health, defence)
         {
             this.ID = id;
         }

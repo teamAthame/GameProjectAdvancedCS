@@ -13,36 +13,35 @@ namespace AthameRPG.Characters
 {
     public class Gargamel : Enemy
     {
-        
-        private const float moveSpeedEnemy = 2f;
-        
+
+        private float moveSpeedEnemy = 1f;
+
+        private const int DefaultWariorAttackPoints = 80;
+        private const int DefaultWariorHealthPoints = 80;
+        private const int DefaultWariorDefence = 40;
+
+        // Animation values
+        private const int cropStay = 0;
+        private const int north = 440;
+        private const int south = 15;
+        private const int east = 660;
+        private const int west = 224;
+        private const int northEast = 550;
+        private const int northWest = 330;
+        private const int southEast = 770;
+        private const int southWest = 122;
+
         private Rectangle cropCurrentFrameGargamel;
         private Vector2 coordGargamel;
         private Vector2 drawCoordEnemy;
-        
 
-        // za triene po nqkoe vreme TEST garga collision
-        KeyboardState key;
         
-        public Gargamel(float startPositionX, float startPositionY, int id) : base(startPositionX, startPositionY, id)
+        public Gargamel(float startPositionX, float startPositionY, int id)
+            : base(startPositionX, startPositionY, id, DefaultWariorAttackPoints, DefaultWariorHealthPoints, DefaultWariorDefence)
         {
-            this.CropCurrentFrameGargamel = cropCurrentFrameGargamel;
             coordGargamel = new Vector2(startPositionX - (cropWidth / 2f), startPositionY - (cropHeight / 2f));
+            direction = "NW";
             
-            //-------------------------------------------------------------------------------------------------------------
-            //coordGargamel = new Vector2(startPositionX , startPositionY);
-        }
-
-        public Rectangle CropCurrentFrameGargamel
-        {
-            get
-            {
-                return this.cropCurrentFrameGargamel;
-            }
-            private set
-            {
-                this.cropCurrentFrameGargamel = new Rectangle(0, 0, cropWidth, cropHeight);
-            }
         }
 
         public Vector2 DetectionEnemyCoord
@@ -52,7 +51,7 @@ namespace AthameRPG.Characters
                 return new Vector2(coordGargamel.X + CharacterManager.barbarian.CoordP().X, coordGargamel.Y + CharacterManager.barbarian.CoordP().Y);
             }
         }
-        
+
         public override void LoadContent()
         {
 
@@ -60,61 +59,98 @@ namespace AthameRPG.Characters
 
         public override void UnloadContent()
         {
-            
+
         }
 
         public override void Update(GameTime gameTime)
         {
+            //lastAbstractCoord = drawCoordEnemy;
+            lastAbstractCoord = coordGargamel;
+            float plTopSide = Character.DrawCoordPlayer.Y;
+            float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+            float plLeftSide = Character.DrawCoordPlayer.X;
+            float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
-            // test
+            bool isPlayerDown = CollisionDetection.IsNear(plTopSide, drawCoordEnemy.Y + cropHeight);
+            bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, drawCoordEnemy.Y);
+            bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, drawCoordEnemy.X);
+            bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);      
 
-            key = Keyboard.GetState();
-
-            if (ID == 0)
+            if (isPlayerUp && (isPlayerRight || isPlayerLeft))
             {
-                if (key.IsKeyDown(Keys.Up))
-                {
-                    coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
+                coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
 
-                if (key.IsKeyDown(Keys.Down))
-                {
-                    coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
+            if (isPlayerDown && (isPlayerRight || isPlayerLeft))
+            {
+                coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
 
-                if (key.IsKeyDown(Keys.Left))
-                {
-                    coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-                }
+            if (isPlayerLeft && (isPlayerUp || isPlayerDown))
+            {
+                coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
 
-                if (key.IsKeyDown(Keys.Right))
+            if (isPlayerRight && (isPlayerUp || isPlayerDown))
+            {
+                coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+            }
+
+            drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
+            drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
+
+            /// Re-Write new position on the screen of enemy  
+            CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
+
+            frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (frameCounter >= switchCounter)
+            {
+                frameCounter = 0;
+
+                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, coordGargamel,
+                    direction, cropFrame, cropWidth, cropHeight, cropStay, south, north, west, east, southWest,
+                    southEast, northWest, northEast);
+
+                cropCurrentFrame = returnedValue.ImageCrop;
+                direction = returnedValue.Direction;
+
+                cropFrame++;
+
+                if (cropFrame == 4)
                 {
-                    coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
+                    cropFrame = 0;
                 }
             }
 
 
-            /// testovo ------------------------------------------------------
-            //if (true)
-            //{
-            //    coordGargamel.X -= GoLeft();
-            //}
-
-            drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
-            drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
+            // Check if the mouse position is inside the rectangle
+            // fix it !
             
-            /// Re-Write new position on the screen of enemy  
-            CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
+            //var mouseState = Mouse.GetState();
+            //var mousePosition = coordGargamel;
+            //Rectangle area = new Rectangle(new Point((int)coordGargamel.X, (int)drawCoordEnemy.X), new Point((int)coordGargamel.Y, (int)drawCoordEnemy.Y));
+            
+            /// fix the problem !!!
+            
+            
+            //if (area.Contains(mousePosition))
+            //{
+            //    if (mouseState.LeftButton == ButtonState.Pressed)
+            //    {
+            //        moveSpeedEnemy = 0f;
+            //        //isAlive = false;
+                 
+            //    }
+            //}
 
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
 
-            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrameGargamel, Color.White);
+
+            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
         }
-
-        
     }
 }

@@ -12,7 +12,7 @@ namespace AthameRPG.GameEngine.Screens
     {
 
         private string newScreen;
-        private SpriteFont spriteFont;
+        //private SpriteFont spriteFont;
         private Vector2 newScreenPosition;
         
         public MapScreen()
@@ -22,6 +22,8 @@ namespace AthameRPG.GameEngine.Screens
             
         }
 
+
+        // this was only for test
         public string NewScreen
         {
             get
@@ -50,9 +52,12 @@ namespace AthameRPG.GameEngine.Screens
         {
             base.LoadContent();
 
-            spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+            // show coord on the screen -- test
+            //spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+
             MapManager.Instance.LoadContent(content);
-            
+            CharacterManager.Instance.LoadContent(content);
+
         }
         public override void UnloadContent()
         {

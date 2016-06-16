@@ -11,6 +11,7 @@ namespace AthameRPG.GameEngine
 {
     public static class CollisionDetection
     {
+        private static int minPixelCollison = 4;
 
         public static float GoUp(Vector2 playerPositon, float moveSpeedPlayer, Vector2 coordPlayer, int cropWidth, int cropHeight)
         {
@@ -47,12 +48,11 @@ namespace AthameRPG.GameEngine
 
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
-
-
-                    float enemyTop = enemy.Y;// + playerPositon.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;// + playerPositon.Y);
-                    float enemyLeft = enemy.X;// + playerPositon.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;// + playerPositon.X;
+                    
+                    float enemyTop = enemy.Y;
+                    float enemyBottom = enemy.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.X;
+                    float enemyRight = enemy.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -566,7 +566,7 @@ namespace AthameRPG.GameEngine
         {
             float result = moveSpeedPlayer;
 
-            if (Math.Abs(pSide - enemySide) <= 2)
+            if (Math.Abs(pSide - enemySide) <= minPixelCollison)
             {
                 if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
                 {
@@ -581,7 +581,15 @@ namespace AthameRPG.GameEngine
             return result;
         }
 
-
+        public static bool IsNear(float playerDrawPosition, float enemyDrawPosition)
+        {
+            if (Math.Abs(playerDrawPosition - enemyDrawPosition) < Enemy.SearchingRadius)
+            {
+                return true;
+            }
+            
+            return false;
+        }
 
         /// <summary>
         /// //////////////////////////////   NEEEEEEEEEEEEEEEEEE TRIIIIIIIIIIIIIIIIIIIII -----------------------------

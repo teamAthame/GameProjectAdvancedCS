@@ -41,10 +41,15 @@
     <StartupObject>AthameRPG.StartUp</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Atack\Atack.cs" />
+    <Compile Include="Atack\AtackBarbarian.cs" />
+    <Compile Include="Atack\CombatHandler.cs" />
     <Compile Include="Characters\Barbarian.cs" />
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Contracts\IAtack.cs" />
+    <Compile Include="Contracts\ICombatHandler.cs" />
     <Compile Include="Controls\GamepadExtended.cs" />
     <Compile Include="Controls\InputDeviceConstants.cs" />
     <Compile Include="Controls\InputDeviceExtended.cs" />
@@ -52,6 +57,8 @@
     <Compile Include="Controls\KeyboardExtended.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseExtended.cs" />
+    <Compile Include="GameEngine\Animation.cs" />
+    <Compile Include="GameEngine\AnimationReturnedValue.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />
@@ -78,11 +85,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Character\GoblinWalk.png" />
+    <Content Include="Content\Character\HexenFighter.png" />
     <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />
     <Content Include="Content\Image\athame3.jpg" />
     <Content Include="Content\Image\AthameSplashScreen.jpg" />
     <Content Include="Content\Image\Image.jpg" />
+    <Content Include="Content\MapImages\terrain.png" />
     <Content Include="Content\Maps\01-enemy.txt" />
     <Content Include="Content\Maps\01-level.txt" />
     <Content Include="Content\Maps\mapList.txt" />
