@@ -592,7 +592,7 @@ namespace AthameRPG.GameEngine
         }
 
         /// <summary>
-        /// //////////////////////////////   NEEEEEEEEEEEEEEEEEE TRIIIIIIIIIIIIIIIIIIIII -----------------------------
+        /// ---------------------------------------   NE TRII -----------------------------
         /// </summary>
         /// <param name="spriteBatch"></param>
 
