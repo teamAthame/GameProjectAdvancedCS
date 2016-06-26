@@ -8,5 +8,11 @@ namespace AthameRPG.Characters.WarUnits
 {
     public class Slaba : WarUnit
     {
+        private const int DefaultStrengthLevel = 2;
+
+        public Slaba()
+        {
+            this.strengthLevel = DefaultStrengthLevel;
+        }
     }
 }

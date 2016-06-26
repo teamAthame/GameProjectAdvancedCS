@@ -8,5 +8,11 @@ namespace AthameRPG.Characters.WarUnits
 {
     public abstract class WarUnit
     {
+        protected int strengthLevel;
+
+        public int GetStrengthLevel
+        {
+            get {return this.strengthLevel; }
+        }
     }
 }

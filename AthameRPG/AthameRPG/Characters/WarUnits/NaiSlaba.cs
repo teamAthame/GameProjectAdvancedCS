@@ -8,5 +8,11 @@ namespace AthameRPG.Characters.WarUnits
 {
     public class NaiSlaba : WarUnit
     {
+        private const int DefaultStrengthLevel = 1;
+
+        public NaiSlaba()
+        {
+            this.strengthLevel = DefaultStrengthLevel;
+        }
     }
 }

@@ -8,5 +8,11 @@ namespace AthameRPG.Characters.WarUnits
 {
     public class Sredna : WarUnit
     {
+        private const int DefaultStrengthLevel = 4;
+
+        public Sredna()
+        {
+            this.strengthLevel = DefaultStrengthLevel;
+        }
     }
 }

@@ -124,7 +124,7 @@ namespace AthameRPG.GameEngine.Screens
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
+            
             // Center the 'IMAGE','New Game' and 'EXIT' in the middle of the screen
             //PositioningInTheMiddleOfTheScreen();
             spriteBatch.Draw(image, ImagePosition, Color.Gold);
