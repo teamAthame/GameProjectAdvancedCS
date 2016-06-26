@@ -16,13 +16,12 @@ namespace AthameRPG.Characters
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
 
-        protected const int cropWidth = 70;
-
-        protected const int cropHeight = 80;
+        protected static int cropWidth;
+        protected static int cropHeight;
 
         protected float playerCenterCoordX;
         protected float playerCenterCoordY;
-        protected const float moveSpeedPlayer = 3f;
+        protected float moveSpeedPlayer;
         protected int cropStay;
         protected int north;
         protected int south;

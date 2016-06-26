@@ -19,7 +19,7 @@ namespace AthameRPG.Characters
 
         internal bool isAlive;
 
-        private float startPositionX, startPositionY;
+        protected float startPositionX, startPositionY;
 
         public Unit(float startPositionX, float startPositionY, int atack, int health, int defence)
         {
@@ -75,7 +75,7 @@ namespace AthameRPG.Characters
             {
                 return this.startPositionX;
             }
-            private set
+            protected set
             {
                 this.startPositionX = value;
             }
@@ -87,7 +87,7 @@ namespace AthameRPG.Characters
             {
                 return this.startPositionY;
             }
-            private set
+            protected set
             {
                 this.startPositionY = value;
             }

@@ -22,7 +22,19 @@ namespace AthameRPG.Characters
         private const int DefaultBarbarianAttackPoints = 120;
         private const int DefaultBarbarianHealthPoints = 180;
         private const int DefaultBarbarianDefencePoints = 70;
-        
+        private const int DefaultBarbarianAnimationCropCropStay = 360;
+        private const int DefaultBarbarianAnimationCropNorth = 395;
+        private const int DefaultBarbarianAnimationCropSouth = 20;
+        private const int DefaultBarbarianAnimationCropEast = 580;
+        private const int DefaultBarbarianAnimationCropWest = 210;
+        private const int DefaultBarbarianAnimationCropNorthEast = 485;
+        private const int DefaultBarbarianAnimationCropNorthWest = 300;
+        private const int DefaultBarbarianAnimationCropSouthEast = 675;
+        private const int DefaultBarbarianAnimationCropSouthWest = 120;
+        private const int DefaultBarbarianCropWidth = 70;
+        private const int DeafaultBarbarianCropHeight = 80;
+        private const float DefaultBarbarianMoveSpeed = 3f;
+
         //private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
         
@@ -32,15 +44,18 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints,
                 DefaultBarbarianDefencePoints)
         {
-            this.cropStay = 360;
-            this.north = 395;
-            this.south = 20;
-            this.east = 580;
-            this.west = 210;
-            this.northEast = 485;
-            this.northWest = 300;
-            this.southEast = 675;
-            this.southWest = 120;
+            this.moveSpeedPlayer = DefaultBarbarianMoveSpeed;
+            cropWidth = DefaultBarbarianCropWidth;
+            cropHeight = DeafaultBarbarianCropHeight;
+            this.cropStay = DefaultBarbarianAnimationCropCropStay;
+            this.north = DefaultBarbarianAnimationCropNorth;
+            this.south = DefaultBarbarianAnimationCropSouth;
+            this.east = DefaultBarbarianAnimationCropEast;
+            this.west = DefaultBarbarianAnimationCropWest;
+            this.northEast = DefaultBarbarianAnimationCropNorthEast;
+            this.northWest = DefaultBarbarianAnimationCropNorthWest;
+            this.southEast = DefaultBarbarianAnimationCropSouthEast;
+            this.southWest = DefaultBarbarianAnimationCropSouthWest;
             
             //this.AtackHandler =new AtackBarbarian();
         }
