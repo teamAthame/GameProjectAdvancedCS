@@ -14,6 +14,7 @@ namespace AthameRPG.Objects.Castles
 {
     public abstract class MainCastle
     {
+        protected bool mouseIsOverReturnButton;
         protected static Texture2D imageOfCastleOutside;
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
         protected string insideFirstCastlePath;
@@ -23,7 +24,6 @@ namespace AthameRPG.Objects.Castles
         protected int cropCurrentCastleImageWidth;
         protected int cropCurrentCastleImageHeight;
         protected static Texture2D insideCastle;
-        protected MouseState mouse;
 
         protected Dictionary<WarUnit, decimal> gadini;
         
@@ -58,7 +58,6 @@ namespace AthameRPG.Objects.Castles
                 this.drawCoordinates.X = this.coordinatesOnMap.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordinates.Y = this.coordinatesOnMap.Y + CharacterManager.barbarian.CoordP().Y;
 
-                this.mouse = Mouse.GetState();
                 MouseExtended.Current.GetState(gameTime);
 
                 bool isNearBottomSideOfCastleByX = (this.drawCoordinates.X + (this.cropCurrentCastleImageWidth/2)) > 375 &&
@@ -80,15 +79,30 @@ namespace AthameRPG.Objects.Castles
                     if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
                     {
                         Character.GetIsInCastle = true;
-
                     }
+
                 }
+                
                 
 
             }
             else if (Character.GetIsInCastle)
             {
+                MouseExtended.Current.GetState(gameTime);
+                if (MouseExtended.Current.CurrentState.Position.X > 750 && MouseExtended.Current.CurrentState.Position.X < 800 && MouseExtended.Current.CurrentState.Position.Y > 550 && MouseExtended.Current.CurrentState.Position.Y < 600)
+                {
+                    this.mouseIsOverReturnButton = true;
 
+                    if (MouseExtended.Current.WasSingleClick(MouseButton.Left))
+                    {
+                        Character.GetIsInCastle = false;
+
+                    }
+                }
+                else
+                {
+                    this.mouseIsOverReturnButton = false;
+                }
             }
             else if (Character.GetIsInBattle)
             {
@@ -105,6 +119,16 @@ namespace AthameRPG.Objects.Castles
             else if (Character.GetIsInCastle)
             {
                 spriteBatch.Draw(insideCastle, new Vector2(0,0), Color.White);
+
+                if (this.mouseIsOverReturnButton)
+                {
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50), Color.Red);
+                }
+                else
+                {
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50), Color.White);
+                }
+                
             }
             else if (Character.GetIsInBattle)
             {
