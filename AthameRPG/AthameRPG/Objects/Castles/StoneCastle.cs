@@ -13,7 +13,7 @@ namespace AthameRPG.Objects.Castles
 {
     public class StoneCastle : MainCastle
     {
-        // gadinite koito shte se prodavat v zamaka
+        // gadinite koito shte se prodavat v zamaka .... добавете вашите !
         private NaiSilna naiSilna;
         private NaiSlaba naiSlaba;
         private Silna silna;

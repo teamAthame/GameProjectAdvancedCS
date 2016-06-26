@@ -45,7 +45,7 @@ namespace AthameRPG.Characters
             {
                 return this.cropCurrentFrame;
             }
-            private set
+            protected set
             {
                 //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
                 this.cropCurrentFrame = value;

@@ -22,13 +22,13 @@ namespace AthameRPG.GameEngine
         
         
         private Texture2D gargamelImage;
-        public static Barbarian barbarian;
+        public static Character barbarian;
 
 
         private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
         
         
-        public static List<Gargamel> enemiesList;
+        public static List<Enemy> enemiesList;
 
         protected ContentManager content;
 
@@ -36,7 +36,7 @@ namespace AthameRPG.GameEngine
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
             enemiesPositionList = new List<Vector2>();
-            enemiesList = new List<Gargamel>();
+            enemiesList = new List<Enemy>();
         }
         
         public static List<Vector2> EnemiesPositionList
