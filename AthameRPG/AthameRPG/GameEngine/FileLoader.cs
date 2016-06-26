@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using AthameRPG.Objects.Castles;
 using Microsoft.Xna.Framework;
 
 namespace AthameRPG.GameEngine
@@ -78,7 +79,7 @@ namespace AthameRPG.GameEngine
             return currentMap;
         }
 
-        public static void ReadEnemyPosition(string path) 
+        public static void ReadEnemyAndBuildingPositions(string path) 
         {
             List<List<int>> currentEnemyMap = MapReader(path);
 
@@ -92,12 +93,27 @@ namespace AthameRPG.GameEngine
                     {
                         case 9:
                             CharacterManager.AddEnemies(new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
-
-                            //// test trii me posleee 
-                            //CharacterManager.AddEnemies(new Vector2((float)(j * 50), (float)(i * 50)));
+                        break;
+                        case 10:  // създаваме замъците на картата и включваме техните крайни точки/размери/блокчета в листа за колизиите
+                            BuildingManager.AddCastleFromTxtMapToList(new StoneCastle(new Vector2((float)(j * 50), (float)(i * 50))));
+                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
                             break;
 
-                        default:
+                        // only outside borders of Castles
+                        case 11:
+                        case 12:
+                        case 13:
+                        case 14:
+                        case 15:
+                        case 19:
+                        case 20:
+                        case 24:
+                        case 25:
+                        case 26:
+                        case 27:
+                        case 28:
+                        case 29:
+                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
                             break;
                     }
                 }

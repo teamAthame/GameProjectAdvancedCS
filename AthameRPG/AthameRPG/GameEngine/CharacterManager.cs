@@ -15,7 +15,7 @@ namespace AthameRPG.GameEngine
     {
         private const float PLAYER_START_POSITION_X = 400;
         private const float PLAYER_START_POSITION_Y = 300;
-        private const string PATH_ENEMY_POSITION_ON_MAP = @"../../../../Content/Maps/01-enemy.txt";
+        private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
         private static List<Vector2> enemiesPositionList;
@@ -102,7 +102,7 @@ namespace AthameRPG.GameEngine
             // this will be fix ... will be like barb... every char will give his image
             gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
 
-            FileLoader.ReadEnemyPosition(PATH_ENEMY_POSITION_ON_MAP);
+            FileLoader.ReadEnemyAndBuildingPositions(PathEnemyAndBuildingPositionOnMap);
 
             int id = 0;
            

@@ -12,20 +12,23 @@ namespace AthameRPG.GameEngine
 {
     public class MapManager
     {
-        private const string MAP_LIST_PATH = @"../../../../Content/Maps/mapList.txt";
+        private const string Map_List_Path = @"../../../../Content/Maps/mapList.txt";
+        private const string Terrain_Path = @"../Content/MapImages/terrain";
         private Texture2D terrain;
         private int mapIndex;
         private List<string> mapListPath;
         private static MapManager instance;
         private Map currentMap;
         private CharacterManager charManager;
+        private BuildingManager buildingManager;
 
         public MapManager()
         {
             this.MapIndex = 0; /// TODO 
             this.MapListPath = new List<string>();
-            currentMap = new Map(MapListPath[MapIndex]);
-            charManager = new CharacterManager();
+            this.currentMap = new Map(MapListPath[MapIndex]);
+            this.charManager = new CharacterManager();
+            this.buildingManager = new BuildingManager();
         }
 
 
@@ -39,6 +42,12 @@ namespace AthameRPG.GameEngine
                 }
                 return instance;
             }
+        }
+
+        public Map CurrentMap
+        {
+            get { return this.currentMap; }
+            set { this.currentMap = value; }
         }
 
         public Texture2D Terrain
@@ -69,7 +78,7 @@ namespace AthameRPG.GameEngine
             }
             set
             {
-                this.mapListPath = FileLoader.PathsReader(MAP_LIST_PATH);
+                this.mapListPath = FileLoader.PathsReader(Map_List_Path);
             }
         }
 
@@ -78,9 +87,10 @@ namespace AthameRPG.GameEngine
         public void LoadContent(ContentManager ContentManager)
         {
             this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
-            terrain = ContentManager.Load<Texture2D>("../Content/MapImages/terrain");
+            terrain = ContentManager.Load<Texture2D>(Terrain_Path);
             currentMap.LoadContent();
             charManager.LoadContent(ContentManager);
+            buildingManager.LoadContent(ContentManager);
 
         }
 
@@ -93,13 +103,14 @@ namespace AthameRPG.GameEngine
         {
             currentMap.Update(gameTime);
             charManager.Update(gameTime);
-
+            buildingManager.Update(gameTime);
 
         }
 
         public void Draw(SpriteBatch spriteBantch)
         {
             currentMap.Draw(spriteBantch);
+            buildingManager.Draw(spriteBantch);
             charManager.Draw(spriteBantch);
         }
 

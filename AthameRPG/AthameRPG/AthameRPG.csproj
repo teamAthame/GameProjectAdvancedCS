@@ -45,6 +45,14 @@
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Characters\WarUnits\NaiSilna.cs" />
+    <Compile Include="Characters\WarUnits\NaiSlaba.cs" />
+    <Compile Include="Characters\WarUnits\Silna.cs" />
+    <Compile Include="Characters\WarUnits\Slaba.cs" />
+    <Compile Include="Characters\WarUnits\Sredna.cs" />
+    <Compile Include="Characters\WarUnits\SrednoSilna.cs" />
+    <Compile Include="Characters\WarUnits\SrednoSlaba.cs" />
+    <Compile Include="Characters\WarUnits\WarUnit.cs" />
     <Compile Include="Contracts\IAtack.cs" />
     <Compile Include="Contracts\ICombatHandler.cs" />
     <Compile Include="Controls\GamepadExtended.cs" />
@@ -56,6 +64,7 @@
     <Compile Include="Controls\MouseExtended.cs" />
     <Compile Include="GameEngine\Animation.cs" />
     <Compile Include="GameEngine\AnimationReturnedValue.cs" />
+    <Compile Include="GameEngine\BuildingManager.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Game1.cs" />
@@ -68,6 +77,8 @@
     <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
+    <Compile Include="Objects\Castles\MainCastle.cs" />
+    <Compile Include="Objects\Castles\StoneCastle.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,6 +102,7 @@
     <Content Include="Content\Maps\01-level.txt" />
     <Content Include="Content\Maps\mapList.txt" />
     <Content Include="Content\Maps\terrain.png" />
+    <Content Include="Content\Obstacles\castles.png" />
     <Content Include="Content\Resource\athame3.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
@@ -98,6 +110,11 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <None Include="ClassDiagram4.cd" />
+    <None Include="ClassDiagram5.cd" />
     <None Include="Content\Fonts\Arial.spritefont" />
     <None Include="Content\Fonts\ArialBig.spritefont" />
     <None Include="Content\Resource\Arial.spritefont" />

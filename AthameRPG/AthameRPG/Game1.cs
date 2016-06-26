@@ -100,8 +100,7 @@ namespace AthameRPG
             spriteBatch.Begin();
 
             ScreenManager.Instance.Draw(spriteBatch);
-
-
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

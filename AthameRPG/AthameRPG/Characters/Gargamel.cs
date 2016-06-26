@@ -148,8 +148,7 @@ namespace AthameRPG.Characters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-
+            
             spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
         }
     }
