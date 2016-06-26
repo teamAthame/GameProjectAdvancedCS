@@ -128,21 +128,46 @@ namespace AthameRPG.GameEngine
 
         public void Update(GameTime gameTime)
         {
-            barbarian.Update(gameTime);
-
-            foreach (var gargamelcho in enemiesList)
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                gargamelcho.Update(gameTime);
+                barbarian.Update(gameTime);
+
+                foreach (var gargamelcho in enemiesList)
+                {
+                    gargamelcho.Update(gameTime);
+                }
             }
+            else if (Character.GetIsInCastle)
+            {
+
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
+
+            
         }
         public void Draw(SpriteBatch spritebatch)
         {
-            barbarian.Draw(spritebatch);
-
-            foreach (var gargamelcho in enemiesList)
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                gargamelcho.Draw(spritebatch);
+                barbarian.Draw(spritebatch);
+
+                foreach (var gargamelcho in enemiesList)
+                {
+                    gargamelcho.Draw(spritebatch);
+                }
             }
+            else if (Character.GetIsInCastle)
+            {
+                
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
+            
         }
     }
 }

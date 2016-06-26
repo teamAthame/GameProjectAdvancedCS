@@ -51,6 +51,7 @@ namespace AthameRPG.GameEngine
 
         public static void AddCastleFromTxtMapToList(MainCastle castle)
         {
+            listOfCastlesOnMap.Clear();
             listOfCastlesOnMap.Add(castle);
         }
     }

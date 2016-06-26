@@ -236,10 +236,12 @@ namespace AthameRPG.Characters
         public static bool GetIsInCastle
         {
             get { return isInCastle; }
+            set { isInCastle = value; }
         }
         public static bool GetIsInBattle
         {
             get { return isInBattle; }
+            set { isInBattle = value; }
         }
     }
 }
