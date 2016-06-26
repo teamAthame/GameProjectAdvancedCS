@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AthameRPG.Characters;
 using AthameRPG.Characters.WarUnits;
+using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,12 +46,35 @@ namespace AthameRPG.Objects.Castles
 
         public virtual void Update(GameTime gameTime)
         {
-            
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                this.drawCoordinates.X = this.coordinatesOnMap.X + CharacterManager.barbarian.CoordP().X;
+                this.drawCoordinates.Y = this.coordinatesOnMap.Y + CharacterManager.barbarian.CoordP().Y;
+            }
+            else if (Character.GetIsInCastle)
+            {
+
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                spriteBatch.Draw(imageOfCastleOutside, this.drawCoordinates, this.cropCastle, Color.White);
+            }
+            else if (Character.GetIsInCastle)
+            {
+
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
         }
         
 

@@ -64,63 +64,78 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            //lastAbstractCoord = drawCoordEnemy;
-            lastAbstractCoord = coordGargamel;
-            float plTopSide = Character.DrawCoordPlayer.Y;
-            float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
-            float plLeftSide = Character.DrawCoordPlayer.X;
-            float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
-
-            bool isPlayerDown = CollisionDetection.IsNear(plTopSide, drawCoordEnemy.Y + cropHeight);
-            bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, drawCoordEnemy.Y);
-            bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, drawCoordEnemy.X);
-            bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);      
-
-            if (isPlayerUp && (isPlayerRight || isPlayerLeft))
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-            }
+                lastAbstractCoord = coordGargamel;
+                float plTopSide = Character.DrawCoordPlayer.Y;
+                float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
+                float plLeftSide = Character.DrawCoordPlayer.X;
+                float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
-            if (isPlayerDown && (isPlayerRight || isPlayerLeft))
-            {
-                coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-            }
+                bool isPlayerDown = CollisionDetection.IsNear(plTopSide, drawCoordEnemy.Y + cropHeight);
+                bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, drawCoordEnemy.Y);
+                bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, drawCoordEnemy.X);
+                bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, drawCoordEnemy.X + cropWidth);
 
-            if (isPlayerLeft && (isPlayerUp || isPlayerDown))
-            {
-                coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-            }
-
-            if (isPlayerRight && (isPlayerUp || isPlayerDown))
-            {
-                coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight, cropWidth, moveSpeedEnemy);
-            }
-
-            drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
-            drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
-
-            /// Re-Write new position on the screen of enemy  
-            CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
-
-            frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            if (frameCounter >= switchCounter)
-            {
-                frameCounter = 0;
-
-                returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, coordGargamel,
-                    direction, cropFrame, cropWidth, cropHeight, cropStay, south, north, west, east, southWest,
-                    southEast, northWest, northEast);
-
-                cropCurrentFrame = returnedValue.ImageCrop;
-                direction = returnedValue.Direction;
-
-                cropFrame++;
-
-                if (cropFrame == 4)
+                if (isPlayerUp && (isPlayerRight || isPlayerLeft))
                 {
-                    cropFrame = 0;
+                    coordGargamel.Y -= CollisionDetection.EnemyGoUp(DetectionEnemyCoord, drawCoordEnemy, cropHeight,
+                        cropWidth, moveSpeedEnemy);
                 }
+
+                if (isPlayerDown && (isPlayerRight || isPlayerLeft))
+                {
+                    coordGargamel.Y += CollisionDetection.EnemyGoDown(DetectionEnemyCoord, drawCoordEnemy, cropHeight,
+                        cropWidth, moveSpeedEnemy);
+                }
+
+                if (isPlayerLeft && (isPlayerUp || isPlayerDown))
+                {
+                    coordGargamel.X -= CollisionDetection.EnemyGoLeft(DetectionEnemyCoord, drawCoordEnemy, cropHeight,
+                        cropWidth, moveSpeedEnemy);
+                }
+
+                if (isPlayerRight && (isPlayerUp || isPlayerDown))
+                {
+                    coordGargamel.X += CollisionDetection.EnemyGoRight(DetectionEnemyCoord, drawCoordEnemy, cropHeight,
+                        cropWidth, moveSpeedEnemy);
+                }
+
+                drawCoordEnemy.X = coordGargamel.X + CharacterManager.barbarian.CoordP().X;
+                drawCoordEnemy.Y = coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
+
+                /// Re-Write new position on the screen of enemy  
+                CharacterManager.EnemiesPositionList[ID] = drawCoordEnemy;
+
+                frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (frameCounter >= switchCounter)
+                {
+                    frameCounter = 0;
+
+                    returnedValue = Animation.SpriteSheetAnimation(lastAbstractCoord, coordGargamel,
+                        direction, cropFrame, cropWidth, cropHeight, cropStay, south, north, west, east, southWest,
+                        southEast, northWest, northEast);
+
+                    cropCurrentFrame = returnedValue.ImageCrop;
+                    direction = returnedValue.Direction;
+
+                    cropFrame++;
+
+                    if (cropFrame == 4)
+                    {
+                        cropFrame = 0;
+                    }
+                }
+
+            }
+            else if (Character.GetIsInCastle)
+            {
+                
+            }
+            else if (!Character.GetIsInBattle)
+            {
+                
             }
 
 
@@ -148,8 +163,18 @@ namespace AthameRPG.Characters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            
-            spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                spriteBatch.Draw(CharacterManager.Instance.GargamelImage, drawCoordEnemy, CropCurrentFrame, Color.White);
+            }
+            else if (Character.GetIsInCastle)
+            {
+                    
+            }
+            else if (Character.GetIsInBattle)
+            {
+                
+            }
         }
     }
 }

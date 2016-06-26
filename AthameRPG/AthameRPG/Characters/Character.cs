@@ -18,6 +18,8 @@ namespace AthameRPG.Characters
 
         protected static int cropWidth;
         protected static int cropHeight;
+        protected static bool isInCastle;
+        protected static bool isInBattle;
 
         protected float playerCenterCoordX;
         protected float playerCenterCoordY;
@@ -49,51 +51,56 @@ namespace AthameRPG.Characters
         public override void Update(GameTime gameTime)
         {
             this.mouse = Mouse.GetState();
-            this.lastAbstractCoord = this.abstractPlayerPositon;
 
-            //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
-
-            //#1#
-
-            //MovingWithMouse();
-            // mouse.LeftButton == ButtonState.Pressed
-
-            // take position where need to go
-            if (this.mouse.LeftButton == ButtonState.Pressed)
+            if (!isInCastle && !isInBattle)
             {
-                this.lastMouseClickPosition.X = this.mouse.X;
-                this.lastMouseClickPosition.Y = this.mouse.Y;
-            }
+                this.lastAbstractCoord = this.abstractPlayerPositon;
 
-            if (this.lastMouseClickPosition.Y < drawCoordPlayer.Y)
-            {
-                this.abstractPlayerPositon.Y += CollisionDetection.GoUp(this.abstractPlayerPositon, moveSpeedPlayer,
-                    drawCoordPlayer, cropWidth, cropHeight);
-                this.lastMouseClickPosition.Y += moveSpeedPlayer;
-            }
+                //ENEMY CROP PICTURE IS BIGGER THAN ACTUAL WHAT WE SEE !!! 
 
-            if (this.lastMouseClickPosition.Y > drawCoordPlayer.Y + cropHeight)
-            {
-                this.abstractPlayerPositon.Y -= CollisionDetection.GoDown(this.abstractPlayerPositon, moveSpeedPlayer,
-                    drawCoordPlayer, cropWidth, cropHeight);
-                this.lastMouseClickPosition.Y -= moveSpeedPlayer;
-            }
+                //#1#
 
-            if (this.lastMouseClickPosition.X < drawCoordPlayer.X)
-            {
-                this.abstractPlayerPositon.X += CollisionDetection.GoLeft(this.abstractPlayerPositon, moveSpeedPlayer,
-                    drawCoordPlayer, cropWidth, cropHeight);
-                this.lastMouseClickPosition.X += moveSpeedPlayer;
-            }
+                //MovingWithMouse();
+                // mouse.LeftButton == ButtonState.Pressed
 
-            if (this.lastMouseClickPosition.X > drawCoordPlayer.X + cropWidth)
-            {
-                this.abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon, moveSpeedPlayer,
-                    drawCoordPlayer, cropWidth, cropHeight);
-                this.lastMouseClickPosition.X -= moveSpeedPlayer;
-            }
+                // take position where need to go
+                if (this.mouse.LeftButton == ButtonState.Pressed)
+                {
+                    this.lastMouseClickPosition.X = this.mouse.X;
+                    this.lastMouseClickPosition.Y = this.mouse.Y;
+                }
 
-            /*
+                if (this.lastMouseClickPosition.Y < drawCoordPlayer.Y)
+                {
+                    this.abstractPlayerPositon.Y += CollisionDetection.GoUp(this.abstractPlayerPositon, moveSpeedPlayer,
+                        drawCoordPlayer, cropWidth, cropHeight);
+                    this.lastMouseClickPosition.Y += moveSpeedPlayer;
+                }
+
+                if (this.lastMouseClickPosition.Y > drawCoordPlayer.Y + cropHeight)
+                {
+                    this.abstractPlayerPositon.Y -= CollisionDetection.GoDown(this.abstractPlayerPositon,
+                        moveSpeedPlayer,
+                        drawCoordPlayer, cropWidth, cropHeight);
+                    this.lastMouseClickPosition.Y -= moveSpeedPlayer;
+                }
+
+                if (this.lastMouseClickPosition.X < drawCoordPlayer.X)
+                {
+                    this.abstractPlayerPositon.X += CollisionDetection.GoLeft(this.abstractPlayerPositon,
+                        moveSpeedPlayer,
+                        drawCoordPlayer, cropWidth, cropHeight);
+                    this.lastMouseClickPosition.X += moveSpeedPlayer;
+                }
+
+                if (this.lastMouseClickPosition.X > drawCoordPlayer.X + cropWidth)
+                {
+                    this.abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon, moveSpeedPlayer,
+                        drawCoordPlayer, cropWidth, cropHeight);
+                    this.lastMouseClickPosition.X -= moveSpeedPlayer;
+                }
+
+                /*
             //// -------------- Double Click Movement -------------
             //KeyboardExtended.Current.GetState(gameTime);
             //MouseExtended.Current.GetState(gameTime);
@@ -124,35 +131,69 @@ namespace AthameRPG.Characters
             //}
             */
 
-            /// take animation direction 
-            /// mostra --- CropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
-            /// 
+                /// take animation direction 
+                /// mostra --- CropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
+                /// 
 
-            this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+                this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (this.frameCounter >= this.switchCounter)
-            {
-                this.frameCounter = 0;
-
-                this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord, this.abstractPlayerPositon,
-                    this.direction, this.cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west, northEast,
-                    northWest, southEast, southWest);
-
-                this.cropCurrentFrame = this.returnedValue.ImageCrop;
-                this.direction = this.returnedValue.Direction;
-
-                this.cropFrame++;
-
-                if (this.cropFrame == 4)
+                if (this.frameCounter >= this.switchCounter)
                 {
-                    this.cropFrame = 0;
+                    this.frameCounter = 0;
+
+                    this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord,
+                        this.abstractPlayerPositon,
+                        this.direction, this.cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west,
+                        northEast,
+                        northWest, southEast, southWest);
+
+                    this.cropCurrentFrame = this.returnedValue.ImageCrop;
+                    this.direction = this.returnedValue.Direction;
+
+                    this.cropFrame++;
+
+                    if (this.cropFrame == 4)
+                    {
+                        this.cropFrame = 0;
+                    }
                 }
             }
+            else if (isInCastle)
+            {
+
+                // if EXIT is clicked
+                if (true)
+                {
+                    isInCastle = false;
+                }
+            }
+            else if (isInBattle)
+            {
+                // when have a winner .. continue is clicked
+                if (true)
+                {
+                    isInBattle = false;
+                }
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(playerImage, drawCoordPlayer, this.CropCurrentFrame, Color.White);
+            if (!isInBattle && !isInCastle)
+            {
+                spriteBatch.Draw(playerImage, drawCoordPlayer, this.CropCurrentFrame, Color.White);
+            }
+            else if (isInCastle)
+            {
+                
+            }
+            else if (isInBattle)
+            {
+                
+            }
+
+            
         }
 
         public Vector2 CoordP()
@@ -190,6 +231,15 @@ namespace AthameRPG.Characters
         {
             get { return this.playerCenterCoordY; }
             private set { this.playerCenterCoordY = value; }
+        }
+
+        public static bool GetIsInCastle
+        {
+            get { return isInCastle; }
+        }
+        public static bool GetIsInBattle
+        {
+            get { return isInBattle; }
         }
     }
 }

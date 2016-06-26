@@ -48,29 +48,5 @@ namespace AthameRPG.Objects.Castles
             this.gadini.Add(naiSlaba, 0m);
         }
         
-        public override void LoadContent(ContentManager content)
-        {
-            base.LoadContent(content);
-            
-        }
-
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            this.drawCoordinates.X = this.coordinatesOnMap.X + CharacterManager.barbarian.CoordP().X;
-            this.drawCoordinates.Y = this.coordinatesOnMap.Y + CharacterManager.barbarian.CoordP().Y;
-
-            base.Update(gameTime);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(imageOfCastleOutside, this.drawCoordinates, this.cropCastle, Color.White);
-
-        }
     }
 }

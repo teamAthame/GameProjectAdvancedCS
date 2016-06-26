@@ -44,9 +44,9 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints,
                 DefaultBarbarianDefencePoints)
         {
-            this.moveSpeedPlayer = DefaultBarbarianMoveSpeed;
             cropWidth = DefaultBarbarianCropWidth;
             cropHeight = DeafaultBarbarianCropHeight;
+            this.moveSpeedPlayer = DefaultBarbarianMoveSpeed;
             this.cropStay = DefaultBarbarianAnimationCropCropStay;
             this.north = DefaultBarbarianAnimationCropNorth;
             this.south = DefaultBarbarianAnimationCropSouth;
