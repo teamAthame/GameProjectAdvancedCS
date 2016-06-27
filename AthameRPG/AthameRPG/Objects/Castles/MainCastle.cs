@@ -29,6 +29,7 @@ namespace AthameRPG.Objects.Castles
         protected int frameCounter;
         protected int naiSilnaGadinaCount;
         protected static SpriteFont spriteFont;
+        protected static SpriteFont spriteFontSmallLetters;
         protected int increaseYforPrintNameOfCreature;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
@@ -95,6 +96,7 @@ namespace AthameRPG.Objects.Castles
             imageOfCastleOutside = Content.Load<Texture2D>(ImageOfCastleOutsidePath);
             insideCastle = Content.Load<Texture2D>(insideFirstCastlePath);
             spriteFont = Content.Load<SpriteFont>("../Content/Fonts/Arial");
+            spriteFontSmallLetters = Content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
         }
 
         public virtual void UnloadContent()
@@ -218,21 +220,6 @@ namespace AthameRPG.Objects.Castles
 
                 // buy a creature
 
-                //int minYFirstButton = 7;
-                //int maxYFirstButton = 57;
-
-                //int buttonDifferenceStep = 50;
-
-                //int indexCreatureCounterSupport = 0;
-
-                //int minXMinusButton = 215;
-                //int maxXMinusButton = 265;
-
-                //int minXPlusButton = 300;
-                //int maxXPlusButton = 350;
-
-                //int minXCheckButton = 360;
-                //int maxXCheckButton = 410;
                 this.supportCreatureIndex = 0;
                 this.supportButtonRow = 0;
                 this.supportCreatureLevel = 7;
@@ -389,13 +376,25 @@ namespace AthameRPG.Objects.Castles
                     spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(360, this.increaseYforPrintNameOfCreature),
                         new Rectangle(250, 48, 50, 50), Color.White);
                     spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(300, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 98, 50, 50), Color.Green);
+                        new Rectangle(250, 98, 50, 50), Color.Yellow);
                     spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(215, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 148, 50, 50), Color.White);
+                        new Rectangle(250, 148, 50, 50), Color.Gray);
                     this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
                 }
 
+                // print our army
+                spriteBatch.DrawString(spriteFontSmallLetters, "Our Army:",
+                        new Vector2(15, 400), Color.White);
 
+                this.increaseYforPrintNameOfCreature = 430;
+                foreach (var creatures in CharacterManager.barbarian.availableCreatures)
+                {
+                    spriteBatch.DrawString(spriteFontSmallLetters, creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
+                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
+                    this.increaseYforPrintNameOfCreature += 20;
+                }
+
+                
             }
             else if (Character.GetIsInBattle)
             {

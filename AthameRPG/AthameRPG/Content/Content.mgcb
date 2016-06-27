@@ -145,3 +145,9 @@
 /processorParam:TextureFormat=Color
 /build:Obstacles/insideGargamel.jpg
 
+#begin Fonts/SmallLetters.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/SmallLetters.spritefont
+

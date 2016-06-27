@@ -117,6 +117,7 @@
     <None Include="ClassDiagram5.cd" />
     <None Include="Content\Fonts\Arial.spritefont" />
     <None Include="Content\Fonts\ArialBig.spritefont" />
+    <None Include="Content\Fonts\SmallLetters.spritefont" />
     <None Include="Content\Resource\Arial.spritefont" />
   </ItemGroup>
   <ItemGroup />

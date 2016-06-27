@@ -23,10 +23,8 @@ namespace AthameRPG.GameEngine
         
         private Texture2D gargamelImage;
         public static Character barbarian;
-
-
-        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
         
+        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
         
         public static List<Enemy> enemiesList;
 
