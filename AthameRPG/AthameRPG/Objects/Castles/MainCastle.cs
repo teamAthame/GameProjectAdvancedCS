@@ -78,13 +78,7 @@ namespace AthameRPG.Objects.Castles
             this.creatureCounter = new int[7];
 
         }
-
-        //protected virtual Dictionary<WarUnit, decimal> Gadini
-        //{
-        //    get { return this.gadini; }
-        //    set { this.gadini = value; }
-        //}
-
+        
         public Texture2D ImageOfCastle
         {
             get { return imageOfCastleOutside; }

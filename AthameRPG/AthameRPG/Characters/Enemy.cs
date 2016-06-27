@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AthameRPG.Controls;
+using Microsoft.Xna.Framework;
 using AthameRPG.GameEngine;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Characters
 {
@@ -22,6 +25,12 @@ namespace AthameRPG.Characters
         protected Rectangle cropCurrentFrameGargamel;
         protected Vector2 coordGargamel;
         protected Vector2 drawCoordEnemy;
+        protected int viewRadius;
+        protected bool inView;
+        protected int enemySearchRadius;
+        protected int indexCounterSupport;
+        protected static SpriteFont spriteFontSmallLetters;
+        protected bool mouseOverEnemy;
 
         private int id;//  NUMBER IN THE ENEMY LIST //
 
@@ -34,11 +43,13 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, atack, health, defence)
         {
             this.ID = id;
+            this.viewRadius = 150;
+            this.enemySearchRadius = 100;
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
-            
+            spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
         }
 
         public override void UnloadContent()
@@ -56,11 +67,11 @@ namespace AthameRPG.Characters
                 float plLeftSide = Character.DrawCoordPlayer.X;
                 float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
-                bool isPlayerDown = CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight);
-                bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y);
-                bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X);
-                bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth);
-
+                bool isPlayerDown = CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.enemySearchRadius);
+                bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.enemySearchRadius);
+                bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.enemySearchRadius);
+                bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.enemySearchRadius);
+                
                 if (isPlayerUp && (isPlayerRight || isPlayerLeft))
                 {
                     this.coordGargamel.Y -= CollisionDetection.EnemyGoUp(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
@@ -112,6 +123,20 @@ namespace AthameRPG.Characters
                     }
                 }
 
+                // is enemy near us ... if is near we can see it's army
+
+                this.mouseOverEnemy = MouseExtended.Current.CurrentState.X > this.drawCoordEnemy.X &&
+                MouseExtended.Current.CurrentState.X < (this.drawCoordEnemy.X + cropWidth) &&
+                MouseExtended.Current.CurrentState.Y > this.drawCoordEnemy.Y &&
+                MouseExtended.Current.CurrentState.Y < (this.drawCoordEnemy.Y + cropHeight);
+
+                this.inView =
+                    ((CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.viewRadius)) ||
+                     (CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.viewRadius))) &&
+                    ((CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.viewRadius)) ||
+                     (CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.viewRadius))) &&
+                    this.mouseOverEnemy;// && MouseExtended.Current.WasSingleClick(MouseButton.Right);
+
             }
             else if (Character.GetIsInCastle)
             {
@@ -150,6 +175,17 @@ namespace AthameRPG.Characters
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
                 spriteBatch.Draw(CharacterManager.Instance.GargamelImage, this.drawCoordEnemy, this.CropCurrentFrame, Color.White);
+
+                if (this.inView)
+                {
+                    this.indexCounterSupport = 5;
+                    foreach (var creature in this.availableCreatures)
+                    {
+                        spriteBatch.DrawString(spriteFontSmallLetters, creature.Key.GetType().Name + ": " + creature.Value,
+                        new Vector2(5, this.indexCounterSupport), Color.Red);
+                        this.indexCounterSupport += 20;
+                    }
+                }
             }
             else if (Character.GetIsInCastle)
             {
@@ -171,11 +207,6 @@ namespace AthameRPG.Characters
             {
                 this.id = value;
             }
-        }
-
-        public static float SearchingRadius
-        {
-            get { return 100f; }
         }
         
         public Vector2 DetectionEnemyCoord

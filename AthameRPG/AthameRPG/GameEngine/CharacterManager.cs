@@ -91,10 +91,10 @@ namespace AthameRPG.GameEngine
         public void LoadContent(ContentManager Content)
         {
             
-            Content = new ContentManager(Content.ServiceProvider, "Content");
+            //Content = new ContentManager(Content.ServiceProvider, "Content");
 
             //playerImage = Content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);// -- moved to barb class
-            barbarian.LoadContent();
+            barbarian.LoadContent(Content);
 
 
             // this will be fix ... will be like barb... every char will give his image
@@ -107,7 +107,7 @@ namespace AthameRPG.GameEngine
             foreach (var enemyPos in EnemiesPositionList)
             {
                 Enemy newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
-                newGargamel.LoadContent();
+                newGargamel.LoadContent(Content);
                 enemiesList.Add(newGargamel);
                 id++;
             }

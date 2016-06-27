@@ -59,15 +59,11 @@ namespace AthameRPG.Characters
             
             //this.AtackHandler =new AtackBarbarian();
         }
-        
-        public override void LoadContent()
+
+        public override void LoadContent(ContentManager content)
         {
-
-            // komplekt ! :)
-            content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
+            //content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
             playerImage = content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);
-
-            //font = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
         }
 
         public override void UnloadContent()

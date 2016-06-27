@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AthameRPG.Characters
@@ -106,7 +107,7 @@ namespace AthameRPG.Characters
             }
         }
 
-        public abstract void LoadContent();
+        public abstract void LoadContent(ContentManager content);
 
         public abstract void UnloadContent();
 
