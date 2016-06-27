@@ -106,7 +106,7 @@ namespace AthameRPG.GameEngine
            
             foreach (var enemyPos in EnemiesPositionList)
             {
-                Gargamel newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
+                Enemy newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
                 newGargamel.LoadContent();
                 enemiesList.Add(newGargamel);
                 id++;
