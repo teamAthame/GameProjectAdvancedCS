@@ -11,6 +11,8 @@ namespace AthameRPG.Characters
 {
     public abstract class Unit 
     {
+        protected static bool isInCastle;
+        protected static bool isInBattle;
 
         protected int frameCounter;
         protected int switchCounter;
@@ -21,6 +23,7 @@ namespace AthameRPG.Characters
         protected Rectangle cropCurrentFrame;
         protected Dictionary<WarUnit, int> availableCreatures;
         protected double availableMove;
+        protected double defaultPlayerMove;
 
         protected bool isAlive;
 
@@ -117,7 +120,18 @@ namespace AthameRPG.Characters
 
         public abstract void UnloadContent();
 
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            if (!isInCastle && !isInBattle)
+            {
+                // re-fill available move
+                if (MapManager.Instance.SandWatch.NextTurnIsClicked)
+                {
+                    this.availableMove = this.defaultPlayerMove;
+                }
+            }
+            
+        }
 
         public abstract void Draw(SpriteBatch spriteBatch);
         

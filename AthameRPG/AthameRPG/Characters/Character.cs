@@ -19,13 +19,10 @@ namespace AthameRPG.Characters
         /// </summary>
 
         protected static int cropWidth;
-
         protected static int cropHeight;
-        protected static bool isInCastle;
-        protected static bool isInBattle;
-
-        protected const double DefaultPlayerMove = 300;
-
+        //protected static bool isInCastle;
+        //protected static bool isInBattle;
+        
         protected float playerCenterCoordX;
         protected float playerCenterCoordY;
         protected float moveSpeedPlayer;
@@ -46,6 +43,7 @@ namespace AthameRPG.Characters
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
         protected static SpriteFont spriteFontSmallLetters;
+        //protected double defaultPlayerMove;
 
         protected static Vector2 drawCoordPlayer;
 
@@ -55,7 +53,7 @@ namespace AthameRPG.Characters
             drawCoordPlayer = new Vector2(startPositionX - cropWidth/2, startPositionY - cropHeight/2);
             this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2 - 0.01f, startPositionY - cropHeight / 2);
             this.CropCurrentFrame = cropCurrentFrame;
-            this.availableMove = DefaultPlayerMove;
+            
         }
 
         public override void LoadContent(ContentManager content)
@@ -63,8 +61,12 @@ namespace AthameRPG.Characters
             spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             this.oldMouseState = this.newMouseState;
             this.newMouseState = Mouse.GetState();
             this.mouse = Mouse.GetState();
@@ -74,10 +76,10 @@ namespace AthameRPG.Characters
                 this.lastAbstractCoord = this.abstractPlayerPositon;
 
                 // re-fill available move
-                if (MapManager.Instance.SandWatch.NextTurnIsClicked)
-                {
-                    this.availableMove = DefaultPlayerMove;
-                }
+                //if (MapManager.Instance.SandWatch.NextTurnIsClicked)
+                //{
+                //    this.availableMove = this.defaultPlayerMove;
+                //}
 
                 // take position where need to go
                 //this.mouse.LeftButton == ButtonState.Pressed - for single click movement
@@ -125,7 +127,6 @@ namespace AthameRPG.Characters
                     }
 
                     // re-calculate player move
-                    
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.abstractPlayerPositon);
                 }

@@ -34,8 +34,8 @@ namespace AthameRPG.Characters
         private const int DefaultBarbarianCropWidth = 70;
         private const int DeafaultBarbarianCropHeight = 80;
         private const float DefaultBarbarianMoveSpeed = 3f;
+        private const double DefaultBarbarianMove = 300;
 
-        //private Texture2D playerImage;
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
         
         private ContentManager content;
@@ -56,7 +56,9 @@ namespace AthameRPG.Characters
             this.northWest = DefaultBarbarianAnimationCropNorthWest;
             this.southEast = DefaultBarbarianAnimationCropSouthEast;
             this.southWest = DefaultBarbarianAnimationCropSouthWest;
-            
+            this.availableMove = DefaultBarbarianMove;
+            this.defaultPlayerMove = DefaultBarbarianMove;
+
             //this.AtackHandler =new AtackBarbarian();
         }
 
@@ -70,20 +72,7 @@ namespace AthameRPG.Characters
         {
             
         }
-
-        //public override void Draw(SpriteBatch spriteBatch)
-        //{
-
-        //    //spriteBatch.Draw(playerImage, drawCoordPlayer, this.CropCurrentFrame, Color.White);
-
-
-        //    // for TEST
-        //    //spriteBatch.DrawString(font, playerPositon.X + " " + playerPositon.Y, new Vector2(30, 30), Color.Blue);
-        //    //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGAcoor.X + " " + CharacterManager.enemiesList[0].GARGAcoor.Y, new Vector2(30, 70), Color.AliceBlue);
-        //    //spriteBatch.DrawString(font, CharacterManager.enemiesList[0].GARGA.X + " " + CharacterManager.enemiesList[0].GARGA.Y, new Vector2(30, 110), Color.AliceBlue);
-        //}
-
-
+        
     }
 }
     

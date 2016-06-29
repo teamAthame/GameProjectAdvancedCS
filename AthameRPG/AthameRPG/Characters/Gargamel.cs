@@ -22,6 +22,7 @@ namespace AthameRPG.Characters
         private const int DefaultGargamelDirectionNorthWest = 330;
         private const int DefaultGargamelDirectionSouthEast = 770;
         private const int DefaultGargamelDirectionSouthWest = 122;
+        private const double DefaultGargamelMove = 80;
         
         public Gargamel(float startPositionX, float startPositionY, int id)
             : base(
@@ -44,7 +45,10 @@ namespace AthameRPG.Characters
             this.availableCreatures.Add(new NaiSlaba(), 107);
             this.availableCreatures.Add(new NaiSilna(), 2);
             this.availableCreatures.Add(new Sredna(), 34);
-            
+
+            this.defaultPlayerMove = DefaultGargamelMove;
+
+
         }
 
         

@@ -37,43 +37,6 @@ namespace AthameRPG.GameEngine
             enemiesList = new List<Enemy>();
         }
         
-        public static List<Vector2> EnemiesPositionList
-        {
-            get
-            {
-                List<Vector2> copyOfEnemiesList = enemiesPositionList;
-                return copyOfEnemiesList; 
-            }
-            set
-            {
-                enemiesPositionList = value;
-            }
-        }
-
-        public static void AddEnemies(Vector2 enemyPosition)
-        {
-            enemiesPositionList.Add(enemyPosition);
-        }
-
-        public Texture2D PlayerImage
-        {
-            get
-            {
-                return Character.PlayerImage;
-            }
-        }
-
-
-        // this will be fix ... will be like barb... every char will give his image
-        public Texture2D GargamelImage
-        {
-            get
-            {
-                return this.gargamelImage;
-            }
-        }
-
-
         public static CharacterManager Instance
         {
             get
@@ -146,6 +109,7 @@ namespace AthameRPG.GameEngine
 
             
         }
+
         public void Draw(SpriteBatch spritebatch)
         {
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
@@ -166,6 +130,41 @@ namespace AthameRPG.GameEngine
 
             }
             
+        }
+
+        // this will be fix ... will be like barb... every char will give his image
+        public Texture2D GargamelImage
+        {
+            get
+            {
+                return this.gargamelImage;
+            }
+        }
+
+        public static List<Vector2> EnemiesPositionList
+        {
+            get
+            {
+                List<Vector2> copyOfEnemiesList = enemiesPositionList;
+                return copyOfEnemiesList;
+            }
+            set
+            {
+                enemiesPositionList = value;
+            }
+        }
+
+        public static void AddEnemies(Vector2 enemyPosition)
+        {
+            enemiesPositionList.Add(enemyPosition);
+        }
+
+        public Texture2D PlayerImage
+        {
+            get
+            {
+                return Character.PlayerImage;
+            }
         }
     }
 }

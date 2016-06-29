@@ -9,9 +9,11 @@ namespace AthameRPG.Characters
 {
     public abstract class Enemy : Unit
     {
-        
+        protected const int ViewRadius = 150;
+        protected const int EnemySearchRadius = 120;
         public const int cropWidth = 80;
         public const int cropHeight = 85;
+
         protected int cropStay = 0;
         protected int north = 440;
         protected int south = 15;
@@ -31,7 +33,7 @@ namespace AthameRPG.Characters
         protected int indexCounterSupport;
         protected static SpriteFont spriteFontSmallLetters;
         protected bool mouseOverEnemy;
-
+        
         private int id;//  NUMBER IN THE ENEMY LIST //
 
         //public Enemy(float startPositionX, float startPositionY, int atack, int health, int defence) : base(startPositionX, startPositionY, atack, health, defence)
@@ -43,8 +45,8 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, atack, health, defence)
         {
             this.ID = id;
-            this.viewRadius = 150;
-            this.enemySearchRadius = 100;
+            this.viewRadius = ViewRadius;
+            this.enemySearchRadius = EnemySearchRadius;
         }
 
         public override void LoadContent(ContentManager content)
@@ -59,9 +61,11 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            
+            base.Update(gameTime);
+
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
+                
                 this.lastAbstractCoord = this.coordGargamel;
                 float plTopSide = Character.DrawCoordPlayer.Y;
                 float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
@@ -72,30 +76,42 @@ namespace AthameRPG.Characters
                 bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.enemySearchRadius);
                 bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.enemySearchRadius);
                 bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.enemySearchRadius);
+
+                if (this.availableMove > 0)
+                {
+                    //
+
+                    if (isPlayerUp && (isPlayerRight || isPlayerLeft))
+                    {
+                        this.coordGargamel.Y -= CollisionDetection.EnemyGoUp(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                            cropWidth, this.moveSpeedEnemy);
+                    }
+
+                    if (isPlayerDown && (isPlayerRight || isPlayerLeft))
+                    {
+                        this.coordGargamel.Y += CollisionDetection.EnemyGoDown(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                            cropWidth, this.moveSpeedEnemy);
+                    }
+
+                    if (isPlayerLeft && (isPlayerUp || isPlayerDown))
+                    {
+                        this.coordGargamel.X -= CollisionDetection.EnemyGoLeft(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                            cropWidth, this.moveSpeedEnemy);
+                    }
+
+                    if (isPlayerRight && (isPlayerUp || isPlayerDown))
+                    {
+                        this.coordGargamel.X += CollisionDetection.EnemyGoRight(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                            cropWidth, this.moveSpeedEnemy);
+                    }
+
+                    
+                    this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
+                        this.coordGargamel);
+                    
+                }
+
                 
-                if (isPlayerUp && (isPlayerRight || isPlayerLeft))
-                {
-                    this.coordGargamel.Y -= CollisionDetection.EnemyGoUp(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                        cropWidth, this.moveSpeedEnemy);
-                }
-
-                if (isPlayerDown && (isPlayerRight || isPlayerLeft))
-                {
-                    this.coordGargamel.Y += CollisionDetection.EnemyGoDown(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                        cropWidth, this.moveSpeedEnemy);
-                }
-
-                if (isPlayerLeft && (isPlayerUp || isPlayerDown))
-                {
-                    this.coordGargamel.X -= CollisionDetection.EnemyGoLeft(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                        cropWidth, this.moveSpeedEnemy);
-                }
-
-                if (isPlayerRight && (isPlayerUp || isPlayerDown))
-                {
-                    this.coordGargamel.X += CollisionDetection.EnemyGoRight(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                        cropWidth, this.moveSpeedEnemy);
-                }
 
                 this.drawCoordEnemy.X = this.coordGargamel.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordEnemy.Y = this.coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
