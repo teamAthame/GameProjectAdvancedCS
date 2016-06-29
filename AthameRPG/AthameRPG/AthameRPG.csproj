@@ -79,6 +79,7 @@
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
     <Compile Include="Objects\Castles\MainCastle.cs" />
     <Compile Include="Objects\Castles\StoneCastle.cs" />
+    <Compile Include="Objects\UI\SandWatch.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

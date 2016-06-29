@@ -79,24 +79,7 @@ namespace AthameRPG.GameEngine.Maps
                         case 1:
                             AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
                             break;
-                        // only outside borders of Castles
-                        //case 10:
-                        //case 11:
-                        //case 12:
-                        //case 13:
-                        //case 14:
-                        //case 15:
-                        //case 19:
-                        //case 20:
-                        //case 24:
-                        //case 25:
-                        //case 26:
-                        //case 27:
-                        //case 28:
-                        //case 29:
-                            
-                            //AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
-                            //break;
+                        
                         default:
                             break;
                     }
@@ -134,67 +117,7 @@ namespace AthameRPG.GameEngine.Maps
                         case 2:
                             cropWall = new Rectangle(100, 0, 50, 50);
                             break;
-                        //case 10:
-                        //    cropWall = new Rectangle(0, 50, 50, 50);
-                        //    break;
-                        //case 11:
-                        //    cropWall = new Rectangle(50, 50, 50, 50);
-                        //    break;
-                        //case 12:
-                        //    cropWall = new Rectangle(100, 50, 50, 50);
-                        //    break;
-                        //case 13:
-                        //    cropWall = new Rectangle(150, 50, 50, 50);
-                        //    break;
-                        //case 14:
-                        //    cropWall = new Rectangle(200, 50, 50, 50);
-                        //    break;
-                        //case 15:
-                        //    cropWall = new Rectangle(0, 100, 50, 50);
-                        //    break;
-                        //case 16:
-                        //    cropWall = new Rectangle(50, 100, 50, 50);
-                        //    break;
-                        //case 17:
-                        //    cropWall = new Rectangle(100, 100, 50, 50);
-                        //    break;
-                        //case 18:
-                        //    cropWall = new Rectangle(150, 100, 50, 50);
-                        //    break;
-                        //case 19:
-                        //    cropWall = new Rectangle(200, 100, 50, 50);
-                        //    break;
-                        //case 20:
-                        //    cropWall = new Rectangle(0, 150, 50, 50);
-                        //    break;
-                        //case 21:
-                        //    cropWall = new Rectangle(50, 150, 50, 50);
-                        //    break;
-                        //case 22:
-                        //    cropWall = new Rectangle(100, 150, 50, 50);
-                        //    break;
-                        //case 23:
-                        //    cropWall = new Rectangle(150, 150, 50, 50);
-                        //    break;
-                        //case 24:
-                        //    cropWall = new Rectangle(200, 150, 50, 50);
-                        //    break;
-                        //case 25:
-                        //    cropWall = new Rectangle(0, 200, 50, 50);
-                        //    break;
-                        //case 26:
-                        //    cropWall = new Rectangle(50, 200, 50, 50);
-                        //    break;
-                        //case 27:
-                        //    cropWall = new Rectangle(100, 200, 50, 50);
-                        //    break;
-                        //case 28:
-                        //    cropWall = new Rectangle(150, 200, 50, 50);
-                        //    break;
-                        //case 29:
-                        //    cropWall = new Rectangle(200, 200, 50, 50);
-                        //    break;
-
+                        
                         default:
                             cropWall = new Rectangle(250, 0, 50, 50);
                             currentColor = Color.Black;

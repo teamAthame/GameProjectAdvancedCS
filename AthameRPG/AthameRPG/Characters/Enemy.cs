@@ -99,7 +99,7 @@ namespace AthameRPG.Characters
                 this.drawCoordEnemy.X = this.coordGargamel.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordEnemy.Y = this.coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
 
-                /// Re-Write new position on the screen of enemy  
+                // Re-Write new position on the screen of enemy
                 CharacterManager.EnemiesPositionList[ID] = this.drawCoordEnemy;
 
                 this.frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;

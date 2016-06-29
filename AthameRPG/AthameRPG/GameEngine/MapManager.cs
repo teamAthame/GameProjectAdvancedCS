@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using AthameRPG.GameEngine.Maps;
+using AthameRPG.Objects.UI;
 
 namespace AthameRPG.GameEngine
 {
@@ -21,6 +22,7 @@ namespace AthameRPG.GameEngine
         private Map currentMap;
         private CharacterManager charManager;
         private BuildingManager buildingManager;
+        private SandWatch sandWatch;
 
         public MapManager()
         {
@@ -29,6 +31,7 @@ namespace AthameRPG.GameEngine
             this.currentMap = new Map(MapListPath[MapIndex]);
             this.charManager = new CharacterManager();
             this.buildingManager = new BuildingManager();
+            this.sandWatch = new SandWatch();
         }
 
 
@@ -104,6 +107,7 @@ namespace AthameRPG.GameEngine
             currentMap.Update(gameTime);
             charManager.Update(gameTime);
             buildingManager.Update(gameTime);
+            sandWatch.Update(gameTime);
 
         }
 
@@ -111,6 +115,7 @@ namespace AthameRPG.GameEngine
         {
             currentMap.Draw(spriteBantch);
             buildingManager.Draw(spriteBantch);
+            sandWatch.Draw(spriteBantch);
             charManager.Draw(spriteBantch);
         }
 
