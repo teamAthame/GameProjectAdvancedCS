@@ -142,7 +142,7 @@ namespace AthameRPG.Characters
             {
 
             }
-            else if (!Character.GetIsInBattle)
+            else if (Character.GetIsInBattle)
             {
 
             }
