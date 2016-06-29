@@ -62,7 +62,7 @@ namespace AthameRPG.Characters
 
         public override void LoadContent(ContentManager content)
         {
-            //content = new ContentManager(ScreenManager.Instance.Content.ServiceProvider, "Content");
+            base.LoadContent(content);
             playerImage = content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);
         }
 

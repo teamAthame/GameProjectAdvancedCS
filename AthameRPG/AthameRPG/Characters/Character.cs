@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using AthameRPG.GameEngine;
+using Microsoft.Xna.Framework.Content;
 
 namespace AthameRPG.Characters
 {
@@ -44,6 +45,7 @@ namespace AthameRPG.Characters
         protected Vector2 lastMouseClickPosition;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
+        protected static SpriteFont spriteFontSmallLetters;
 
         protected static Vector2 drawCoordPlayer;
 
@@ -51,8 +53,14 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, atack, health, defence)
         {
             drawCoordPlayer = new Vector2(startPositionX - cropWidth/2, startPositionY - cropHeight/2);
+            this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2 - 0.01f, startPositionY - cropHeight / 2);
             this.CropCurrentFrame = cropCurrentFrame;
             this.availableMove = DefaultPlayerMove;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
         }
 
         public override void Update(GameTime gameTime)
@@ -71,18 +79,19 @@ namespace AthameRPG.Characters
                     this.availableMove = DefaultPlayerMove;
                 }
 
+                // take position where need to go
+                //this.mouse.LeftButton == ButtonState.Pressed - for single click movement
+                if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+                {
+                    this.lastMouseClickPosition.X = this.mouse.X;
+                    this.lastMouseClickPosition.Y = this.mouse.Y;
+                }
+
                 //MovingWithMouse();
 
                 if (this.availableMove > 0)
                 {
-                    // take position where need to go
-                    //this.mouse.LeftButton == ButtonState.Pressed - for single click movement
-                    if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-                    {
-                        this.lastMouseClickPosition.X = this.mouse.X;
-                        this.lastMouseClickPosition.Y = this.mouse.Y;
-                    }
-
+                    
                     if (this.lastMouseClickPosition.Y < drawCoordPlayer.Y)
                     {
                         this.abstractPlayerPositon.Y += CollisionDetection.GoUp(this.abstractPlayerPositon,
@@ -116,7 +125,9 @@ namespace AthameRPG.Characters
                     }
 
                     // re-calculate player move
-                    this.CalculatePlayerMove();
+                    
+                    this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
+                        this.abstractPlayerPositon);
                 }
 
                 /// take animation direction 
@@ -169,6 +180,8 @@ namespace AthameRPG.Characters
             if (!isInBattle && !isInCastle)
             {
                 spriteBatch.Draw(playerImage, drawCoordPlayer, this.CropCurrentFrame, Color.White);
+                spriteBatch.DrawString(spriteFontSmallLetters, "Available steps:" + $"{this.availableMove:F0}",
+                        new Vector2(5, 5), Color.GreenYellow);
             }
             else if (isInCastle)
             {
@@ -178,18 +191,9 @@ namespace AthameRPG.Characters
             {
 
             }
-
-
+            
         }
-
-        private void CalculatePlayerMove()
-        {
-            //this.lastAbstractCoord  this.abstractPlayerPositon
-            this.availableMove -=
-                Math.Sqrt((Math.Pow(this.lastAbstractCoord.X - this.abstractPlayerPositon.X, 2)) +
-                          (Math.Pow(this.lastAbstractCoord.Y - this.abstractPlayerPositon.Y, 2)));
-        }
-
+        
         public Vector2 CoordP()
         {
             return this.abstractPlayerPositon;

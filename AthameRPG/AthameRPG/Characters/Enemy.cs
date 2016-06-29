@@ -179,7 +179,7 @@ namespace AthameRPG.Characters
 
                 if (this.inView)
                 {
-                    this.indexCounterSupport = 5;
+                    this.indexCounterSupport = 25;
                     foreach (var creature in this.availableCreatures)
                     {
                         spriteBatch.DrawString(spriteFontSmallLetters, creature.Key.GetType().Name + ": " + creature.Value,

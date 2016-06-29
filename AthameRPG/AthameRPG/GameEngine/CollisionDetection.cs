@@ -590,7 +590,12 @@ namespace AthameRPG.GameEngine
             
             return false;
         }
-        
+
+        public static double CalculateDistanceTravelled(Vector2 lastCoords, Vector2 curruntCoords)
+        {
+            return Math.Sqrt((Math.Pow(lastCoords.X - curruntCoords.X, 2)) +
+                          (Math.Pow(lastCoords.Y - curruntCoords.Y, 2)));
+        }
 
         /// <summary>
         /// ---------------------------------------   NE TRII -----------------------------
