@@ -11,17 +11,18 @@ namespace AthameRPG.Characters
 {
     public abstract class Unit 
     {
-        
-        internal int frameCounter;
-        internal int switchCounter;
-        internal string direction;
-        internal int cropFrame;
-        internal AnimationReturnedValue returnedValue;
-        internal Vector2 lastAbstractCoord;
-        internal Rectangle cropCurrentFrame;
-        internal Dictionary<WarUnit, int> availableCreatures;
 
-        internal bool isAlive;
+        protected int frameCounter;
+        protected int switchCounter;
+        protected string direction;
+        protected int cropFrame;
+        protected AnimationReturnedValue returnedValue;
+        protected Vector2 lastAbstractCoord;
+        protected Rectangle cropCurrentFrame;
+        protected Dictionary<WarUnit, int> availableCreatures;
+        protected double availableMove;
+
+        protected bool isAlive;
 
         protected float startPositionX, startPositionY;
 
@@ -44,6 +45,11 @@ namespace AthameRPG.Characters
         public int DefencePoints { get; set; }
         public int HealthPoints { get; set; }
 
+        public IReadOnlyDictionary<WarUnit,int> AvailableCreatures
+        {
+            get { return this.availableCreatures; }
+        }
+
         public void AddCreature(WarUnit warUnit)
         {
             if (!this.availableCreatures.ContainsKey(warUnit))
@@ -52,7 +58,7 @@ namespace AthameRPG.Characters
             }
             this.availableCreatures[warUnit]++;
         }
-
+        
         public Rectangle CropCurrentFrame
         {
             get

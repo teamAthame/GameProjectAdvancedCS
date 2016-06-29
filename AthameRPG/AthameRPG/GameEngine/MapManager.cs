@@ -47,6 +47,11 @@ namespace AthameRPG.GameEngine
             }
         }
 
+        public SandWatch SandWatch
+        {
+            get { return this.sandWatch; }
+        }
+
         public Map CurrentMap
         {
             get { return this.currentMap; }

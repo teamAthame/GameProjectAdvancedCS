@@ -380,7 +380,9 @@ namespace AthameRPG.Objects.Castles
                         new Vector2(15, 400), Color.White);
 
                 this.increaseYforPrintNameOfCreature = 430;
-                foreach (var creatures in CharacterManager.barbarian.availableCreatures)
+
+                //CharacterManager.barbarian.availableCreatures
+                foreach (var creatures in CharacterManager.barbarian.AvailableCreatures)
                 {
                     spriteBatch.DrawString(spriteFontSmallLetters, creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
                         new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);

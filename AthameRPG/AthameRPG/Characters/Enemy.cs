@@ -59,6 +59,7 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
+            
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
                 this.lastAbstractCoord = this.coordGargamel;
