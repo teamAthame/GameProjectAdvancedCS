@@ -1,15 +1,5 @@
-﻿using AthameRPG.GameEngine;
-using AthameRPG.GameEngine.Maps;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AthameRPG.Characters
 {
@@ -38,7 +28,7 @@ namespace AthameRPG.Characters
 
         private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
         
-        private ContentManager content;
+        //private ContentManager content;
         
         public Barbarian(float startPositionX, float startPositionY)
             : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints,

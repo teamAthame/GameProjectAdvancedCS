@@ -33,6 +33,7 @@ namespace AthameRPG.Characters
         protected int indexCounterSupport;
         protected static SpriteFont spriteFontSmallLetters;
         protected bool mouseOverEnemy;
+        protected bool iSeePlayer;
         
         private int id;//  NUMBER IN THE ENEMY LIST //
 
@@ -47,6 +48,8 @@ namespace AthameRPG.Characters
             this.ID = id;
             this.viewRadius = ViewRadius;
             this.enemySearchRadius = EnemySearchRadius;
+            this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
+            this.CropCurrentFrame = cropCurrentFrame;
         }
 
         public override void LoadContent(ContentManager content)
@@ -65,95 +68,43 @@ namespace AthameRPG.Characters
 
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                
+                this.iSeePlayer = false;
+
                 this.lastAbstractCoord = this.coordGargamel;
+
                 float plTopSide = Character.DrawCoordPlayer.Y;
                 float plBottomSide = Character.DrawCoordPlayer.Y + Character.PlayerCropHeight;
                 float plLeftSide = Character.DrawCoordPlayer.X;
                 float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
-                bool isPlayerDown = CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.enemySearchRadius);
                 bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.enemySearchRadius);
+                bool isPlayerDown = CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.enemySearchRadius);
                 bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.enemySearchRadius);
                 bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.enemySearchRadius);
 
-                if (this.availableMove > 0)
+                if (!CharacterManager.itIsPlayerTurn)
                 {
-                    //
-
-                    if (isPlayerUp && (isPlayerRight || isPlayerLeft))
-                    {
-                        this.coordGargamel.Y -= CollisionDetection.EnemyGoUp(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                            cropWidth, this.moveSpeedEnemy);
-                    }
-
-                    if (isPlayerDown && (isPlayerRight || isPlayerLeft))
-                    {
-                        this.coordGargamel.Y += CollisionDetection.EnemyGoDown(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                            cropWidth, this.moveSpeedEnemy);
-                    }
-
-                    if (isPlayerLeft && (isPlayerUp || isPlayerDown))
-                    {
-                        this.coordGargamel.X -= CollisionDetection.EnemyGoLeft(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                            cropWidth, this.moveSpeedEnemy);
-                    }
-
-                    if (isPlayerRight && (isPlayerUp || isPlayerDown))
-                    {
-                        this.coordGargamel.X += CollisionDetection.EnemyGoRight(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
-                            cropWidth, this.moveSpeedEnemy);
-                    }
-
+                    
+                    EnemyMoving(isPlayerUp, isPlayerRight, isPlayerLeft, isPlayerDown);
                     
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.coordGargamel);
-                    
                 }
-
                 
-
                 this.drawCoordEnemy.X = this.coordGargamel.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordEnemy.Y = this.coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
 
-                // Re-Write new position on the screen of enemy
+                // Re-Write new position of enemy on the screen
                 CharacterManager.EnemiesPositionList[ID] = this.drawCoordEnemy;
 
-                this.frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                MakeCurrentAnimationFrame(gameTime);
 
-                if (this.frameCounter >= this.switchCounter)
+                ShowEnemyArmy(plTopSide, plBottomSide, plLeftSide, plRightSide);
+
+                if (this.lastAbstractCoord != this.coordGargamel)
                 {
-                    this.frameCounter = 0;
-
-                    this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord, this.coordGargamel,
-                        this.direction, this.cropFrame, cropWidth, cropHeight, this.cropStay, this.south, this.north, this.west, this.east, this.southWest,
-                        this.southEast, this.northWest, this.northEast);
-
-                    this.cropCurrentFrame = this.returnedValue.ImageCrop;
-                    this.direction = this.returnedValue.Direction;
-
-                    this.cropFrame++;
-
-                    if (this.cropFrame == 4)
-                    {
-                        this.cropFrame = 0;
-                    }
+                    this.iSeePlayer = true;
                 }
-
-                // is enemy near us ... if is near we can see it's army
-
-                this.mouseOverEnemy = MouseExtended.Current.CurrentState.X > this.drawCoordEnemy.X &&
-                MouseExtended.Current.CurrentState.X < (this.drawCoordEnemy.X + cropWidth) &&
-                MouseExtended.Current.CurrentState.Y > this.drawCoordEnemy.Y &&
-                MouseExtended.Current.CurrentState.Y < (this.drawCoordEnemy.Y + cropHeight);
-
-                this.inView =
-                    ((CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.viewRadius)) ||
-                     (CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.viewRadius))) &&
-                    ((CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.viewRadius)) ||
-                     (CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.viewRadius))) &&
-                    this.mouseOverEnemy;// && MouseExtended.Current.WasSingleClick(MouseButton.Right);
-
             }
             else if (Character.GetIsInCastle)
             {
@@ -185,6 +136,81 @@ namespace AthameRPG.Characters
             //    }
             //}
 
+        }
+
+        public bool ISeePlayer
+        {
+            get { return this.iSeePlayer; }
+        }
+
+        private void ShowEnemyArmy(float plTopSide, float plBottomSide, float plLeftSide, float plRightSide)
+        {
+            // is enemy near us ... if is near we can see it's army
+
+            this.mouseOverEnemy = MouseExtended.Current.CurrentState.X > this.drawCoordEnemy.X &&
+                                  MouseExtended.Current.CurrentState.X < (this.drawCoordEnemy.X + cropWidth) &&
+                                  MouseExtended.Current.CurrentState.Y > this.drawCoordEnemy.Y &&
+                                  MouseExtended.Current.CurrentState.Y < (this.drawCoordEnemy.Y + cropHeight);
+
+            this.inView =
+                ((CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.viewRadius)) ||
+                 (CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.viewRadius))) &&
+                ((CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.viewRadius)) ||
+                 (CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.viewRadius))) &&
+                this.mouseOverEnemy; // && MouseExtended.Current.WasSingleClick(MouseButton.Right);
+        }
+
+        private void MakeCurrentAnimationFrame(GameTime gameTime)
+        {
+            this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (this.frameCounter >= this.switchCounter)
+            {
+                this.frameCounter = 0;
+
+                this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord, this.coordGargamel,
+                    this.direction, this.cropFrame, cropWidth, cropHeight, this.cropStay, this.south, this.north, this.west,
+                    this.east, this.southWest,
+                    this.southEast, this.northWest, this.northEast);
+
+                this.cropCurrentFrame = this.returnedValue.ImageCrop;
+                this.direction = this.returnedValue.Direction;
+
+                this.cropFrame++;
+
+                if (this.cropFrame == 4)
+                {
+                    this.cropFrame = 0;
+                }
+            }
+        }
+
+        private void EnemyMoving(bool isPlayerUp, bool isPlayerRight, bool isPlayerLeft, bool isPlayerDown)
+        {
+            if (isPlayerUp && (isPlayerRight || isPlayerLeft))
+            {
+                this.coordGargamel.Y -= CollisionDetection.EnemyGoUp(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                    cropWidth, this.moveSpeedEnemy);
+            }
+
+            if (isPlayerDown && (isPlayerRight || isPlayerLeft))
+            {
+                this.coordGargamel.Y += CollisionDetection.EnemyGoDown(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                    cropWidth, this.moveSpeedEnemy);
+            }
+
+            if (isPlayerLeft && (isPlayerUp || isPlayerDown))
+            {
+                this.coordGargamel.X -= CollisionDetection.EnemyGoLeft(this.DetectionEnemyCoord, this.drawCoordEnemy, cropHeight,
+                    cropWidth, this.moveSpeedEnemy);
+            }
+
+            if (isPlayerRight && (isPlayerUp || isPlayerDown))
+            {
+                this.coordGargamel.X += CollisionDetection.EnemyGoRight(this.DetectionEnemyCoord, this.drawCoordEnemy,
+                    cropHeight,
+                    cropWidth, this.moveSpeedEnemy);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -13,19 +14,26 @@ namespace AthameRPG.GameEngine
 {
     public class CharacterManager
     {
+        // SandWatch can change this value;
+        public static bool itIsPlayerTurn = true;
+
         private const float PLAYER_START_POSITION_X = 400;
         private const float PLAYER_START_POSITION_Y = 300;
         private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
         private static List<Vector2> enemiesPositionList;
+
+        protected bool oneTimeDraw;
         
         
         private Texture2D gargamelImage;
+        
         public static Character barbarian;
         
         private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
-        
+
+        //public static
         public static List<Enemy> enemiesList;
 
         protected ContentManager content;
@@ -35,6 +43,7 @@ namespace AthameRPG.GameEngine
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
             enemiesPositionList = new List<Vector2>();
             enemiesList = new List<Enemy>();
+            this.oneTimeDraw = true;
         }
         
         public static CharacterManager Instance
@@ -48,7 +57,7 @@ namespace AthameRPG.GameEngine
                 return instance;
             }
         }
-
+        
         public ContentManager Content { get; private set; }
 
         public void LoadContent(ContentManager Content)
@@ -91,12 +100,31 @@ namespace AthameRPG.GameEngine
         {
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                barbarian.Update(gameTime);
 
+                if (itIsPlayerTurn)
+                {
+                    barbarian.Update(gameTime);
+                    
+                }
+
+                bool support = true;
+                
                 foreach (var gargamelcho in enemiesList)
                 {
                     gargamelcho.Update(gameTime);
+
+                    if (!itIsPlayerTurn && gargamelcho.ISeePlayer)
+                    {
+                        
+                        support = false;
+                    }
                 }
+
+                if (support && !itIsPlayerTurn)
+                {
+                    itIsPlayerTurn = true;
+                }
+                
             }
             else if (Character.GetIsInCastle)
             {

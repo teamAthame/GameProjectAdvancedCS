@@ -9,7 +9,7 @@ namespace AthameRPG.Objects.UI
 {
     public class SandWatch
     {
-        // load from MapManager
+        // loaded from MapManager
 
         private const int DrawCoordX = 750;
         private const int DrawCoordY = 480;
@@ -19,8 +19,7 @@ namespace AthameRPG.Objects.UI
 
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
-        private bool nextTurnIsClicked;
-
+        
         private Vector2 drawCoord;
         private Rectangle cropDimmensionsOfWatch;
 
@@ -29,12 +28,7 @@ namespace AthameRPG.Objects.UI
             this.drawCoord = new Vector2(DrawCoordX, DrawCoordY);
             this.cropDimmensionsOfWatch = new Rectangle(ImageCropX, ImageCropY, ImageWidthHeight, ImageWidthHeight);
         }
-
-        public bool NextTurnIsClicked
-        {
-            get { return this.nextTurnIsClicked; }
-        }
-
+        
         public void Update(GameTime gameTime)
         {
             this.oldMouseState = this.newMouseState;
@@ -46,11 +40,13 @@ namespace AthameRPG.Objects.UI
                 {
                     if (this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released)
                     {
-                        this.nextTurnIsClicked = true;
-                    }
-                    else
-                    {
-                        this.nextTurnIsClicked = false;
+                        CharacterManager.barbarian.ReFillMovement();
+
+                        foreach (var enemy in CharacterManager.enemiesList)
+                        {
+                            enemy.ReFillMovement();
+                        }
+                        CharacterManager.itIsPlayerTurn = false;
                     }
                 }
                 

@@ -51,7 +51,8 @@ namespace AthameRPG.Characters
             : base(startPositionX, startPositionY, atack, health, defence)
         {
             drawCoordPlayer = new Vector2(startPositionX - cropWidth/2, startPositionY - cropHeight/2);
-            this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2 - 0.01f, startPositionY - cropHeight / 2);
+            this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
+            this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
             this.CropCurrentFrame = cropCurrentFrame;
             
         }
@@ -60,9 +61,7 @@ namespace AthameRPG.Characters
         {
             spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
         }
-
         
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -75,12 +74,7 @@ namespace AthameRPG.Characters
             {
                 this.lastAbstractCoord = this.abstractPlayerPositon;
 
-                // re-fill available move
-                //if (MapManager.Instance.SandWatch.NextTurnIsClicked)
-                //{
-                //    this.availableMove = this.defaultPlayerMove;
-                //}
-
+                
                 // take position where need to go
                 //this.mouse.LeftButton == ButtonState.Pressed - for single click movement
                 if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
@@ -93,68 +87,14 @@ namespace AthameRPG.Characters
 
                 if (this.availableMove > 0)
                 {
-                    
-                    if (this.lastMouseClickPosition.Y < drawCoordPlayer.Y)
-                    {
-                        this.abstractPlayerPositon.Y += CollisionDetection.GoUp(this.abstractPlayerPositon,
-                            moveSpeedPlayer,
-                            drawCoordPlayer, cropWidth, cropHeight);
-                        this.lastMouseClickPosition.Y += moveSpeedPlayer;
-                    }
-
-                    if (this.lastMouseClickPosition.Y > drawCoordPlayer.Y + cropHeight)
-                    {
-                        this.abstractPlayerPositon.Y -= CollisionDetection.GoDown(this.abstractPlayerPositon,
-                            moveSpeedPlayer,
-                            drawCoordPlayer, cropWidth, cropHeight);
-                        this.lastMouseClickPosition.Y -= moveSpeedPlayer;
-                    }
-
-                    if (this.lastMouseClickPosition.X < drawCoordPlayer.X)
-                    {
-                        this.abstractPlayerPositon.X += CollisionDetection.GoLeft(this.abstractPlayerPositon,
-                            moveSpeedPlayer,
-                            drawCoordPlayer, cropWidth, cropHeight);
-                        this.lastMouseClickPosition.X += moveSpeedPlayer;
-                    }
-
-                    if (this.lastMouseClickPosition.X > drawCoordPlayer.X + cropWidth)
-                    {
-                        this.abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon,
-                            moveSpeedPlayer,
-                            drawCoordPlayer, cropWidth, cropHeight);
-                        this.lastMouseClickPosition.X -= moveSpeedPlayer;
-                    }
+                    CharacterMoving();
 
                     // re-calculate player move
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.abstractPlayerPositon);
                 }
 
-                /// take animation direction 
-
-                this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
-
-                if (this.frameCounter >= this.switchCounter)
-                {
-                    this.frameCounter = 0;
-
-                    this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord,
-                        this.abstractPlayerPositon,
-                        this.direction, this.cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west,
-                        northEast,
-                        northWest, southEast, southWest);
-
-                    this.cropCurrentFrame = this.returnedValue.ImageCrop;
-                    this.direction = this.returnedValue.Direction;
-
-                    this.cropFrame++;
-
-                    if (this.cropFrame == 4)
-                    {
-                        this.cropFrame = 0;
-                    }
-                }
+                MakeCurrentAnimationFrame(gameTime);
             }
             else if (isInCastle)
             {
@@ -175,7 +115,70 @@ namespace AthameRPG.Characters
             }
 
         }
-        
+
+        private void MakeCurrentAnimationFrame(GameTime gameTime)
+        {
+            /// take animation direction 
+
+            this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (this.frameCounter >= this.switchCounter)
+            {
+                this.frameCounter = 0;
+
+                this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord,
+                    this.abstractPlayerPositon,
+                    this.direction, this.cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west,
+                    northEast,
+                    northWest, southEast, southWest);
+
+                this.cropCurrentFrame = this.returnedValue.ImageCrop;
+                this.direction = this.returnedValue.Direction;
+
+                this.cropFrame++;
+
+                if (this.cropFrame == 4)
+                {
+                    this.cropFrame = 0;
+                }
+            }
+        }
+
+        private void CharacterMoving()
+        {
+            if (this.lastMouseClickPosition.Y < drawCoordPlayer.Y)
+            {
+                this.abstractPlayerPositon.Y += CollisionDetection.GoUp(this.abstractPlayerPositon,
+                    moveSpeedPlayer,
+                    drawCoordPlayer, cropWidth, cropHeight);
+                this.lastMouseClickPosition.Y += moveSpeedPlayer;
+            }
+
+            if (this.lastMouseClickPosition.Y > drawCoordPlayer.Y + cropHeight)
+            {
+                this.abstractPlayerPositon.Y -= CollisionDetection.GoDown(this.abstractPlayerPositon,
+                    moveSpeedPlayer,
+                    drawCoordPlayer, cropWidth, cropHeight);
+                this.lastMouseClickPosition.Y -= moveSpeedPlayer;
+            }
+
+            if (this.lastMouseClickPosition.X < drawCoordPlayer.X)
+            {
+                this.abstractPlayerPositon.X += CollisionDetection.GoLeft(this.abstractPlayerPositon,
+                    moveSpeedPlayer,
+                    drawCoordPlayer, cropWidth, cropHeight);
+                this.lastMouseClickPosition.X += moveSpeedPlayer;
+            }
+
+            if (this.lastMouseClickPosition.X > drawCoordPlayer.X + cropWidth)
+            {
+                this.abstractPlayerPositon.X -= CollisionDetection.GoRight(abstractPlayerPositon,
+                    moveSpeedPlayer,
+                    drawCoordPlayer, cropWidth, cropHeight);
+                this.lastMouseClickPosition.X -= moveSpeedPlayer;
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isInBattle && !isInCastle)

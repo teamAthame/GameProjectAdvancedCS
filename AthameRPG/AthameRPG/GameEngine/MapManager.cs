@@ -110,17 +110,17 @@ namespace AthameRPG.GameEngine
         public void Update(GameTime gameTime)
         {
             currentMap.Update(gameTime);
+            sandWatch.Update(gameTime);
             charManager.Update(gameTime);
             buildingManager.Update(gameTime);
-            sandWatch.Update(gameTime);
 
         }
 
         public void Draw(SpriteBatch spriteBantch)
         {
             currentMap.Draw(spriteBantch);
-            buildingManager.Draw(spriteBantch);
             sandWatch.Draw(spriteBantch);
+            buildingManager.Draw(spriteBantch);
             charManager.Draw(spriteBantch);
         }
 

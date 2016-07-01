@@ -38,22 +38,52 @@ namespace AthameRPG.Characters
             this.switchCounter = 100;
             this.cropFrame = 0;
             this.returnedValue = new AnimationReturnedValue();
-            this.CropCurrentFrame = cropCurrentFrame;
+            //this.CropCurrentFrame = cropCurrentFrame;
             this.AtackPoints = atack;
             this.HealthPoints = health;
             this.DefencePoints = defence;
         }
 
-        public int AtackPoints { get; set; }
-        public int DefencePoints { get; set; }
-        public int HealthPoints { get; set; }
+        public virtual int AtackPoints { get; set; }
+        public virtual int DefencePoints { get; set; }
+        public virtual int HealthPoints { get; set; }
+        
+        public abstract void LoadContent(ContentManager content);
 
-        public IReadOnlyDictionary<WarUnit,int> AvailableCreatures
+        public abstract void UnloadContent();
+
+        public virtual void Update(GameTime gameTime)
+        {
+            if (!isInCastle && !isInBattle)
+            {
+                //// re-fill available move
+                //if (MapManager.Instance.SandWatch.NextTurnIsClicked)
+                //{
+                //    //MapManager.Instance.SandWatch.NextTurnIsClicked = false;
+                //    this.availableMove = this.defaultPlayerMove;
+                //}
+            }
+            
+        }
+
+        public abstract void Draw(SpriteBatch spriteBatch);
+
+        public virtual void ReFillMovement()
+        {
+            this.availableMove = this.defaultPlayerMove;
+        }
+
+        public virtual double AvailableMove
+        {
+            get { return this.availableMove; }
+        }
+
+        public IReadOnlyDictionary<WarUnit, int> AvailableCreatures
         {
             get { return this.availableCreatures; }
         }
 
-        public void AddCreature(WarUnit warUnit)
+        public virtual void AddCreature(WarUnit warUnit)
         {
             if (!this.availableCreatures.ContainsKey(warUnit))
             {
@@ -61,7 +91,7 @@ namespace AthameRPG.Characters
             }
             this.availableCreatures[warUnit]++;
         }
-        
+
         public Rectangle CropCurrentFrame
         {
             get
@@ -75,7 +105,7 @@ namespace AthameRPG.Characters
             }
         }
 
-        public bool IsAlive
+        public virtual bool IsAlive
         {
             get
             {
@@ -87,12 +117,12 @@ namespace AthameRPG.Characters
             }
         }
 
-        public void KillTarget()
+        public virtual void KillTarget()
         {
             IsAlive = false;
         }
 
-        public float StartPositionX
+        public virtual float StartPositionX
         {
             get
             {
@@ -104,7 +134,7 @@ namespace AthameRPG.Characters
             }
         }
 
-        public float StartPositionY
+        public virtual float StartPositionY
         {
             get
             {
@@ -116,24 +146,5 @@ namespace AthameRPG.Characters
             }
         }
 
-        public abstract void LoadContent(ContentManager content);
-
-        public abstract void UnloadContent();
-
-        public virtual void Update(GameTime gameTime)
-        {
-            if (!isInCastle && !isInBattle)
-            {
-                // re-fill available move
-                if (MapManager.Instance.SandWatch.NextTurnIsClicked)
-                {
-                    this.availableMove = this.defaultPlayerMove;
-                }
-            }
-            
-        }
-
-        public abstract void Draw(SpriteBatch spriteBatch);
-        
     }
 }
