@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using AthameRPG.Characters;
-using AthameRPG.GameEngine.Maps;
 
 namespace AthameRPG.GameEngine
 {
@@ -25,7 +20,6 @@ namespace AthameRPG.GameEngine
         private static List<Vector2> enemiesPositionList;
 
         protected bool oneTimeDraw;
-        
         
         private Texture2D gargamelImage;
         

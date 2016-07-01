@@ -10,6 +10,7 @@ namespace AthameRPG.Objects.UI
     public class SandWatch
     {
         // loaded from MapManager
+        public static bool TurnIsClicked;
 
         private const int DrawCoordX = 750;
         private const int DrawCoordY = 480;
@@ -47,6 +48,7 @@ namespace AthameRPG.Objects.UI
                             enemy.ReFillMovement();
                         }
                         CharacterManager.itIsPlayerTurn = false;
+                        TurnIsClicked = true;
                     }
                 }
                 
