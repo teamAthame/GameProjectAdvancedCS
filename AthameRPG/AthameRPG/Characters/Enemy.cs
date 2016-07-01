@@ -82,7 +82,7 @@ namespace AthameRPG.Characters
                 bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.enemySearchRadius);
                 bool isPlayerRight = CollisionDetection.IsNear(plLeftSide, this.drawCoordEnemy.X + cropWidth, this.enemySearchRadius);
 
-                if (!CharacterManager.itIsPlayerTurn)
+                if (!CharacterManager.itIsPlayerTurn && this.availableMove > 0)
                 {
                     
                     EnemyMoving(isPlayerUp, isPlayerRight, isPlayerLeft, isPlayerDown);

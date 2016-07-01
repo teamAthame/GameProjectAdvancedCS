@@ -119,8 +119,8 @@ namespace AthameRPG.GameEngine
         public void Draw(SpriteBatch spriteBantch)
         {
             currentMap.Draw(spriteBantch);
-            sandWatch.Draw(spriteBantch);
             buildingManager.Draw(spriteBantch);
+            sandWatch.Draw(spriteBantch);
             charManager.Draw(spriteBantch);
         }
 
