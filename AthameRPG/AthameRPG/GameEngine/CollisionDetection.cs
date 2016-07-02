@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AthameRPG.Controls;
 
 namespace AthameRPG.GameEngine
 {
@@ -614,6 +615,17 @@ namespace AthameRPG.GameEngine
         {
             return Math.Sqrt((Math.Pow(lastCoords.X - curruntCoords.X, 2)) +
                           (Math.Pow(lastCoords.Y - curruntCoords.Y, 2)));
+        }
+
+        public static bool IsMouseOverObject(Vector2 currentObject, int width, int height, GameTime gameTime)
+        {
+            bool betweenX = MouseExtended.Current.GetState(gameTime).X > currentObject.X &&
+                            MouseExtended.Current.GetState(gameTime).X < (currentObject.X + width);
+
+            bool betweenY = MouseExtended.Current.GetState(gameTime).Y > currentObject.Y &&
+                            MouseExtended.Current.GetState(gameTime).Y < (currentObject.Y + height);
+
+            return betweenX && betweenY;
         }
 
         /// <summary>

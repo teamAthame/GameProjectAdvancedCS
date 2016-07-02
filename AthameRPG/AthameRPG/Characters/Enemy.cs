@@ -113,7 +113,7 @@ namespace AthameRPG.Characters
                 this.drawCoordEnemy.Y = this.coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
 
 
-                CheckForBattle(plTopSide, enemyBottom, plLeftSide, enemyRight, plRightSide, enemyLeft, plBottomSide, enemyTop);
+                CheckForBattle(plTopSide, enemyBottom, plLeftSide, enemyRight, plRightSide, enemyLeft, plBottomSide, enemyTop, gameTime);
 
 
                 // Re-Write new position of enemy on the screen
@@ -161,7 +161,7 @@ namespace AthameRPG.Characters
         }
 
         private void CheckForBattle(float plTopSide, float enemyBottom, float plLeftSide, float enemyRight, float plRightSide,
-            float enemyLeft, float plBottomSide, float enemyTop)
+            float enemyLeft, float plBottomSide, float enemyTop, GameTime gameTime)
         {
             bool isUp = CollisionDetection.HaveCollisionWithCurrentRadius(plTopSide, enemyBottom, plLeftSide,
                 enemyRight, plRightSide, enemyLeft, BattleRadius);
@@ -183,20 +183,19 @@ namespace AthameRPG.Characters
                 {
                     this.showInvitationText = true;
 
-                    if (true)
+                    if (CollisionDetection.IsMouseOverObject(this.drawCoordEnemy, cropWidth, cropHeight, gameTime))
                     {
-                        //mouse
+                        if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+                        {
+                            Character.isInBattle = true;
+                            this.showInvitationText = false;
+                        }
                     }
-                    if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-                    {
-                        //Character.isInBattle = true;
-                        this.showInvitationText = false;
-                    }
-
                 }
                 else
                 {
-                    //Character.isInBattle = true;
+                    Character.isInBattle = true;
+                    this.showInvitationText = false;
                 }
             }
         }
