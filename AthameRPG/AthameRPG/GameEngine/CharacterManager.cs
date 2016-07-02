@@ -57,9 +57,6 @@ namespace AthameRPG.GameEngine
         public void LoadContent(ContentManager Content)
         {
             
-            //Content = new ContentManager(Content.ServiceProvider, "Content");
-
-            //playerImage = Content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);// -- moved to barb class
             barbarian.LoadContent(Content);
 
 
@@ -106,7 +103,7 @@ namespace AthameRPG.GameEngine
                 foreach (var gargamelcho in enemiesList)
                 {
                     gargamelcho.Update(gameTime);
-
+                    
                     if (!itIsPlayerTurn && gargamelcho.ISeePlayer)
                     {
                         

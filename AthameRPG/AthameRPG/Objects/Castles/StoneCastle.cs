@@ -36,6 +36,8 @@ namespace AthameRPG.Objects.Castles
             this.silna = new Silna();
             this.cropCastle = new Rectangle(CurrentColOnImage, CurrentRowOnImage, this.cropCurrentCastleImageWidth,
                 this.cropCurrentCastleImageHeight);
+
+            // опиши/вкарай какви гадини искаш да има съответния замък.
             this.naiSilna = new NaiSilna();
             this.silna = new Silna();
             this.srednoSilna = new SrednoSilna();

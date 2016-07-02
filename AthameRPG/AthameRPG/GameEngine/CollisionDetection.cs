@@ -581,6 +581,25 @@ namespace AthameRPG.GameEngine
             return result;
         }
 
+        public static bool HaveCollisionWithCurrentRadius(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, int radius)
+        {
+            bool result = false;
+
+            if (Math.Abs(pSide - enemySide) <= radius)
+            {
+                if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
+                {
+                    result = false;
+                }
+                else
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
         public static bool IsNear(float playerDrawPosition, float enemyDrawPosition, int radius)
         {
             if (Math.Abs(playerDrawPosition - enemyDrawPosition) < radius)

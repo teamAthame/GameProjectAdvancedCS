@@ -47,8 +47,14 @@ namespace AthameRPG.Characters
         public virtual int AtackPoints { get; set; }
         public virtual int DefencePoints { get; set; }
         public virtual int HealthPoints { get; set; }
-        
-        public abstract void LoadContent(ContentManager content);
+
+        public virtual void LoadContent(ContentManager content)
+        {
+            foreach (var creatures in this.availableCreatures)
+            {
+                creatures.Key.LoadContent(content);
+            }
+        }
 
         public abstract void UnloadContent();
 

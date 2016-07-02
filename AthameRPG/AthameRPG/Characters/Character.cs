@@ -59,7 +59,9 @@ namespace AthameRPG.Characters
 
         public override void LoadContent(ContentManager content)
         {
+            base.LoadContent(content);
             spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
+            
         }
         
         public override void Update(GameTime gameTime)
@@ -89,7 +91,7 @@ namespace AthameRPG.Characters
                 {
                     CharacterMoving();
 
-                    // re-calculate player move
+                    // re-calculate player available move
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.abstractPlayerPositon);
                 }

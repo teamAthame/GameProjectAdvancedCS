@@ -45,6 +45,8 @@
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Gargamel.cs" />
     <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Characters\WarUnits\BlackDragon.cs" />
+    <Compile Include="Characters\WarUnits\Goro.cs" />
     <Compile Include="Characters\WarUnits\NaiSilna.cs" />
     <Compile Include="Characters\WarUnits\NaiSlaba.cs" />
     <Compile Include="Characters\WarUnits\Silna.cs" />
@@ -91,7 +93,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Character\blackDragon.png" />
     <Content Include="Content\Character\GoblinWalk.png" />
+    <Content Include="Content\Character\goro.png" />
     <Content Include="Content\Character\HexenFighter.png" />
     <Content Include="Content\Character\superman.png" />
     <Content Include="Content\Fonts\terrain.png" />

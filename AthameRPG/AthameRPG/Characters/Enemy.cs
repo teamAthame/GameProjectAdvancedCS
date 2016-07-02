@@ -11,6 +11,10 @@ namespace AthameRPG.Characters
     {
         protected const int ViewRadius = 150;
         protected const int EnemySearchRadius = 120;
+        protected const int BattleRadius = 5;
+        protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
+        protected const string BigLettersPath = "../Content/Fonts/ArialBig";
+        protected const string InvitationForBattle = "Click twice over Enemy for battle.";
         public const int cropWidth = 80;
         public const int cropHeight = 85;
 
@@ -32,8 +36,11 @@ namespace AthameRPG.Characters
         protected int enemySearchRadius;
         protected int indexCounterSupport;
         protected static SpriteFont spriteFontSmallLetters;
+        protected static SpriteFont bigLetters;
         protected bool mouseOverEnemy;
         protected bool iSeePlayer;
+        protected bool showInvitationText;
+        protected Vector2 invitationTextCoord;
         
         private int id;//  NUMBER IN THE ENEMY LIST //
 
@@ -50,11 +57,16 @@ namespace AthameRPG.Characters
             this.enemySearchRadius = EnemySearchRadius;
             this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
             this.CropCurrentFrame = cropCurrentFrame;
+            //this.invitationTextCoord =
+            //    new Vector2(ScreenManager.SCREEN_WIDTH - bigLetters.MeasureString(InvitationForBattle).X, 5);
         }
 
         public override void LoadContent(ContentManager content)
         {
-            spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
+            spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
+            bigLetters = content.Load<SpriteFont>(BigLettersPath);
+            this.invitationTextCoord =
+                new Vector2(ScreenManager.SCREEN_WIDTH - spriteFontSmallLetters.MeasureString(InvitationForBattle).X, 5);
         }
 
         public override void UnloadContent()
@@ -77,6 +89,11 @@ namespace AthameRPG.Characters
                 float plLeftSide = Character.DrawCoordPlayer.X;
                 float plRightSide = Character.DrawCoordPlayer.X + Character.PlayerCropWidth;
 
+                float enemyTop = this.drawCoordEnemy.Y;
+                float enemyBottom = this.drawCoordEnemy.Y + cropHeight;
+                float enemyLeft = this.drawCoordEnemy.X;
+                float enemyRight = this.drawCoordEnemy.X + cropWidth;
+
                 bool isPlayerUp = CollisionDetection.IsNear(plBottomSide, this.drawCoordEnemy.Y, this.enemySearchRadius);
                 bool isPlayerDown = CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.enemySearchRadius);
                 bool isPlayerLeft = CollisionDetection.IsNear(plRightSide, this.drawCoordEnemy.X, this.enemySearchRadius);
@@ -90,9 +107,14 @@ namespace AthameRPG.Characters
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.coordGargamel);
                 }
-                
+
+
                 this.drawCoordEnemy.X = this.coordGargamel.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordEnemy.Y = this.coordGargamel.Y + CharacterManager.barbarian.CoordP().Y;
+
+
+                CheckForBattle(plTopSide, enemyBottom, plLeftSide, enemyRight, plRightSide, enemyLeft, plBottomSide, enemyTop);
+
 
                 // Re-Write new position of enemy on the screen
                 CharacterManager.EnemiesPositionList[ID] = this.drawCoordEnemy;
@@ -137,6 +159,48 @@ namespace AthameRPG.Characters
             //}
 
         }
+
+        private void CheckForBattle(float plTopSide, float enemyBottom, float plLeftSide, float enemyRight, float plRightSide,
+            float enemyLeft, float plBottomSide, float enemyTop)
+        {
+            bool isUp = CollisionDetection.HaveCollisionWithCurrentRadius(plTopSide, enemyBottom, plLeftSide,
+                enemyRight, plRightSide, enemyLeft, BattleRadius);
+
+
+            bool isDown = CollisionDetection.HaveCollisionWithCurrentRadius(plBottomSide, enemyTop, plLeftSide,
+                enemyRight, plRightSide, enemyLeft, BattleRadius);
+
+            bool isLeft = CollisionDetection.HaveCollisionWithCurrentRadius(plLeftSide, enemyRight, plTopSide,
+                enemyBottom, plBottomSide, enemyTop, BattleRadius);
+
+            bool isRight = CollisionDetection.HaveCollisionWithCurrentRadius(plRightSide, enemyLeft, plTopSide,
+                enemyBottom, plBottomSide, enemyTop, BattleRadius);
+
+            if (isUp || isDown || isRight || isLeft)
+            {
+                
+                if (CharacterManager.itIsPlayerTurn)
+                {
+                    this.showInvitationText = true;
+
+                    if (true)
+                    {
+                        //mouse
+                    }
+                    if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+                    {
+                        //Character.isInBattle = true;
+                        this.showInvitationText = false;
+                    }
+
+                }
+                else
+                {
+                    //Character.isInBattle = true;
+                }
+            }
+        }
+
 
         public bool ISeePlayer
         {
@@ -228,6 +292,14 @@ namespace AthameRPG.Characters
                         new Vector2(5, this.indexCounterSupport), Color.Red);
                         this.indexCounterSupport += 20;
                     }
+                }
+                if (this.showInvitationText)
+                {
+                    spriteBatch.DrawString(spriteFontSmallLetters, InvitationForBattle,
+                        this.invitationTextCoord, Color.Red);
+
+                    this.showInvitationText = false;
+                    
                 }
             }
             else if (Character.GetIsInCastle)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using AthameRPG.Characters.WarUnits;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AthameRPG.Characters
@@ -48,6 +49,10 @@ namespace AthameRPG.Characters
             this.southWest = DefaultBarbarianAnimationCropSouthWest;
             this.availableMove = DefaultBarbarianMove;
             this.defaultPlayerMove = DefaultBarbarianMove;
+
+            // add base army
+            this.availableCreatures.Add(new BlackDragon(), 2);
+            this.availableCreatures.Add(new Goro(), 1);
 
             //this.AtackHandler =new AtackBarbarian();
         }
