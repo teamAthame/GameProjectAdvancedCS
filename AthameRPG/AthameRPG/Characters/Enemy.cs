@@ -121,7 +121,7 @@ namespace AthameRPG.Characters
 
                 MakeCurrentAnimationFrame(gameTime);
 
-                ShowEnemyArmy(plTopSide, plBottomSide, plLeftSide, plRightSide);
+                ShowEnemyArmy(plTopSide, plBottomSide, plLeftSide, plRightSide, gameTime);
 
                 if (this.lastAbstractCoord != this.coordGargamel)
                 {
@@ -206,14 +206,16 @@ namespace AthameRPG.Characters
             get { return this.iSeePlayer; }
         }
 
-        private void ShowEnemyArmy(float plTopSide, float plBottomSide, float plLeftSide, float plRightSide)
+        private void ShowEnemyArmy(float plTopSide, float plBottomSide, float plLeftSide, float plRightSide, GameTime gameTime)
         {
             // is enemy near us ... if is near we can see it's army
 
-            this.mouseOverEnemy = MouseExtended.Current.CurrentState.X > this.drawCoordEnemy.X &&
-                                  MouseExtended.Current.CurrentState.X < (this.drawCoordEnemy.X + cropWidth) &&
-                                  MouseExtended.Current.CurrentState.Y > this.drawCoordEnemy.Y &&
-                                  MouseExtended.Current.CurrentState.Y < (this.drawCoordEnemy.Y + cropHeight);
+            //this.mouseOverEnemy = MouseExtended.Current.CurrentState.X > this.drawCoordEnemy.X &&
+            //                      MouseExtended.Current.CurrentState.X < (this.drawCoordEnemy.X + cropWidth) &&
+            //                      MouseExtended.Current.CurrentState.Y > this.drawCoordEnemy.Y &&
+            //                      MouseExtended.Current.CurrentState.Y < (this.drawCoordEnemy.Y + cropHeight);
+            this.mouseOverEnemy = CollisionDetection.IsMouseOverObject(this.drawCoordEnemy, cropWidth, cropHeight,
+                gameTime);
 
             this.inView =
                 ((CollisionDetection.IsNear(plTopSide, this.drawCoordEnemy.Y + cropHeight, this.viewRadius)) ||

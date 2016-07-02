@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AthameRPG.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using AthameRPG.GameEngine.Maps;
+using AthameRPG.Objects.BattleFields;
 using AthameRPG.Objects.UI;
 
 namespace AthameRPG.GameEngine
@@ -23,6 +25,7 @@ namespace AthameRPG.GameEngine
         private CharacterManager charManager;
         private BuildingManager buildingManager;
         private SandWatch sandWatch;
+        private Battlefield battlefield;
 
         public MapManager()
         {
@@ -32,6 +35,7 @@ namespace AthameRPG.GameEngine
             this.charManager = new CharacterManager();
             this.buildingManager = new BuildingManager();
             this.sandWatch = new SandWatch();
+            this.battlefield = new Battlefield();
         }
 
 
@@ -51,7 +55,7 @@ namespace AthameRPG.GameEngine
         {
             get { return this.sandWatch; }
         }
-
+        
         public Map CurrentMap
         {
             get { return this.currentMap; }
@@ -90,15 +94,16 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        public ContentManager ContentManager { get; private set; }
+        //public ContentManager ContentManager { get; private set; }
 
         public void LoadContent(ContentManager ContentManager)
         {
-            this.ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
+            ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
             terrain = ContentManager.Load<Texture2D>(Terrain_Path);
             currentMap.LoadContent();
             charManager.LoadContent(ContentManager);
             buildingManager.LoadContent(ContentManager);
+            battlefield.LoadContent(ContentManager);
 
         }
 
@@ -114,12 +119,28 @@ namespace AthameRPG.GameEngine
             charManager.Update(gameTime);
             buildingManager.Update(gameTime);
 
+            if (Character.GetIsInBattle)
+            {
+                battlefield.Update(gameTime);
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBantch)
         {
-            currentMap.Draw(spriteBantch);
-            buildingManager.Draw(spriteBantch);
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                currentMap.Draw(spriteBantch);
+            }
+            if (!Character.GetIsInBattle)
+            {
+                buildingManager.Draw(spriteBantch);
+            }
+            else
+            {
+                battlefield.Draw(spriteBantch);
+            }
+            
             sandWatch.Draw(spriteBantch);
             charManager.Draw(spriteBantch);
         }

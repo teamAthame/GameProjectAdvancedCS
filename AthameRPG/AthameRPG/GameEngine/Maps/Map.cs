@@ -99,36 +99,41 @@ namespace AthameRPG.GameEngine.Maps
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            
+            DrawWorld(spriteBatch);
+
+        }
+
+        private void DrawWorld(SpriteBatch spriteBatch)
+        {
             for (int i = 0; i < FullMap.Count(); i++)
             {
                 for (int j = 0; j < FullMap[i].Count(); j++)
                 {
                     int currentNum = FullMap[i][j];
                     Color currentColor = Color.White;
-                    
+
                     switch (currentNum)
                     {
-                        case 0: cropWall = new Rectangle(0, 0, 50, 50);
+                        case 0:
+                            this.cropWall = new Rectangle(0, 0, 50, 50);
                             break;
                         case 1:
-                            cropWall = new Rectangle(50, 0, 50, 50);
+                            this.cropWall = new Rectangle(50, 0, 50, 50);
                             break;
                         case 2:
-                            cropWall = new Rectangle(100, 0, 50, 50);
-                            break;
-                        
-                        default:
-                            cropWall = new Rectangle(250, 0, 50, 50);
-                            currentColor = Color.Black;
+                            this.cropWall = new Rectangle(100, 0, 50, 50);
                             break;
 
+                        default:
+                            this.cropWall = new Rectangle(250, 0, 50, 50);
+                            currentColor = Color.Black;
+                            break;
                     }
-                    
-                    currentCoord.X = (float)(j * 50) + CharacterManager.barbarian.CoordP().X;
-                    currentCoord.Y = (float)(i * 50) + CharacterManager.barbarian.CoordP().Y;
-                    
-                    spriteBatch.Draw(MapManager.Instance.Terrain, currentCoord, cropWall, currentColor);
+
+                    this.currentCoord.X = (float) (j*50) + CharacterManager.barbarian.CoordP().X;
+                    this.currentCoord.Y = (float) (i*50) + CharacterManager.barbarian.CoordP().Y;
+
+                    spriteBatch.Draw(MapManager.Instance.Terrain, this.currentCoord, this.cropWall, currentColor);
                 }
             }
         }

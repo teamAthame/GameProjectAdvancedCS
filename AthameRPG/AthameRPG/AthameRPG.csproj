@@ -79,6 +79,7 @@
     <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
+    <Compile Include="Objects\BattleFields\Battlefield.cs" />
     <Compile Include="Objects\Castles\MainCastle.cs" />
     <Compile Include="Objects\Castles\StoneCastle.cs" />
     <Compile Include="Objects\UI\SandWatch.cs" />
@@ -108,6 +109,8 @@
     <Content Include="Content\Maps\mapList.txt" />
     <Content Include="Content\Maps\terrain.png" />
     <Content Include="Content\Obstacles\castles.png" />
+    <Content Include="Content\Obstacles\insideGargamel.jpg" />
+    <Content Include="Content\Obstacles\stoneBattlefield.png" />
     <Content Include="Content\Resource\athame3.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
