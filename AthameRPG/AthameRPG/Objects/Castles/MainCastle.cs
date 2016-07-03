@@ -261,7 +261,7 @@ namespace AthameRPG.Objects.Castles
                 {
                     if (this.turnCounter % 7 == 0)
                     {
-                        this.gadini[warUnit] += 3;
+                        this.gadini[warUnit] += 3m;
                     }
                 }
                 else if (warUnit.GetStrengthLevel == 6 && this.gadini[warUnit] < 10000)
@@ -382,13 +382,15 @@ namespace AthameRPG.Objects.Castles
                 if (this.newMouseState.LeftButton == ButtonState.Pressed &&
                     this.oldMouseState.LeftButton == ButtonState.Released)
                 {
+                    int a = 0;
                     for (int i = 0; i < this.creatureCounter[index]; i++)
                     {
-                        // add to creature to Player / remove creature from Castle
+                        // add creature to Player / remove creature from Castle
                         this.RemoveCreature(
                             this.gadini.FirstOrDefault(x => x.Key.GetStrengthLevel == strengthCreatureLevel).Key);
-                        CharacterManager.barbarian.AddCreature(
-                            this.gadini.FirstOrDefault(x => x.Key.GetStrengthLevel == strengthCreatureLevel).Key);
+                        WarUnit unit =
+                            this.gadini.FirstOrDefault(x => x.Key.GetStrengthLevel == strengthCreatureLevel).Key;
+                        CharacterManager.barbarian.AddCreature(unit);
                     }
                     this.creatureCounter[index] = 0;
                 }

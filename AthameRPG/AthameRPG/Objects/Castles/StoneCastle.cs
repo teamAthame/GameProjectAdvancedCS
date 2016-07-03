@@ -13,7 +13,9 @@ namespace AthameRPG.Objects.Castles
 {
     public class StoneCastle : MainCastle
     {
-        // gadinite koito shte se prodavat v zamaka .... добавете вашите !
+        // gadinite koito shte se prodavat v zamaka .... добавете вашите !!!
+        private BlackDragon blackDragon;
+        private Goro goro;
         private NaiSilna naiSilna;
         private NaiSlaba naiSlaba;
         private Silna silna;
@@ -38,22 +40,20 @@ namespace AthameRPG.Objects.Castles
                 this.cropCurrentCastleImageHeight);
 
             // опиши/вкарай какви гадини искаш да има съответния замък.
-            this.naiSilna = new NaiSilna();
-            this.silna = new Silna();
-            this.srednoSilna = new SrednoSilna();
-            this.sredna = new Sredna();
-            this.srednoSlaba = new SrednoSlaba();
-            this.slaba = new Slaba();
-            this.naiSlaba = new NaiSlaba();
-            this.gadini.Add(naiSilna, 0m);
-            this.gadini.Add(silna, 0m);
-            this.gadini.Add(srednoSilna, 0m);
-            this.gadini.Add(sredna, 0m);
-            this.gadini.Add(srednoSlaba, 0m);
-            this.gadini.Add(slaba, 0m);
-            this.gadini.Add(naiSlaba, 0m);
+            this.gadini.Add(new BlackDragon(true), 0);
+            this.gadini.Add(new Goro(true), 0);
+
         }
 
-        
+        public override void LoadContent(ContentManager Content)
+        {
+            base.LoadContent(Content);
+
+            foreach (var gadina in this.gadini)
+            {
+                gadina.Key.LoadContent(Content);
+            }
+
+        }
     }
 }

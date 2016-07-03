@@ -22,14 +22,14 @@ namespace AthameRPG.Objects.BattleFields
         protected Vector2 battlefieldDrawCoord;
         protected SpriteFont spriteFontSmallLetters;
         
-        private Dictionary<WarUnit, int> playerUnits;
-        private Dictionary<WarUnit, int> enemyUnits;
+        private Dictionary<WarUnit, decimal> playerUnits;
+        private Dictionary<WarUnit, decimal> enemyUnits;
 
         public Battlefield()
         {
             this.imagePath = DefaultImagePath;
-            this.playerUnits = new Dictionary<WarUnit, int>();
-            this.enemyUnits = new Dictionary<WarUnit, int>();
+            this.playerUnits = new Dictionary<WarUnit, decimal>();
+            this.enemyUnits = new Dictionary<WarUnit, decimal>();
         }
         
         public void LoadContent(ContentManager contentManager)
@@ -69,13 +69,13 @@ namespace AthameRPG.Objects.BattleFields
             }
         }
 
-        public void LoadArmies(IReadOnlyDictionary<WarUnit, int> playerArmy, IReadOnlyDictionary<WarUnit, int> enemyArmy)
+        public void LoadArmies(IReadOnlyDictionary<WarUnit, decimal> playerArmy, IReadOnlyDictionary<WarUnit, decimal> enemyArmy)
         {
             this.playerUnits.Clear();
             this.enemyUnits.Clear();
 
-            this.playerUnits = (Dictionary<WarUnit,int>)playerArmy;
-            this.enemyUnits = (Dictionary<WarUnit, int>)enemyArmy;
+            this.playerUnits = (Dictionary<WarUnit, decimal>)playerArmy;
+            this.enemyUnits = (Dictionary<WarUnit, decimal>)enemyArmy;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 using System.Collections.Generic;
+using System.Linq;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
@@ -9,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AthameRPG.Characters
 {
-    public abstract class Unit 
+    public abstract class Unit
     {
         protected static bool isInCastle;
         protected static bool isInBattle;
@@ -22,17 +23,18 @@ namespace AthameRPG.Characters
         protected AnimationReturnedValue returnedValue;
         protected Vector2 lastAbstractCoord;
         protected Rectangle cropCurrentFrame;
-        protected Dictionary<WarUnit, int> availableCreatures;
+        protected Dictionary<WarUnit, decimal> availableCreatures;
         protected double availableMove;
         protected double defaultPlayerMove;
-        
+        protected WarUnit supportUnitForAdding;
+
         protected bool isAlive;
 
         protected float startPositionX, startPositionY;
 
         public Unit(float startPositionX, float startPositionY, int atack, int health, int defence)
         {
-            this.availableCreatures = new Dictionary<WarUnit, int>();
+            this.availableCreatures = new Dictionary<WarUnit, decimal>();
             this.StartPositionX = startPositionX;
             this.StartPositionY = startPositionY;
             this.IsAlive = true;
@@ -73,26 +75,31 @@ namespace AthameRPG.Characters
             get { return this.availableMove; }
         }
 
-        public IReadOnlyDictionary<WarUnit, int> AvailableCreatures
+        public IReadOnlyDictionary<WarUnit, decimal> AvailableCreatures
         {
             get { return this.availableCreatures; }
         }
 
-        public virtual void AddCreature(WarUnit warUnit)
+        public virtual void AddCreature(WarUnit newUnit)
         {
-            if (!this.availableCreatures.ContainsKey(warUnit))
+
+            this.supportUnitForAdding =
+            this.availableCreatures.Keys.FirstOrDefault(x => x.GetStrengthLevel == newUnit.GetStrengthLevel);
+
+            if (this.supportUnitForAdding == null)
             {
-                this.availableCreatures.Add(warUnit, 0);
+                this.availableCreatures.Add(newUnit, 1);
             }
-            this.availableCreatures[warUnit]++;
+            else
+            {
+                this.availableCreatures[supportUnitForAdding]++;
+            }
+            
         }
 
         public Rectangle CropCurrentFrame
         {
-            get
-            {
-                return this.cropCurrentFrame;
-            }
+            get { return this.cropCurrentFrame; }
             protected set
             {
                 //this.cropCurrentFramePlayer = new Rectangle(0, 0, cropWidth, cropHeight);
@@ -102,14 +109,8 @@ namespace AthameRPG.Characters
 
         public virtual bool IsAlive
         {
-            get
-            {
-                return this.isAlive;
-            }
-            private set
-            {
-                this.isAlive = value;
-            }
+            get { return this.isAlive; }
+            private set { this.isAlive = value; }
         }
 
         public virtual void KillTarget()
@@ -119,26 +120,14 @@ namespace AthameRPG.Characters
 
         public virtual float StartPositionX
         {
-            get
-            {
-                return this.startPositionX;
-            }
-            protected set
-            {
-                this.startPositionX = value;
-            }
+            get { return this.startPositionX; }
+            protected set { this.startPositionX = value; }
         }
 
         public virtual float StartPositionY
         {
-            get
-            {
-                return this.startPositionY;
-            }
-            protected set
-            {
-                this.startPositionY = value;
-            }
+            get { return this.startPositionY; }
+            protected set { this.startPositionY = value; }
         }
 
     }

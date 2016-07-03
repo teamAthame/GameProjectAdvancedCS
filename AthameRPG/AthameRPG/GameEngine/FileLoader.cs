@@ -118,6 +118,8 @@ namespace AthameRPG.GameEngine
                     }
                 }
             }
+            //debug !
+            int a = 0;
         }
     }
 }

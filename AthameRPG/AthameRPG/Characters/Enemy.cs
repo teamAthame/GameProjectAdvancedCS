@@ -18,6 +18,10 @@ namespace AthameRPG.Characters
         public const int cropWidth = 80;
         public const int cropHeight = 85;
 
+        protected static Texture2D enemyImage;
+        protected static SpriteFont spriteFontSmallLetters;
+        protected static SpriteFont bigLetters;
+
         protected int cropStay = 0;
         protected int north = 440;
         protected int south = 15;
@@ -35,8 +39,6 @@ namespace AthameRPG.Characters
         protected bool inView;
         protected int enemySearchRadius;
         protected int indexCounterSupport;
-        protected static SpriteFont spriteFontSmallLetters;
-        protected static SpriteFont bigLetters;
         protected bool mouseOverEnemy;
         protected bool iSeePlayer;
         protected bool showInvitationText;
@@ -64,6 +66,7 @@ namespace AthameRPG.Characters
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
+
             spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
             bigLetters = content.Load<SpriteFont>(BigLettersPath);
             this.invitationTextCoord =
@@ -285,7 +288,7 @@ namespace AthameRPG.Characters
         {
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                spriteBatch.Draw(CharacterManager.Instance.GargamelImage, this.drawCoordEnemy, this.CropCurrentFrame, Color.White);
+                spriteBatch.Draw(enemyImage, this.drawCoordEnemy, this.CropCurrentFrame, Color.White);
 
                 if (this.inView)
                 {

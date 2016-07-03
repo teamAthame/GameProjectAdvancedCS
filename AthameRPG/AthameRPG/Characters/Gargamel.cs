@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AthameRPG.GameEngine;
+using Microsoft.Xna.Framework.Content;
 
 namespace AthameRPG.Characters
 {
@@ -11,6 +12,7 @@ namespace AthameRPG.Characters
         private const int DefaultWariorAttackPoints = 80;
         private const int DefaultWariorHealthPoints = 80;
         private const int DefaultWariorDefence = 40;
+        private const string PathGargamelImage = @"../Content/Character/GoblinWalk";
 
         // Animation values
         private const int DefaultGargamelDirectionCropStay = 0;
@@ -53,6 +55,12 @@ namespace AthameRPG.Characters
 
         }
 
-        
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            enemyImage = content.Load<Texture2D>(PathGargamelImage);
+        }
+
+
     }
 }

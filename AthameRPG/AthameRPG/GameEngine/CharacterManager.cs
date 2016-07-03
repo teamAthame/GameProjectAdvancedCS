@@ -25,7 +25,7 @@ namespace AthameRPG.GameEngine
         
         public static Character barbarian;
         
-        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
+        //private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
 
         //public static
         public static List<Enemy> enemiesList;
@@ -58,10 +58,9 @@ namespace AthameRPG.GameEngine
         {
             
             barbarian.LoadContent(Content);
-
-
+            
             // this will be fix ... will be like barb... every char will give his image
-            gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
+            //gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
 
             FileLoader.ReadEnemyAndBuildingPositions(PathEnemyAndBuildingPositionOnMap);
 
