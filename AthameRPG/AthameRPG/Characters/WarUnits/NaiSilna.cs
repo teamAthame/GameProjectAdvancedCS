@@ -10,7 +10,11 @@ namespace AthameRPG.Characters.WarUnits
     {
         private const int DefaultStrengthLevel = 7;
 
-        public NaiSilna()
+        public NaiSilna():base()
+        {
+            this.strengthLevel = DefaultStrengthLevel;
+        }
+        public NaiSilna(bool playerUnit) : base(playerUnit)
         {
             this.strengthLevel = DefaultStrengthLevel;
         }

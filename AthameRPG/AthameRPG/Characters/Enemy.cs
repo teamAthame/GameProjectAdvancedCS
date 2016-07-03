@@ -189,6 +189,7 @@ namespace AthameRPG.Characters
                         {
                             Character.isInBattle = true;
                             this.showInvitationText = false;
+                            MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
                         }
                     }
                 }
@@ -196,6 +197,7 @@ namespace AthameRPG.Characters
                 {
                     Character.isInBattle = true;
                     this.showInvitationText = false;
+                    MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
                 }
             }
         }

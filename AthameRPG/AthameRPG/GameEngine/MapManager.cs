@@ -55,6 +55,11 @@ namespace AthameRPG.GameEngine
         {
             get { return this.sandWatch; }
         }
+
+        public Battlefield Battlefield
+        {
+            get { return this.battlefield; }
+        }
         
         public Map CurrentMap
         {

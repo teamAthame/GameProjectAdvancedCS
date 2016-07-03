@@ -122,7 +122,7 @@ namespace AthameRPG.Characters
         {
             /// take animation direction 
 
-            this.frameCounter += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
+            this.frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (this.frameCounter >= this.switchCounter)
             {
@@ -130,9 +130,9 @@ namespace AthameRPG.Characters
 
                 this.returnedValue = Animation.SpriteSheetAnimation(this.lastAbstractCoord,
                     this.abstractPlayerPositon,
-                    this.direction, this.cropFrame, cropWidth, cropHeight, cropStay, north, south, east, west,
-                    northEast,
-                    northWest, southEast, southWest);
+                    this.direction, this.cropFrame, cropWidth, cropHeight, this.cropStay, this.north, this.south, this.east, this.west,
+                    this.northEast,
+                    this.northWest, this.southEast, this.southWest);
 
                 this.cropCurrentFrame = this.returnedValue.ImageCrop;
                 this.direction = this.returnedValue.Direction;

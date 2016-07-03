@@ -49,10 +49,11 @@ namespace AthameRPG.Characters
             this.southWest = DefaultBarbarianAnimationCropSouthWest;
             this.availableMove = DefaultBarbarianMove;
             this.defaultPlayerMove = DefaultBarbarianMove;
+            this.direction = "NW";
 
             // add base army
-            this.availableCreatures.Add(new BlackDragon(), 2);
-            this.availableCreatures.Add(new Goro(), 1);
+            this.availableCreatures.Add(new BlackDragon(true), 2);
+            this.availableCreatures.Add(new Goro(true), 1);
 
             //this.AtackHandler =new AtackBarbarian();
         }

@@ -13,6 +13,7 @@ namespace AthameRPG.Characters
     {
         protected static bool isInCastle;
         protected static bool isInBattle;
+        protected const int MinFrameSwitch = 100;
 
         protected int frameCounter;
         protected int switchCounter;
@@ -24,7 +25,7 @@ namespace AthameRPG.Characters
         protected Dictionary<WarUnit, int> availableCreatures;
         protected double availableMove;
         protected double defaultPlayerMove;
-
+        
         protected bool isAlive;
 
         protected float startPositionX, startPositionY;
@@ -35,7 +36,7 @@ namespace AthameRPG.Characters
             this.StartPositionX = startPositionX;
             this.StartPositionY = startPositionY;
             this.IsAlive = true;
-            this.switchCounter = 100;
+            this.switchCounter = MinFrameSwitch;
             this.cropFrame = 0;
             this.returnedValue = new AnimationReturnedValue();
             //this.CropCurrentFrame = cropCurrentFrame;
