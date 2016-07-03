@@ -29,6 +29,11 @@ namespace AthameRPG.Objects.UI
             this.drawCoord = new Vector2(DrawCoordX, DrawCoordY);
             this.cropDimmensionsOfWatch = new Rectangle(ImageCropX, ImageCropY, ImageWidthHeight, ImageWidthHeight);
         }
+
+        public Vector2 DrawCoordSandwatch
+        {
+            get { return this.drawCoord; }
+        }
         
         public void Update(GameTime gameTime)
         {
@@ -37,7 +42,10 @@ namespace AthameRPG.Objects.UI
 
             if (!Character.GetIsInBattle && ! Character.GetIsInCastle)
             {
-                if (this.newMouseState.X > DrawCoordX && this.newMouseState.X < (DrawCoordX + ImageWidthHeight) && this.newMouseState.Y > DrawCoordY && this.newMouseState.Y < (DrawCoordY + ImageWidthHeight))
+                // this.newMouseState.X > DrawCoordX && this.newMouseState.X < (DrawCoordX + ImageWidthHeight) && this.newMouseState.Y > DrawCoordY && this.newMouseState.Y < (DrawCoordY + ImageWidthHeight)
+                //CollisionDetection.IsMouseOverObject(this.drawCoord, ImageCropX, ImageCropY,gameTime)
+
+                if (CollisionDetection.IsMouseOverObject(this.drawCoord, ImageCropX, ImageCropY, gameTime))
                 {
                     if (this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released)
                     {
@@ -53,11 +61,21 @@ namespace AthameRPG.Objects.UI
                 }
                 
             }
+            else if (Character.GetIsInBattle)
+            {
+                if (CollisionDetection.IsMouseOverObject(this.drawCoord, ImageCropX, ImageCropY, gameTime))
+                {
+                    if (this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released)
+                    {
+                        MapManager.Instance.Battlefield.EndCurrentTurn();
+                    }
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            if (!Character.GetIsInCastle)
             {
                 spriteBatch.Draw(MapManager.Instance.Terrain, this.drawCoord, this.cropDimmensionsOfWatch, Color.White);
             }

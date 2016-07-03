@@ -41,10 +41,10 @@
     <Compile Include="Atack\Atack.cs" />
     <Compile Include="Atack\AtackBarbarian.cs" />
     <Compile Include="Atack\CombatHandler.cs" />
-    <Compile Include="Characters\Barbarian.cs" />
-    <Compile Include="Characters\Enemy.cs" />
-    <Compile Include="Characters\Gargamel.cs" />
-    <Compile Include="Characters\Unit.cs" />
+    <Compile Include="Characters\Heroes\Barbarian.cs" />
+    <Compile Include="Characters\Heroes\Enemy.cs" />
+    <Compile Include="Characters\Heroes\Gargamel.cs" />
+    <Compile Include="Characters\Heroes\Unit.cs" />
     <Compile Include="Characters\WarUnits\BlackDragon.cs" />
     <Compile Include="Characters\WarUnits\Goro.cs" />
     <Compile Include="Characters\WarUnits\NaiSilna.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="GameEngine\AnimationReturnedValue.cs" />
     <Compile Include="GameEngine\BuildingManager.cs" />
     <Compile Include="GameEngine\CharacterManager.cs" />
-    <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\Heroes\Character.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameEngine\CollisionDetection.cs" />
     <Compile Include="GameEngine\FileLoader.cs" />

@@ -15,21 +15,25 @@ namespace AthameRPG.Objects.Castles
 {
     public abstract class MainCastle
     {
-        protected bool mouseIsOverReturnButton;
-        protected static Texture2D imageOfCastleOutside;
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
+        protected const int EntryInCastleMinX = 350;
+        protected const int EntryInCastleMaxX = 450;
+        protected const int EntryInCastleY = 10;
+        protected static Texture2D imageOfCastleOutside;
+        protected static Texture2D insideCastle;
+        protected static SpriteFont spriteFont;
+        protected static SpriteFont spriteFontSmallLetters;
+
+        protected bool mouseIsOverReturnButton;
         protected string insideFirstCastlePath;
         protected Rectangle cropCastle;
         protected Vector2 coordinatesOnMap;
         protected Vector2 drawCoordinates;
         protected int cropCurrentCastleImageWidth;
         protected int cropCurrentCastleImageHeight;
-        protected static Texture2D insideCastle;
         protected int switchCounter;
         protected int frameCounter;
         protected int naiSilnaGadinaCount;
-        protected static SpriteFont spriteFont;
-        protected static SpriteFont spriteFontSmallLetters;
         protected int increaseYforPrintNameOfCreature;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
@@ -132,6 +136,86 @@ namespace AthameRPG.Objects.Castles
             }
         }
 
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                spriteBatch.Draw(imageOfCastleOutside, this.drawCoordinates, this.cropCastle, Color.White);
+            }
+            else if (Character.GetIsInCastle)
+            {
+
+                spriteBatch.Draw(insideCastle, new Vector2(0, 0), Color.White);
+
+                if (this.mouseIsOverReturnButton)
+                {
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
+                        Color.Red);
+                }
+                else
+                {
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
+                        Color.White);
+                }
+
+                this.increaseYforPrintNameOfCreature = 20;
+                this.supportCreatureIndex = 0;
+                // print available creatures
+                foreach (var gadinki in this.gadini)
+                {
+                    spriteBatch.DrawString(spriteFont,
+                        gadinki.Key.GetType().Name + " : " +
+                        (gadinki.Value - this.creatureCounter[this.supportCreatureIndex]).ToString(),
+                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
+                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                    this.supportCreatureIndex++;
+                }
+
+                this.increaseYforPrintNameOfCreature = 20;
+                // print purchase creatures
+                foreach (var index in this.creatureCounter)
+                {
+                    spriteBatch.DrawString(spriteFont, index.ToString(),
+                        new Vector2(280, this.increaseYforPrintNameOfCreature), Color.Yellow);
+                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                }
+
+                //print buttons
+                this.increaseYforPrintNameOfCreature = 7;
+                for (int i = 0; i < 7; i++)
+                {
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(360, this.increaseYforPrintNameOfCreature),
+                        new Rectangle(250, 48, 50, 50), Color.White);
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(300, this.increaseYforPrintNameOfCreature),
+                        new Rectangle(250, 98, 50, 50), Color.Yellow);
+                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(215, this.increaseYforPrintNameOfCreature),
+                        new Rectangle(250, 148, 50, 50), Color.Gray);
+                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                }
+
+                // print our army
+                spriteBatch.DrawString(spriteFontSmallLetters, "Our Army:",
+                    new Vector2(15, 400), Color.White);
+
+                this.increaseYforPrintNameOfCreature = 430;
+
+                //CharacterManager.barbarian.availableCreatures
+                foreach (var creatures in CharacterManager.barbarian.AvailableCreatures)
+                {
+                    spriteBatch.DrawString(spriteFontSmallLetters,
+                        creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
+                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
+                    this.increaseYforPrintNameOfCreature += 20;
+                }
+
+
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
+        }
+
         private void BuyCreature(GameTime gameTime)
         {
             // buy a creature
@@ -213,11 +297,11 @@ namespace AthameRPG.Objects.Castles
         {
             MouseExtended.Current.GetState(gameTime);
 
-            bool isNearBottomSideOfCastleByX = (this.drawCoordinates.X + (this.cropCurrentCastleImageWidth/2)) > 375 &&
-                                               (this.drawCoordinates.X + (this.cropCurrentCastleImageWidth/2)) < 425;
+            bool isNearBottomSideOfCastleByX = (this.drawCoordinates.X + (this.cropCurrentCastleImageWidth/2)) > EntryInCastleMinX &&
+                                               (this.drawCoordinates.X + (this.cropCurrentCastleImageWidth/2)) < EntryInCastleMaxX;
 
             bool isNearBottomSideOfCastleByY = (Character.DrawCoordPlayer.Y -
-                                                (this.drawCoordinates.Y + this.cropCurrentCastleImageHeight)) < 5;
+                                                (this.drawCoordinates.Y + this.cropCurrentCastleImageHeight)) < EntryInCastleY;
 
             bool mouseIsOverCastleByX = MouseExtended.Current.CurrentState.Position.X > this.drawCoordinates.X &&
                                         MouseExtended.Current.CurrentState.Position.X <
@@ -412,87 +496,7 @@ namespace AthameRPG.Objects.Castles
                 }
             }
         }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
-            {
-                spriteBatch.Draw(imageOfCastleOutside, this.drawCoordinates, this.cropCastle, Color.White);
-            }
-            else if (Character.GetIsInCastle)
-            {
-
-                spriteBatch.Draw(insideCastle, new Vector2(0, 0), Color.White);
-
-                if (this.mouseIsOverReturnButton)
-                {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
-                        Color.Red);
-                }
-                else
-                {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
-                        Color.White);
-                }
-
-                this.increaseYforPrintNameOfCreature = 20;
-                this.supportCreatureIndex = 0;
-                // print available creatures
-                foreach (var gadinki in this.gadini)
-                {
-                    spriteBatch.DrawString(spriteFont,
-                        gadinki.Key.GetType().Name + " : " +
-                        (gadinki.Value - this.creatureCounter[this.supportCreatureIndex]).ToString(),
-                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                    this.supportCreatureIndex++;
-                }
-
-                this.increaseYforPrintNameOfCreature = 20;
-                // print purchase creatures
-                foreach (var index in this.creatureCounter)
-                {
-                    spriteBatch.DrawString(spriteFont, index.ToString(),
-                        new Vector2(280, this.increaseYforPrintNameOfCreature), Color.Yellow);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                }
-
-                //print buttons
-                this.increaseYforPrintNameOfCreature = 7;
-                for (int i = 0; i < 7; i++)
-                {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(360, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 48, 50, 50), Color.White);
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(300, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 98, 50, 50), Color.Yellow);
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(215, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 148, 50, 50), Color.Gray);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                }
-
-                // print our army
-                spriteBatch.DrawString(spriteFontSmallLetters, "Our Army:",
-                    new Vector2(15, 400), Color.White);
-
-                this.increaseYforPrintNameOfCreature = 430;
-
-                //CharacterManager.barbarian.availableCreatures
-                foreach (var creatures in CharacterManager.barbarian.AvailableCreatures)
-                {
-                    spriteBatch.DrawString(spriteFontSmallLetters,
-                        creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
-                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
-                    this.increaseYforPrintNameOfCreature += 20;
-                }
-
-
-            }
-            else if (Character.GetIsInBattle)
-            {
-
-            }
-        }
-
+        
         protected void RemoveCreature(WarUnit warUnit)
         {
             this.gadini[warUnit]--;

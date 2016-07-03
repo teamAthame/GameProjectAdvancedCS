@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
@@ -12,10 +13,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Characters.WarUnits
 {
-    public abstract class WarUnit
+    public abstract class WarUnit //: IComparable<WarUnit>
     {
         protected const int MinFrameSwitch = 100;
-        
+        protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
+        protected const float smallLetterCoordX = 395;
+        protected const float smallLetterCoordY = 580;
+
+        //public static bool isPlayerTurnInBattle;
+
         protected int strengthLevel;
         protected Texture2D warUnitImage;
         protected string imagePath;
@@ -27,24 +33,31 @@ namespace AthameRPG.Characters.WarUnits
         //protected SpriteEffects battlefieldEffect;
         protected bool playerUnit;
         protected bool amIArcherOrMage;
-        protected bool choosen;
+        internal bool isChoosen;
+        internal bool inBattleTurn;
+        
 
-        protected int cropStayRow;
-        protected int cropMovingRow;
-        protected int cropAttackRow;
         protected int frameCounter;
         protected int switchCounter;
         protected int cropFrame;
+        protected int cropStayRow;
+        protected int cropMovingRow;
+        protected int cropAttackRow;
+        protected int cropStayWidth;
+        protected int cropStayHeight;
+        protected int cropMoveWidth;
+        protected int cropMoveHeight;
+        protected int cropAttackWidth;
+        protected int cropAttackHeight;
+
+        protected float moveSpeed;
+        protected double availableMove;
+
+        protected SpriteFont spriteFontSmallLetters;
+        protected Vector2 smallLettersDrawCoord;
         protected AnimationReturnedValue newAnimationFrame;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
-        protected int cropStayWidth = 69;
-        protected int cropStayHeight = 97;
-        protected int cropMoveWidth = 0;
-        protected int cropMoveHeight = 0;
-        protected int cropAttackWidth = 0;
-        protected int cropAttackHeight = 0;
-        protected float moveSpeed;
 
 
         public WarUnit()
@@ -52,13 +65,19 @@ namespace AthameRPG.Characters.WarUnits
             this.playerUnit = false;
             this.switchCounter = MinFrameSwitch;
             this.warUnitEffect = SpriteEffects.FlipHorizontally;
+            this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
+            this.inBattleTurn = true;
         }
 
         public WarUnit(bool playerUnit)
         {
             this.playerUnit = playerUnit;
             this.switchCounter = MinFrameSwitch;
+            this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
+            this.inBattleTurn = true;
         }
+
+        public bool CanBeSeleted { get; set; }
 
         public Vector2 WarUnitDrawCoord
         {
@@ -68,7 +87,9 @@ namespace AthameRPG.Characters.WarUnits
         public virtual void LoadContent(ContentManager content)
         {
             this.warUnitImage = content.Load<Texture2D>(this.imagePath);
-            
+
+            this.spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
+
             this.cropCurrentFrame = new Rectangle(120,0,69,100);
              
         }
@@ -85,8 +106,7 @@ namespace AthameRPG.Characters.WarUnits
             if (this.frameCounter >= this.switchCounter)
             {
                 this.frameCounter = 0;
-                //
-
+                
                 this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
                         this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
 
@@ -98,38 +118,18 @@ namespace AthameRPG.Characters.WarUnits
                 {
                     this.cropFrame = 0;
                 }
-
-                //if (this.playerUnit)
-                //{
-                //    this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
-                //        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
-
-                //    this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
-
-                //    this.cropFrame++;
-
-                //    if (this.cropFrame == 4)
-                //    {
-                //        this.cropFrame = 0;
-                //    }
-                //}
-                //else
-                //{
-                //    this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
-                //        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
-
-                //    this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
-
-                //    this.cropFrame++;
-
-                //    if (this.cropFrame == 4)
-                //    {
-                //        this.cropFrame = 0;
-                //    }
-                //}
             }
 
-            
+            if (!this.inBattleTurn)
+            {
+                this.isChoosen = false;
+            }
+
+            if (this.availableMove <= 0)
+            {
+                this.isChoosen = false;
+                this.inBattleTurn = false;
+            }
         }
         
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -137,9 +137,11 @@ namespace AthameRPG.Characters.WarUnits
             if (this.playerUnit)
             {
                 
-                if (this.choosen)
+                if (this.isChoosen)
                 {
                     spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.Red);
+                    spriteBatch.DrawString(this.spriteFontSmallLetters, string.Format("{0:F0}", this.availableMove > 0 ? this.availableMove : 0),
+                    this.smallLettersDrawCoord, Color.Red);
                 }
                 else
                 {
@@ -172,21 +174,21 @@ namespace AthameRPG.Characters.WarUnits
             if (CollisionDetection.IsMouseOverObject(this.warUnitDrawCoord, cropStayWidth, cropStayHeight, gameTime)
                 && this.newMouseState.RightButton == ButtonState.Pressed &&
                 this.oldMouseState.RightButton == ButtonState.Released
-                && this.playerUnit)
+                && this.playerUnit && this.CanBeSeleted)
             {
-                if (!this.choosen && this.IsAnotherSelectedUnit())
+                if (!this.isChoosen && this.IsAnotherSelectedUnit())
                 {
-                    this.choosen = true;
+                    this.isChoosen = true;
                     this.wantedPosition = this.warUnitDrawCoord;
 
                 }
                 else
                 {
-                    this.choosen = false;
+                    this.isChoosen = false;
                 }
             }
 
-            if (this.choosen)
+            if (this.isChoosen)
             {
                 // this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released
                 // MouseExtended.Current.WasDoubleClick(MouseButton.Left)
@@ -196,6 +198,14 @@ namespace AthameRPG.Characters.WarUnits
                     this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight / 2);
                 }
 
+                this.Moving();
+            }
+        }
+
+        private void Moving()
+        {
+            if (this.availableMove > 0)
+            {
                 if (this.warUnitDrawCoord.X < this.wantedPosition.X)
                 {
                     this.warUnitDrawCoord.X += this.moveSpeed;
@@ -212,6 +222,8 @@ namespace AthameRPG.Characters.WarUnits
                 {
                     this.warUnitDrawCoord.Y += this.moveSpeed;
                 }
+
+                this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastDrawCoord, this.WarUnitDrawCoord);
             }
         }
 
@@ -219,7 +231,7 @@ namespace AthameRPG.Characters.WarUnits
         {
             foreach (var availableCreature in CharacterManager.barbarian.AvailableCreatures)
             {
-                if (availableCreature.Key.choosen)
+                if (availableCreature.Key.isChoosen)
                 {
                     return false;
                 }
@@ -231,5 +243,70 @@ namespace AthameRPG.Characters.WarUnits
         {
             get {return this.strengthLevel; }
         }
+
+        public void MoveInBattle()
+        {
+            Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true; 
+              
+            bool hasArcherFriend =  MapManager.Instance.Battlefield.CheckEnemyArmy(isThereAnArcher);
+            bool hasArcherEnemy = false;
+            bool isCloseEnough = false;
+
+
+            if (this.availableMove > 0)
+            {
+                if (this.warUnitDrawCoord.X > 295 && this.warUnitDrawCoord.X < 305)
+                {
+                    this.wantedPosition.X = 750;
+                    
+                }
+                else if (this.warUnitDrawCoord.X > 740 && this.warUnitDrawCoord.X < 758)
+                {
+                    this.wantedPosition.X = 200;
+                }
+
+                this.Moving();
+            }
+            else
+            {
+                this.inBattleTurn = false;
+            }
+
+        }
+
+        protected void MoveTo(WarUnit warUnit)
+        {
+            
+        }
+
+        public void ReFillAvailableMove()
+        {
+            this.availableMove = this.GetDefaultMove();
+        }
+
+        protected abstract float GetDefaultMove();
+
+        //public static bool operator ==(WarUnit firstUnit, WarUnit secondUnit)
+        //{
+        //    return firstUnit.GetType().Name == secondUnit.GetType().Name;
+        //}
+
+        //public static bool operator !=(WarUnit firstUnit, WarUnit secondUnit)
+        //{
+        //    return firstUnit.GetType().Name != secondUnit.GetType().Name;
+        //}
+
+        //public int CompareTo(WarUnit other)
+        //{
+        //    int result = 0;
+
+        //    if (this.GetType().Name == other.GetType().Name)
+        //    {
+        //        return this.GetType().Name.CompareTo(other.GetType().Name);
+        //    }
+
+        //    return other.GetType().Name.CompareTo(this.GetType().Name);
+
+        //}
     }
 }

@@ -17,6 +17,7 @@ namespace AthameRPG.Characters.WarUnits
         private const int DefaultCropAttackWidth = 0;
         private const int DefaultCropAttackHeight = 0;
         private const float DefaultMoveSpeed = 2f;
+        private const float DefaultAvailableMove = 200f;
 
         public Goro():base()
         {
@@ -31,6 +32,7 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackWidth = 0;
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
+            this.availableMove = DefaultAvailableMove;
         }
         public Goro(bool playerUnit):base(playerUnit)
         {
@@ -45,6 +47,12 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackWidth = 0;
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
+            this.availableMove = DefaultAvailableMove;
+        }
+
+        protected override float GetDefaultMove()
+        {
+            return DefaultAvailableMove;
         }
     }
 }

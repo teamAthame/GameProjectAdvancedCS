@@ -1,6 +1,7 @@
 ﻿using AthameRPG.Controls;
 using Microsoft.Xna.Framework;
 using AthameRPG.GameEngine;
+using AthameRPG.Objects.BattleFields;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +16,7 @@ namespace AthameRPG.Characters
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const string BigLettersPath = "../Content/Fonts/ArialBig";
         protected const string InvitationForBattle = "Click twice over Enemy for battle.";
+        protected const int MaxStrenghtLevel = 7;
         public const int cropWidth = 80;
         public const int cropHeight = 85;
 
@@ -192,6 +194,7 @@ namespace AthameRPG.Characters
                         if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
                         {
                             Character.isInBattle = true;
+                            Battlefield.unitStreghtLevelIndex = MaxStrenghtLevel;
                             this.showInvitationText = false;
                             MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
                         }
@@ -200,6 +203,7 @@ namespace AthameRPG.Characters
                 else
                 {
                     Character.isInBattle = true;
+                    Battlefield.unitStreghtLevelIndex = MaxStrenghtLevel;
                     this.showInvitationText = false;
                     MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
                 }

@@ -94,7 +94,12 @@ namespace AthameRPG.Characters
             {
                 this.availableCreatures[supportUnitForAdding]++;
             }
-            
+
+            //if (!this.availableCreatures.ContainsKey(newUnit))
+            //{
+            //    this.availableCreatures.Add(newUnit,0);
+            //}
+            //this.availableCreatures[newUnit]++;
         }
 
         public Rectangle CropCurrentFrame
