@@ -15,11 +15,13 @@ namespace AthameRPG.Objects.BattleFields
         // instance/loaded from MapManager
 
         private const string DefaultImagePath = "../Content/Obstacles/stonebattlefield";
+        private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
+
         protected Texture2D battlefieldImage;
         protected string imagePath;
         protected Vector2 battlefieldDrawCoord;
-        //protected SpriteEffects battlefieldEffect;
-
+        protected SpriteFont spriteFontSmallLetters;
+        
         private Dictionary<WarUnit, int> playerUnits;
         private Dictionary<WarUnit, int> enemyUnits;
 
@@ -33,8 +35,10 @@ namespace AthameRPG.Objects.BattleFields
         public void LoadContent(ContentManager contentManager)
         {
             this.battlefieldImage = contentManager.Load<Texture2D>(this.imagePath);
+            this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
+
         }
-        
+
         public void Update(GameTime gameTime)
         {
             foreach (var playerUnit in this.playerUnits)
@@ -54,10 +58,14 @@ namespace AthameRPG.Objects.BattleFields
             foreach (var playerUnit in this.playerUnits)
             {
                 playerUnit.Key.Draw(spriteBatch);
+                spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
+                    playerUnit.Key.WarUnitDrawCoord, Color.White);
             }
             foreach (var enemyUnit in this.enemyUnits)
             {
                 enemyUnit.Key.Draw(spriteBatch);
+                spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
+                    new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.White);
             }
         }
 

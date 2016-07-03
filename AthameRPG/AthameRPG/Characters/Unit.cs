@@ -59,19 +59,7 @@ namespace AthameRPG.Characters
 
         public abstract void UnloadContent();
 
-        public virtual void Update(GameTime gameTime)
-        {
-            if (!isInCastle && !isInBattle)
-            {
-                //// re-fill available move
-                //if (MapManager.Instance.SandWatch.NextTurnIsClicked)
-                //{
-                //    //MapManager.Instance.SandWatch.NextTurnIsClicked = false;
-                //    this.availableMove = this.defaultPlayerMove;
-                //}
-            }
-            
-        }
+        public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(SpriteBatch spriteBatch);
 

@@ -22,6 +22,15 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
+            this.warUnitDrawCoord.X = 725;
+            this.warUnitDrawCoord.Y = 0;
+            this.cropStayWidth = DefaultCropStayWidth;
+            this.cropStayHeight = DefaultCropStayHeight;
+            this.cropMoveWidth = 0;
+            this.cropMoveHeight = 0;
+            this.cropAttackWidth = 0;
+            this.cropAttackHeight = 0;
+            this.moveSpeed = DefaultMoveSpeed;
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)

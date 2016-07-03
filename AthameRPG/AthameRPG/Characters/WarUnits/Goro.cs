@@ -22,13 +22,22 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
+            this.warUnitDrawCoord.X = 730f;
+            this.warUnitDrawCoord.Y = 200f;
+            this.cropStayWidth = DefaultCropStayWidth;
+            this.cropStayHeight = DefaultCropStayHeight;
+            this.cropMoveWidth = 0;
+            this.cropMoveHeight = 0;
+            this.cropAttackWidth = 0;
+            this.cropAttackHeight = 0;
+            this.moveSpeed = DefaultMoveSpeed;
         }
         public Goro(bool playerUnit):base(playerUnit)
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
             this.warUnitDrawCoord.X = 5;
-            this.warUnitDrawCoord.Y = 115;
+            this.warUnitDrawCoord.Y = 400;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;

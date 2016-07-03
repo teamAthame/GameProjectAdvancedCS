@@ -42,9 +42,11 @@ namespace AthameRPG.Characters
             this.southWest = DefaultGargamelDirectionSouthWest;
             //this is only test ... it can be smth like this - this.availableCreatures.Add(new NaiSlaba(), 5 * creature_level); !!! idea is yours
             // or it can be randomized
-            this.availableCreatures.Add(new NaiSlaba(), 107);
-            this.availableCreatures.Add(new NaiSilna(), 2);
-            this.availableCreatures.Add(new Sredna(), 34);
+            //this.availableCreatures.Add(new NaiSlaba(), 107);
+            //this.availableCreatures.Add(new NaiSilna(), 2);
+            //this.availableCreatures.Add(new Sredna(), 34);
+            this.availableCreatures.Add(new BlackDragon(), 1);
+            this.availableCreatures.Add(new Goro(), 1);
 
             this.defaultPlayerMove = DefaultGargamelMove;
 

@@ -53,7 +53,7 @@ namespace AthameRPG.Characters
             drawCoordPlayer = new Vector2(startPositionX - cropWidth/2, startPositionY - cropHeight/2);
             this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
             this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
-            this.CropCurrentFrame = cropCurrentFrame;
+            this.CropCurrentFrame = this.cropCurrentFrame;
             
         }
 
@@ -66,7 +66,7 @@ namespace AthameRPG.Characters
         
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            //base.Update(gameTime);
 
             this.oldMouseState = this.newMouseState;
             this.newMouseState = Mouse.GetState();

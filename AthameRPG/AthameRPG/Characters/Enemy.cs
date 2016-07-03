@@ -56,13 +56,14 @@ namespace AthameRPG.Characters
             this.viewRadius = ViewRadius;
             this.enemySearchRadius = EnemySearchRadius;
             this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
-            this.CropCurrentFrame = cropCurrentFrame;
+            this.CropCurrentFrame = this.cropCurrentFrame;
             //this.invitationTextCoord =
             //    new Vector2(ScreenManager.SCREEN_WIDTH - bigLetters.MeasureString(InvitationForBattle).X, 5);
         }
 
         public override void LoadContent(ContentManager content)
         {
+            base.LoadContent(content);
             spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
             bigLetters = content.Load<SpriteFont>(BigLettersPath);
             this.invitationTextCoord =
@@ -76,7 +77,7 @@ namespace AthameRPG.Characters
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            //base.Update(gameTime);
 
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {

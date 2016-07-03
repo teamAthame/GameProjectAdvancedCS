@@ -15,27 +15,27 @@ namespace AthameRPG.Characters.WarUnits
     public abstract class WarUnit
     {
         protected const int MinFrameSwitch = 100;
-
+        
         protected int strengthLevel;
         protected Texture2D warUnitImage;
         protected string imagePath;
         protected Vector2 warUnitDrawCoord;
+        protected Vector2 lastDrawCoord;
+        protected Vector2 wantedPosition;
         protected Rectangle cropCurrentFrame;
         protected SpriteEffects warUnitEffect;
+        //protected SpriteEffects battlefieldEffect;
         protected bool playerUnit;
         protected bool amIArcherOrMage;
+        protected bool choosen;
 
         protected int cropStayRow;
         protected int cropMovingRow;
         protected int cropAttackRow;
         protected int frameCounter;
         protected int switchCounter;
-        protected string direction;
         protected int cropFrame;
         protected AnimationReturnedValue newAnimationFrame;
-        protected Vector2 lastDrawCoord;
-        protected bool choosen;
-        protected Vector2 wantedPosition;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
         protected int cropStayWidth = 69;
@@ -51,13 +51,18 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.playerUnit = false;
             this.switchCounter = MinFrameSwitch;
+            this.warUnitEffect = SpriteEffects.FlipHorizontally;
         }
 
         public WarUnit(bool playerUnit)
         {
             this.playerUnit = playerUnit;
             this.switchCounter = MinFrameSwitch;
-            this.direction = "W";
+        }
+
+        public Vector2 WarUnitDrawCoord
+        {
+            get { return this.warUnitDrawCoord; }
         }
 
         public virtual void LoadContent(ContentManager content)
@@ -80,28 +85,81 @@ namespace AthameRPG.Characters.WarUnits
             if (this.frameCounter >= this.switchCounter)
             {
                 this.frameCounter = 0;
+                //
 
-                if (this.playerUnit)
-                {
-                    this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
+                this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
                         this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
 
-                    this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
+                this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
 
-                    this.cropFrame++;
+                this.cropFrame++;
 
-                    if (this.cropFrame == 4)
-                    {
-                        this.cropFrame = 0;
-                    }
-                }
-                else
+                if (this.cropFrame == 4)
                 {
-
+                    this.cropFrame = 0;
                 }
+
+                //if (this.playerUnit)
+                //{
+                //    this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
+                //        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
+
+                //    this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
+
+                //    this.cropFrame++;
+
+                //    if (this.cropFrame == 4)
+                //    {
+                //        this.cropFrame = 0;
+                //    }
+                //}
+                //else
+                //{
+                //    this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
+                //        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
+
+                //    this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
+
+                //    this.cropFrame++;
+
+                //    if (this.cropFrame == 4)
+                //    {
+                //        this.cropFrame = 0;
+                //    }
+                //}
             }
 
             
+        }
+        
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            if (this.playerUnit)
+            {
+                
+                if (this.choosen)
+                {
+                    spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.Red);
+                }
+                else
+                {
+                    spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.White);
+                }
+
+            }
+            else
+            {
+                //spriteBatch.Draw(this.warUnitImage, this.cropCurrentFrame, new Rectangle?(), Color.White, 0.0f, this.warUnitDrawCoord, this.warUnitEffect, 0.0f );
+                
+                spriteBatch.Draw(this.warUnitImage, // The Texture2D
+                 new Rectangle((int)this.warUnitDrawCoord.X, (int)this.warUnitDrawCoord.Y, this.cropStayWidth, this.cropStayHeight), // This rectangle positions the texture on the screen and scales it can also be a Vector2
+                 this.cropCurrentFrame, 
+                 Color.White,
+                 0f,
+                 new Vector2(0,0), // why this 0,0 i don't know... with this.warUnitDrawCoord it doesn't work 
+                 this.warUnitEffect,
+                 0f);
+            }
         }
 
         private void SelectAndMove(GameTime gameTime)
@@ -114,13 +172,13 @@ namespace AthameRPG.Characters.WarUnits
             if (CollisionDetection.IsMouseOverObject(this.warUnitDrawCoord, cropStayWidth, cropStayHeight, gameTime)
                 && this.newMouseState.RightButton == ButtonState.Pressed &&
                 this.oldMouseState.RightButton == ButtonState.Released
-                && this.playerUnit )
+                && this.playerUnit)
             {
                 if (!this.choosen && this.IsAnotherSelectedUnit())
                 {
                     this.choosen = true;
                     this.wantedPosition = this.warUnitDrawCoord;
-                    
+
                 }
                 else
                 {
@@ -134,8 +192,8 @@ namespace AthameRPG.Characters.WarUnits
                 // MouseExtended.Current.WasDoubleClick(MouseButton.Left)
                 if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
                 {
-                    this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth/2);
-                    this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight/2);
+                    this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth / 2);
+                    this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight / 2);
                 }
 
                 if (this.warUnitDrawCoord.X < this.wantedPosition.X)
@@ -167,18 +225,6 @@ namespace AthameRPG.Characters.WarUnits
                 }
             }
             return true;
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            if (this.playerUnit)
-            {
-                spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.White);
-            }
-            else
-            {
-
-            }
         }
 
         public int GetStrengthLevel
