@@ -2,14 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AthameRPG.Characters
+namespace AthameRPG.Characters.Heroes
 {
-    using Atack;
-    using AthameRPG.Controls;
-
     public class Barbarian : Character
     {
-
         private const int DefaultBarbarianAttackPoints = 120;
         private const int DefaultBarbarianHealthPoints = 180;
         private const int DefaultBarbarianDefencePoints = 70;
@@ -73,8 +69,3 @@ namespace AthameRPG.Characters
         
     }
 }
-    
-    
-    
-    
-

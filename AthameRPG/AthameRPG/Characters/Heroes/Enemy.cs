@@ -1,12 +1,11 @@
 ﻿using AthameRPG.Controls;
-using Microsoft.Xna.Framework;
 using AthameRPG.GameEngine;
 using AthameRPG.Objects.BattleFields;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace AthameRPG.Characters
+namespace AthameRPG.Characters.Heroes
 {
     public abstract class Enemy : Unit
     {

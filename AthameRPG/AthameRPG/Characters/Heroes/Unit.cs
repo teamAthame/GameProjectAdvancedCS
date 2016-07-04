@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
@@ -8,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AthameRPG.Characters
+namespace AthameRPG.Characters.Heroes
 {
     public abstract class Unit
     {
@@ -32,7 +30,7 @@ namespace AthameRPG.Characters
 
         protected float startPositionX, startPositionY;
 
-        public Unit(float startPositionX, float startPositionY, int atack, int health, int defence)
+        protected Unit(float startPositionX, float startPositionY, int atack, int health, int defence)
         {
             this.availableCreatures = new Dictionary<WarUnit, decimal>();
             this.StartPositionX = startPositionX;
@@ -135,6 +133,5 @@ namespace AthameRPG.Characters
             get { return this.startPositionY; }
             protected set { this.startPositionY = value; }
         }
-
     }
 }
