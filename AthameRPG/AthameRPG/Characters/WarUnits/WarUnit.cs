@@ -323,6 +323,12 @@ namespace AthameRPG.Characters.WarUnits
                         this.Moving();
                     }
                 }
+                else if (!hasArcherFriend && !hasArcherEnemy)
+                {
+                    // search enemy in some radius
+                    this.SetProtectedMove();
+                    this.Moving();
+                }
 
             }
 
@@ -337,7 +343,13 @@ namespace AthameRPG.Characters.WarUnits
             {
                 decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
                 decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
-                MapManager.Instance.Battlefield.AttackPlayerUnit(defender, (int)(attacker.Damage * attackerQuantity));
+
+                if (attacker.inBattleTurn)
+                {
+                    MapManager.Instance.Battlefield.AttackPlayerUnit(defender, (int)(attacker.Damage * attackerQuantity));
+                }
+                
+                attacker.inBattleTurn = false;
             }
             
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
@@ -52,6 +53,7 @@ namespace AthameRPG.Objects.BattleFields
         public void Update(GameTime gameTime)
         {
             this.TrySwitchTurn();
+            this.TryRemoveDeathUnits();
 
             foreach (var playerUnit in this.playerUnits)
             {
@@ -83,6 +85,39 @@ namespace AthameRPG.Objects.BattleFields
             }
 
             this.CheckEnemyUnitsForInBattleTurn();
+        }
+
+        private void TryRemoveDeathUnits()
+        {
+            Queue<WarUnit> deathUnit = new Queue<WarUnit>();
+
+            foreach (var unit in this.playerUnits)
+            {
+                if (unit.Value < 0)
+                {
+                    deathUnit.Enqueue(unit.Key);
+                }
+            }
+
+            while (deathUnit.Count > 0)
+            {
+                this.playerUnits.Remove(deathUnit.Dequeue());
+            }
+
+            foreach (var unit in this.enemyUnits)
+            {
+                if (unit.Value < 0)
+                {
+                    deathUnit.Enqueue(unit.Key);
+                }
+            }
+
+            while (deathUnit.Count > 0)
+            {
+                this.enemyUnits.Remove(deathUnit.Dequeue());
+            }
+
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -269,6 +304,7 @@ namespace AthameRPG.Objects.BattleFields
             int remainingDamage = damage% defender.Health;
             this.playerUnits[defender] -= removedUnits;
             defender.DecreaseHealth(remainingDamage);
+            
         }
         public void AttackEnemyUnit(WarUnit unit, decimal damage)
         {
