@@ -58,6 +58,8 @@ namespace AthameRPG.Characters
             //this.AtackHandler =new AtackBarbarian();
         }
 
+
+
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);

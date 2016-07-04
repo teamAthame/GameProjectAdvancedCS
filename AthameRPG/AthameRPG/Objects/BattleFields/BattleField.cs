@@ -28,6 +28,8 @@ namespace AthameRPG.Objects.BattleFields
         protected SpriteFont spriteFontSmallLetters;
         
         private Dictionary<WarUnit, decimal> playerUnits;
+        private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromPlayerArmy;
+        private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromEnemyArmy;
         private Dictionary<WarUnit, decimal> enemyUnits;
 
         private bool playerTurn;
@@ -40,7 +42,10 @@ namespace AthameRPG.Objects.BattleFields
             this.imagePath = DefaultImagePath;
             this.playerUnits = new Dictionary<WarUnit, decimal>();
             this.enemyUnits = new Dictionary<WarUnit, decimal>();
-            
+            this.supportRemoveKilledUnitsFromPlayerArmy = new Queue<KeyValuePair<WarUnit, decimal>>();
+            this.supportRemoveKilledUnitsFromEnemyArmy = new Queue<KeyValuePair<WarUnit, decimal>>();
+
+
         }
         
         public void LoadContent(ContentManager contentManager)
@@ -74,6 +79,10 @@ namespace AthameRPG.Objects.BattleFields
                 playerUnit.Key.Update(gameTime);
                 
             }
+
+            this.TryRemovedKilledUnits();
+            this.TryRemoveDeathUnits();
+
             foreach (var enemyUnit in this.enemyUnits)
             {
                 enemyUnit.Key.Update(gameTime);
@@ -84,42 +93,12 @@ namespace AthameRPG.Objects.BattleFields
                 }
             }
 
+            this.TryRemovedKilledUnits();
+
             this.CheckEnemyUnitsForInBattleTurn();
         }
 
-        private void TryRemoveDeathUnits()
-        {
-            Queue<WarUnit> deathUnit = new Queue<WarUnit>();
-
-            foreach (var unit in this.playerUnits)
-            {
-                if (unit.Value < 0)
-                {
-                    deathUnit.Enqueue(unit.Key);
-                }
-            }
-
-            while (deathUnit.Count > 0)
-            {
-                this.playerUnits.Remove(deathUnit.Dequeue());
-            }
-
-            foreach (var unit in this.enemyUnits)
-            {
-                if (unit.Value < 0)
-                {
-                    deathUnit.Enqueue(unit.Key);
-                }
-            }
-
-            while (deathUnit.Count > 0)
-            {
-                this.enemyUnits.Remove(deathUnit.Dequeue());
-            }
-
-
-        }
-
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.battlefieldImage, this.battlefieldDrawCoord, Color.White);
@@ -138,6 +117,53 @@ namespace AthameRPG.Objects.BattleFields
                 spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
                     new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
             }
+        }
+
+        private void TryRemovedKilledUnits()
+        {
+            while (this.supportRemoveKilledUnitsFromPlayerArmy.Count > 0)
+            {
+                KeyValuePair<WarUnit, decimal> currentUnit = this.supportRemoveKilledUnitsFromPlayerArmy.Dequeue();
+                this.playerUnits[currentUnit.Key] -= currentUnit.Value;
+            }
+            while (this.supportRemoveKilledUnitsFromEnemyArmy.Count > 0)
+            {
+                KeyValuePair<WarUnit, decimal> currentUnit = this.supportRemoveKilledUnitsFromEnemyArmy.Dequeue();
+                this.enemyUnits[currentUnit.Key] -= currentUnit.Value;
+            }
+        }
+
+        private void TryRemoveDeathUnits()
+        {
+            Queue<WarUnit> deathUnit = new Queue<WarUnit>();
+
+            foreach (var unit in this.playerUnits)
+            {
+                if (unit.Value < 1)
+                {
+                    deathUnit.Enqueue(unit.Key);
+                }
+            }
+
+            while (deathUnit.Count > 0)
+            {
+                this.playerUnits.Remove(deathUnit.Dequeue());
+            }
+
+            foreach (var unit in this.enemyUnits)
+            {
+                if (unit.Value < 1)
+                {
+                    deathUnit.Enqueue(unit.Key);
+                }
+            }
+
+            while (deathUnit.Count > 0)
+            {
+                this.enemyUnits.Remove(deathUnit.Dequeue());
+            }
+
+
         }
 
         public void LoadArmies(IReadOnlyDictionary<WarUnit, decimal> playerArmy, IReadOnlyDictionary<WarUnit, decimal> enemyArmy)
@@ -298,14 +324,25 @@ namespace AthameRPG.Objects.BattleFields
             return 0;
         }
 
-        public void AttackPlayerUnit(WarUnit defender, int damage)
+        public void AttackPlayerUnit(WarUnit defender, int damage, WarUnit attacker, int counterDamage)
         {
-            int removedUnits = damage/ defender.Health;
-            int remainingDamage = damage% defender.Health;
-            this.playerUnits[defender] -= removedUnits;
-            defender.DecreaseHealth(remainingDamage);
+            int unitsToRemoveFromDefender = damage / defender.GetDefaultHeаlth();
+            int remainingDamageToDefender = damage - (defender.GetDefaultHeаlth() * unitsToRemoveFromDefender);
             
+            unitsToRemoveFromDefender += defender.DecreaseHealth(remainingDamageToDefender);
+            this.supportRemoveKilledUnitsFromPlayerArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(defender,unitsToRemoveFromDefender));
+
+            // counter-attack
+
+            int unitsToRemoveFromAttacker = counterDamage / attacker.GetDefaultHeаlth();
+            int remainingDamageToAttacker = counterDamage - (unitsToRemoveFromAttacker * attacker.GetDefaultHeаlth());
+
+            unitsToRemoveFromAttacker += attacker.DecreaseHealth(remainingDamageToAttacker);
+            this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(attacker, unitsToRemoveFromAttacker));
+            //attacker.DecreaseHealth(remainingDamageToAttacker);
+
         }
+
         public void AttackEnemyUnit(WarUnit unit, decimal damage)
         {
 

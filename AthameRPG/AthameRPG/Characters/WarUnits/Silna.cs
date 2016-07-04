@@ -10,10 +10,16 @@ namespace AthameRPG.Characters.WarUnits
     {
         // това трябва да го има във всяка гадина  !!!
         private const int DefaultStrengthLevel = 6;
+        private const int DefaultHealth = 400;
 
         public Silna()
         {
             this.strengthLevel = DefaultStrengthLevel;
+        }
+
+        public override int GetDefaultHeаlth()
+        {
+            throw new NotImplementedException();
         }
 
         protected override float GetDefaultMove()

@@ -86,6 +86,8 @@ namespace AthameRPG.Characters.WarUnits
             this.isAlive = true;
         }
 
+        public abstract int GetDefaultHeаlth();
+
         public int Damage
         {
             get { return this.damage; }
@@ -101,14 +103,17 @@ namespace AthameRPG.Characters.WarUnits
             get { return this.isAlive; }
         }
 
-        public void DecreaseHealth(int damage)
+        public int DecreaseHealth(int damage)
         {
             this.health -= damage;
 
             if (this.health < 0)
             {
-                this.isAlive = false;
+                this.health = this.GetDefaultHeаlth() - Math.Abs(this.health);
+
+                return 1;
             }
+            return 0;
         }
 
         public bool CanBeSeleted { get; set; }
@@ -355,7 +360,7 @@ namespace AthameRPG.Characters.WarUnits
 
                 if (attacker.inBattleTurn)
                 {
-                    MapManager.Instance.Battlefield.AttackPlayerUnit(defender, (int)(attacker.Damage * attackerQuantity));
+                    MapManager.Instance.Battlefield.AttackPlayerUnit(defender, (int)(attacker.Damage * attackerQuantity), attacker, (int)(defender.Damage * enemyQuantity));
                 }
                 
                 attacker.inBattleTurn = false;

@@ -18,6 +18,7 @@ namespace AthameRPG.Characters.WarUnits
         private const int DefaultCropAttackHeight = 0;
         private const float DefaultMoveSpeed = 6f;
         private const float DefaultAvailableMove = 300f;
+        private const int DefaultHealth = 500;
                                  
         public BlackDragon() : base()
         {
@@ -34,7 +35,7 @@ namespace AthameRPG.Characters.WarUnits
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
             this.damage = 200;
-            this.health = 500;
+            this.health = DefaultHealth;
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)
@@ -52,7 +53,12 @@ namespace AthameRPG.Characters.WarUnits
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
             this.damage = 200;
-            this.health = 500;
+            this.health = DefaultHealth;
+        }
+
+        public override int GetDefaultHeаlth()
+        {
+            return DefaultHealth;
         }
 
         protected override float GetDefaultMove()

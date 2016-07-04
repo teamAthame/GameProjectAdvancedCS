@@ -48,7 +48,7 @@ namespace AthameRPG.Characters
             //this.availableCreatures.Add(new NaiSilna(), 2);
             //this.availableCreatures.Add(new Sredna(), 34);
             this.availableCreatures.Add(new BlackDragon(), 1);
-            this.availableCreatures.Add(new Goro(), 1);
+            this.availableCreatures.Add(new Goro(), 3);
 
             this.defaultPlayerMove = DefaultGargamelMove;
 
