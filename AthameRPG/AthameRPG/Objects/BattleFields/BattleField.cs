@@ -51,7 +51,7 @@ namespace AthameRPG.Objects.BattleFields
 
         public void Update(GameTime gameTime)
         {
-            this.SwitchTurn();
+            this.TrySwitchTurn();
 
             foreach (var playerUnit in this.playerUnits)
             {
@@ -136,10 +136,10 @@ namespace AthameRPG.Objects.BattleFields
                 }
             }
             
-            this.SwitchTurn();
+            this.TrySwitchTurn();
         }
 
-        public void SwitchTurn()
+        public void TrySwitchTurn()
         {
             foreach (var unit in this.playerUnits)
             {
@@ -151,7 +151,6 @@ namespace AthameRPG.Objects.BattleFields
 
             this.playerTurn = false;
         }
-        
         
         public bool CheckEnemyArmy(Predicate<WarUnit> condition)
         {
@@ -210,7 +209,70 @@ namespace AthameRPG.Objects.BattleFields
             {
                 unit.Key.inBattleTurn = true;
                 unit.Key.ReFillAvailableMove();
+                unit.Key.HaveActionForCurrentTurn = true;
             }
+        }
+
+        public WarUnit TryTakeEnemyUnit(Predicate<WarUnit> condition)
+        {
+            foreach (var unit in this.playerUnits)
+            {
+                if (condition(unit.Key))
+                {
+                    return unit.Key;
+                }
+            }
+
+            return null;
+        }
+
+        public WarUnit TryTakeFriendUnit(Predicate<WarUnit> condition)
+        {
+            foreach (var unit in this.enemyUnits)
+            {
+                if (condition(unit.Key))
+                {
+                    return unit.Key;
+                }
+            }
+
+            return null;
+        }
+
+        public decimal TryTakeFriendUnitQuantity(WarUnit unit)
+        {
+            foreach (var enemyUnit in this.enemyUnits)
+            {
+                if (enemyUnit.Key == unit )
+                {
+                    return enemyUnit.Value;
+                }
+            }
+            return 0m;
+        }
+
+        public decimal TryTakeEnemmyUnitQuantity(WarUnit unit)
+        {
+            foreach (var playerUnit in this.playerUnits)
+            {
+                if (playerUnit.Key == unit)
+                {
+                    return playerUnit.Value;
+                }
+            }
+            return 0;
+        }
+
+        public void AttackPlayerUnit(WarUnit defender, int damage)
+        {
+            int removedUnits = damage/ defender.Health;
+            int remainingDamage = damage% defender.Health;
+            this.playerUnits[defender] -= removedUnits;
+            defender.DecreaseHealth(remainingDamage);
+        }
+        public void AttackEnemyUnit(WarUnit unit, decimal damage)
+        {
+
         }
     }
 }

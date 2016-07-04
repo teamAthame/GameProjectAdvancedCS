@@ -33,6 +33,8 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
+            this.damage = 200;
+            this.health = 500;
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)
@@ -49,6 +51,8 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
+            this.damage = 200;
+            this.health = 500;
         }
 
         protected override float GetDefaultMove()

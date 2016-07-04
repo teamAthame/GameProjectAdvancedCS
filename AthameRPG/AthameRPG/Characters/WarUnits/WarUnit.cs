@@ -35,6 +35,7 @@ namespace AthameRPG.Characters.WarUnits
         protected bool amIArcherOrMage;
         internal bool isChoosen;
         internal bool inBattleTurn;
+        internal bool HaveActionForCurrentTurn;
         
 
         protected int frameCounter;
@@ -58,6 +59,11 @@ namespace AthameRPG.Characters.WarUnits
         protected AnimationReturnedValue newAnimationFrame;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
+        protected WarUnit supportUnit;
+
+        protected int health;
+        protected bool isAlive;
+        protected int damage;
 
 
         public WarUnit()
@@ -67,6 +73,8 @@ namespace AthameRPG.Characters.WarUnits
             this.warUnitEffect = SpriteEffects.FlipHorizontally;
             this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
             this.inBattleTurn = true;
+            this.isAlive = true;
+            
         }
 
         public WarUnit(bool playerUnit)
@@ -75,6 +83,32 @@ namespace AthameRPG.Characters.WarUnits
             this.switchCounter = MinFrameSwitch;
             this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
             this.inBattleTurn = true;
+            this.isAlive = true;
+        }
+
+        public int Damage
+        {
+            get { return this.damage; }
+        }
+
+        public int Health
+        {
+            get { return this.health; }
+        }
+
+        public bool IsAlive
+        {
+            get { return this.isAlive; }
+        }
+
+        public void DecreaseHealth(int damage)
+        {
+            this.health -= damage;
+
+            if (this.health < 0)
+            {
+                this.isAlive = false;
+            }
         }
 
         public bool CanBeSeleted { get; set; }
@@ -244,41 +278,150 @@ namespace AthameRPG.Characters.WarUnits
             get {return this.strengthLevel; }
         }
 
-        public void MoveInBattle()
+        public void MoveInBattle() // attack ? ? ?
         {
-            Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true; 
-              
-            bool hasArcherFriend =  MapManager.Instance.Battlefield.CheckEnemyArmy(isThereAnArcher);
-            bool hasArcherEnemy = false;
+            Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true;
+
+            bool hasArcherFriend = false;
+            bool hasArcherEnemy = MapManager.Instance.Battlefield.CheckPlayerArmy(isThereAnArcher);
             bool isCloseEnough = false;
+
+            if (!this.amIArcherOrMage)
+            {
+                hasArcherFriend = MapManager.Instance.Battlefield.CheckEnemyArmy(isThereAnArcher);
+            }
+            else
+            {
+                // attack enemy archer
+            }  
+            
 
 
             if (this.availableMove > 0)
             {
-                if (this.warUnitDrawCoord.X > 295 && this.warUnitDrawCoord.X < 305)
+                ProtectFriendArcher(hasArcherFriend);
+
+                if (!hasArcherFriend && hasArcherEnemy)
                 {
-                    this.wantedPosition.X = 750;
-                    
-                }
-                else if (this.warUnitDrawCoord.X > 740 && this.warUnitDrawCoord.X < 758)
-                {
-                    this.wantedPosition.X = 200;
+                    this.supportUnit = MapManager.Instance.Battlefield.TryTakeEnemyUnit(x => x.amIArcherOrMage == true);
+
+                    if (this.supportUnit == null)
+                    {
+                        this.inBattleTurn = false;
+                    }
+                    // проверява дали може да стигне противника с оставащият му ход 
+                    if (CollisionDetection.IsNear(this.WarUnitDrawCoord.X, this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropStayWidth, (int)this.availableMove) && this.inBattleTurn == true)
+                    {
+                        this.SetMoveToEnemy(this.supportUnit);
+                        this.Moving();
+                        this.EnemyTryAttackPlayer(this, this.supportUnit);
+
+                    }
+                    else
+                    {
+                        this.SetProtectedMove();
+                        this.Moving();
+                    }
                 }
 
-                this.Moving();
-            }
-            else
-            {
-                this.inBattleTurn = false;
             }
 
         }
 
-        protected void MoveTo(WarUnit warUnit)
+        private void EnemyTryAttackPlayer(WarUnit attacker, WarUnit defender)
         {
+            // default attack min distance
+
+            if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X, 5) 
+                && CollisionDetection.IsNear(attacker.WarUnitDrawCoord.Y, defender.WarUnitDrawCoord.Y, 5) )
+            {
+                decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
+                decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
+                MapManager.Instance.Battlefield.AttackPlayerUnit(defender, (int)(attacker.Damage * attackerQuantity));
+            }
             
         }
 
+
+        private void SetProtectedMove()
+        {
+            // make default protected move;
+            if (this.HaveActionForCurrentTurn)
+            {
+                this.wantedPosition = new Vector2(this.WarUnitDrawCoord.X - 90, this.WarUnitDrawCoord.Y);
+                this.HaveActionForCurrentTurn = false;
+            }
+            else
+            {
+                if (this.wantedPosition == this.WarUnitDrawCoord)
+                {
+                    this.inBattleTurn = false;
+                }
+            }
+            
+        }
+
+        private void ProtectFriendArcher(bool hasArcherFriend)
+        {
+            if (hasArcherFriend)
+            {
+                this.supportUnit = MapManager.Instance.Battlefield.TryTakeFriendUnit(x => x.amIArcherOrMage == true);
+
+                if (this.supportUnit == null)
+                {
+                    this.inBattleTurn = false;
+                }
+                // make default radius;
+
+                if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y, 10) &&
+                    this.inBattleTurn == true)
+                {
+                    this.inBattleTurn = false;
+                }
+                else
+                {
+                    this.ProtectFriend(this.supportUnit);
+                    this.Moving();
+                }
+                //if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y + this.cropStayHeight, this.supportUnit.WarUnitDrawCoord.Y, 10) && this.inBattleTurn == true)
+                //{
+
+                //}
+            }
+            //else
+            //{
+            //    this.inBattleTurn = false;
+            //}
+        }
+
+        protected void ProtectFriend(WarUnit unit)
+        {
+            //if (this.WarUnitDrawCoord.X > unit.WarUnitDrawCoord.X)
+            //{
+            //    this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X + unit.cropStayWidth, unit.WarUnitDrawCoord.Y);
+            //}
+            //else
+            //{
+            //    this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X, unit.warUnitDrawCoord.Y);
+            //}
+
+            this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X - this.cropStayWidth, unit.warUnitDrawCoord.Y);
+        }
+
+        protected void SetMoveToEnemy(WarUnit warUnit)
+        {
+            //if (this.WarUnitDrawCoord.X > warUnit.WarUnitDrawCoord.X)
+            //{
+            //    this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X, warUnit.WarUnitDrawCoord.Y);
+            //}
+            //else
+            //{
+            //    this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X , warUnit.warUnitDrawCoord.Y);
+            //}
+            this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X, warUnit.WarUnitDrawCoord.Y);
+
+        }
+        
         public void ReFillAvailableMove()
         {
             this.availableMove = this.GetDefaultMove();
