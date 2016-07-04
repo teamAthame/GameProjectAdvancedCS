@@ -1,6 +1,6 @@
-﻿using DisciplesRpgGame.Enums;
+﻿using AthameRPG.Enums;
 
-namespace DisciplesRpgGame.Units.Empire.Healers
+namespace AthameRPG.Characters.WarUnits.Empire.Healers
 {
     public class Cleric : Healer
     {

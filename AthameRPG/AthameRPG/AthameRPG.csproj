@@ -38,9 +38,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Atack\Atack.cs" />
-    <Compile Include="Atack\AtackBarbarian.cs" />
-    <Compile Include="Atack\CombatHandler.cs" />
+    <Compile Include="Attack\Attack.cs" />
+    <Compile Include="Attack\AttackBarbarian.cs" />
+    <Compile Include="Attack\CombatHandler.cs" />
     <Compile Include="Characters\Heroes\Barbarian.cs" />
     <Compile Include="Characters\Heroes\Enemy.cs" />
     <Compile Include="Characters\Heroes\Gargamel.cs" />
@@ -113,7 +113,6 @@
     <Compile Include="Characters\WarUnits\Unit.cs" />
     <Compile Include="Characters\WarUnits\WarUnit.cs" />
     <Compile Include="Contracts\IArmored.cs" />
-    <Compile Include="Contracts\IAtack.cs" />
     <Compile Include="Contracts\IAttack.cs" />
     <Compile Include="Contracts\IAttacker.cs" />
     <Compile Include="Contracts\ICombatHandler.cs" />

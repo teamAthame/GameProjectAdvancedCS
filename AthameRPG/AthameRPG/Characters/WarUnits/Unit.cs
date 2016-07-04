@@ -1,5 +1,5 @@
-﻿using DisciplesRpgGame.Enums;
-using System;
+﻿using System;
+using AthameRPG.Enums;
 
 namespace DisciplesRpgGame.Units
 {

@@ -1,9 +1,9 @@
-﻿namespace DisciplesRpgGame.Units.The_Undead_Hordes
+﻿using AthameRPG.Contracts;
+using AthameRPG.Enums;
+
+namespace DisciplesRpgGame.Units.The_Undead_Hordes
 {
     using System.Collections.Generic;
-
-    using Enums;
-    using Interfaces;
 
     public class DarkLord : NightWalker
     {

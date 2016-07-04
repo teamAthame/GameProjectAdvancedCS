@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Units.Empire.Ranged
+﻿namespace AthameRPG.Characters.WarUnits.Empire.Ranged
 {
     public class Archer : Ranger
     {

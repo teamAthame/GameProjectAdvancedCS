@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AthameRPG.Characters;
+using AthameRPG.Characters.Heroes;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine;

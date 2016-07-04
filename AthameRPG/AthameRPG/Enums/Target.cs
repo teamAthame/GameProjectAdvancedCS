@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Enums
+﻿namespace AthameRPG.Enums
 {
     public enum Target
     {

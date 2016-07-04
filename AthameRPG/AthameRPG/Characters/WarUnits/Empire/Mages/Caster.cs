@@ -1,6 +1,7 @@
-﻿using DisciplesRpgGame.Enums;
+﻿using AthameRPG.Enums;
+using DisciplesRpgGame.Units;
 
-namespace DisciplesRpgGame.Units.Empire.Mages
+namespace AthameRPG.Characters.WarUnits.Empire.Mages
 {
     public abstract class Caster : AttackUnit
     {

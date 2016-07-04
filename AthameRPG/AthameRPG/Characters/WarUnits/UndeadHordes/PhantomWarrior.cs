@@ -1,8 +1,8 @@
-﻿namespace DisciplesRpgGame.Units.The_Undead_Hordes
-{
-    using DisciplesRpgGame.Enums;
-    using DisciplesRpgGame.Interfaces;
+﻿using AthameRPG.Contracts;
+using AthameRPG.Enums;
 
+namespace DisciplesRpgGame.Units.The_Undead_Hordes
+{
     public class PhantomWarrior : NightWalker
     {
         private const int PhantomWarriorInitiative = 50;

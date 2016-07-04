@@ -1,6 +1,7 @@
-﻿using DisciplesRpgGame.Enums;
+﻿using AthameRPG.Enums;
+using DisciplesRpgGame.Units;
 
-namespace DisciplesRpgGame.Units.Empire.Melee
+namespace AthameRPG.Characters.WarUnits.Empire.Melee
 {
     public abstract class Fighter : AttackUnit
     {

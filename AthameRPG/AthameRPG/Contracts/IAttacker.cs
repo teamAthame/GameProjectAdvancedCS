@@ -1,7 +1,7 @@
-﻿namespace DisciplesRpgGame.Interfaces
-{
-    using DisciplesRpgGame.Enums;
+﻿using AthameRPG.Enums;
 
+namespace AthameRPG.Contracts
+{
     public interface IAttacker
     {
         AttackSource AttackSource { get; }

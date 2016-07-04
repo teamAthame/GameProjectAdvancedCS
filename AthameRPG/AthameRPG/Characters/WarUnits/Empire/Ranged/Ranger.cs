@@ -1,6 +1,7 @@
-﻿using DisciplesRpgGame.Enums;
+﻿using AthameRPG.Enums;
+using DisciplesRpgGame.Units;
 
-namespace DisciplesRpgGame.Units.Empire.Ranged
+namespace AthameRPG.Characters.WarUnits.Empire.Ranged
 {
     public abstract class Ranger : AttackUnit
     {

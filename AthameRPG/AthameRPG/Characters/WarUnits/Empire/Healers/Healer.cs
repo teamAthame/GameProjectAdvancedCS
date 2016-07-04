@@ -1,10 +1,10 @@
 ﻿using System;
-using DisciplesRpgGame.Interfaces;
-using DisciplesRpgGame.Enums;
+using AthameRPG.Enums;
+using AthameRPG.Contracts;
 
-namespace DisciplesRpgGame.Units.Empire.Healers
+namespace AthameRPG.Characters.WarUnits.Empire.Healers
 {
-    public abstract class Healer : Unit, IHeal
+    public abstract class Healer : DisciplesRpgGame.Units.Unit, IHeal
     {
         private const int HealerArmor = 0;
         private const int HealerInitiative = 10;

@@ -1,6 +1,6 @@
 ﻿using System;
-using DisciplesRpgGame.Enums;
-using DisciplesRpgGame.Interfaces;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
 
 namespace DisciplesRpgGame.Units
 {

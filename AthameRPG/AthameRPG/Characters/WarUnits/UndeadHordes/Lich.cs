@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
 
 namespace DisciplesRpgGame.Units.The_Undead_Hordes
 {
-    using DisciplesRpgGame.Enums;
-    using DisciplesRpgGame.Interfaces;
-
     public class Lich : NightWalker
     {
         private const int LichInitiative = 40;

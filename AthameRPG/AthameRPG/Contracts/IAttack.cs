@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Interfaces
+﻿namespace AthameRPG.Contracts
 {
     public interface IAttack
     {

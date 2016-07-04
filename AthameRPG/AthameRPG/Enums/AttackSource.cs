@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Enums
+﻿namespace AthameRPG.Enums
 {
     public enum AttackSource
     {
@@ -11,6 +11,6 @@
         Poison,
         Life,
         Death,
-        Weapon,
+        Weapon
     }
 }

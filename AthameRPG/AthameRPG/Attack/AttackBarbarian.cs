@@ -1,17 +1,12 @@
-﻿using AthameRPG.Characters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AthameRPG.Characters.Heroes;
 
-namespace AthameRPG.Atack
+namespace AthameRPG.Attack
 {
-    public class AtackBarbarian : Atack
+    public class AttackBarbarian : Attack
     {
         private int damage;
 
-        public AtackBarbarian(Unit unit)
+        public AttackBarbarian(Unit unit)
             :base(unit)
         {
             this.Unit = unit;

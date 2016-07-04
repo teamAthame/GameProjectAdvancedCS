@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Units.Empire.Melee
+﻿namespace AthameRPG.Characters.WarUnits.Empire.Melee
 {
     public class Knight : Fighter
     {

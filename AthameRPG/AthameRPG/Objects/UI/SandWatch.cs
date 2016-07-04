@@ -1,5 +1,6 @@
 ﻿
 using AthameRPG.Characters;
+using AthameRPG.Characters.Heroes;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,14 +1,12 @@
 ﻿using AthameRPG.Characters.WarUnits;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace AthameRPG.Characters
+namespace AthameRPG.Characters.Heroes
 {
     public class Gargamel : Enemy
     {
-
         private const int DefaultWariorAttackPoints = 80;
         private const int DefaultWariorHealthPoints = 80;
         private const int DefaultWariorDefence = 40;
@@ -51,8 +49,6 @@ namespace AthameRPG.Characters
             this.availableCreatures.Add(new Goro(), 1);
 
             this.defaultPlayerMove = DefaultGargamelMove;
-
-
         }
 
         public override void LoadContent(ContentManager content)
@@ -60,7 +56,5 @@ namespace AthameRPG.Characters
             base.LoadContent(content);
             enemyImage = content.Load<Texture2D>(PathGargamelImage);
         }
-
-
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace DisciplesRpgGame.Units.The_Undead_Hordes
-{
-    using Enums;
-    using Interfaces;
+﻿using AthameRPG.Contracts;
+using AthameRPG.Enums;
 
+namespace DisciplesRpgGame.Units.The_Undead_Hordes
+{
     public class Death : NightWalker
     {
         private const int DeathInitiative = 60;

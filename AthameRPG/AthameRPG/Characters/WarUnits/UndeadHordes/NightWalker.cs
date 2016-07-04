@@ -1,10 +1,9 @@
-﻿namespace DisciplesRpgGame.Units.The_Undead_Hordes
+﻿using AthameRPG.Contracts;
+using AthameRPG.Enums;
+
+namespace DisciplesRpgGame.Units.The_Undead_Hordes
 {
     using System;
-
-    using Enums;
-
-    using Interfaces;
 
     public abstract class NightWalker : IUnit
     {

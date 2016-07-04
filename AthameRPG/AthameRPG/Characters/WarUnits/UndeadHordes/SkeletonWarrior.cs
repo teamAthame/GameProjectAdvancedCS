@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
+
 namespace DisciplesRpgGame.Units.The_Undead_Hordes
 {
-    using DisciplesRpgGame.Enums;
-    using DisciplesRpgGame.Interfaces;
-
     public class SkeletonWarrior : NightWalker
     {
         private const int SkeletonWarriorInitiative = 50;

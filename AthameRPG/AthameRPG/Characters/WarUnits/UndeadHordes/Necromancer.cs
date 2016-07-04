@@ -1,9 +1,9 @@
 ﻿using System;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
+
 namespace DisciplesRpgGame.Units.The_Undead_Hordes
 {
-    using DisciplesRpgGame.Enums;
-    using DisciplesRpgGame.Interfaces;
-
     public class Necromancer : NightWalker
     {
         private const int NecromancerInitiative = 40;

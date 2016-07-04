@@ -1,4 +1,4 @@
-﻿namespace DisciplesRpgGame.Units.Empire.Mages
+﻿namespace AthameRPG.Characters.WarUnits.Empire.Mages
 {
     public class Mage : Caster
     {
