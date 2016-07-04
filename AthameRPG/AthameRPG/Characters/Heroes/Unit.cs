@@ -133,5 +133,7 @@ namespace AthameRPG.Characters.Heroes
             get { return this.startPositionY; }
             protected set { this.startPositionY = value; }
         }
+
+        public abstract void Restart();
     }
 }

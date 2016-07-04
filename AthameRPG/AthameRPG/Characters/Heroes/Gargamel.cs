@@ -42,9 +42,6 @@ namespace AthameRPG.Characters.Heroes
             this.southWest = DefaultGargamelDirectionSouthWest;
             //this is only test ... it can be smth like this - this.availableCreatures.Add(new NaiSlaba(), 5 * creature_level); !!! idea is yours
             // or it can be randomized
-            //this.availableCreatures.Add(new NaiSlaba(), 107);
-            //this.availableCreatures.Add(new NaiSilna(), 2);
-            //this.availableCreatures.Add(new Sredna(), 34);
             this.availableCreatures.Add(new BlackDragon(), 1);
             this.availableCreatures.Add(new Goro(), 3);
 
@@ -55,6 +52,16 @@ namespace AthameRPG.Characters.Heroes
         {
             base.LoadContent(content);
             enemyImage = content.Load<Texture2D>(PathGargamelImage);
+
+            //this.availableCreatures.Add(new BlackDragon(), 1);
+            //this.availableCreatures.Add(new Goro(), 3);
+        }
+
+        public override void Restart()
+        {
+            // reload same creature when game restarted
+            this.availableCreatures.Add(new BlackDragon(), 1);
+            this.availableCreatures.Add(new Goro(), 3);
         }
     }
 }

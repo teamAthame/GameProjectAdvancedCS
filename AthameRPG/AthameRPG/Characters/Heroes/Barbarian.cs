@@ -1,4 +1,5 @@
 ﻿using AthameRPG.Characters.WarUnits;
+using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -48,8 +49,8 @@ namespace AthameRPG.Characters.Heroes
             this.direction = "NW";
 
             // add base army
-            this.availableCreatures.Add(new BlackDragon(true), 2);
-            this.availableCreatures.Add(new Goro(true), 5);
+            //this.availableCreatures.Add(new BlackDragon(true), 1);
+            this.availableCreatures.Add(new Goro(true), 1);
 
             //this.AtackHandler =new AtackBarbarian();
         }
@@ -66,6 +67,11 @@ namespace AthameRPG.Characters.Heroes
         {
             
         }
-        
+
+        public override void Restart()
+        {
+            this.availableCreatures.Add(new Goro(true), 1);
+            drawCoordPlayer = CharacterManager.Instance.StartPosition;
+        }
     }
 }

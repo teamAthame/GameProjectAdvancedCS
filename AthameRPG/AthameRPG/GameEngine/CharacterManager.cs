@@ -22,6 +22,11 @@ namespace AthameRPG.GameEngine
         protected bool oneTimeDraw;
         
         private Texture2D gargamelImage;
+
+        public Vector2 StartPosition
+        {
+            get { return new Vector2(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);}
+        }
         
         public static Character barbarian;
         
