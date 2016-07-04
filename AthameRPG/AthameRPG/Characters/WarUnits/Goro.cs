@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace AthameRPG.Characters.WarUnits
 {
@@ -19,13 +20,16 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
         private const int DefaultHealth = 400;
+        private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
+        private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 200);
 
         public Goro():base()
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord.X = 730f;
-            this.warUnitDrawCoord.Y = 200f;
+            this.warUnitDrawCoord = DefaultStartPositionInBattleLikeEnemy;
+            //this.warUnitDrawCoord.X = 730f;
+            //this.warUnitDrawCoord.Y = 200f;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -42,8 +46,9 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord.X = 5;
-            this.warUnitDrawCoord.Y = 400;
+            this.warUnitDrawCoord = DefaultStartPositionInBattleLikePlayer;
+            //this.warUnitDrawCoord.X = 5;
+            //this.warUnitDrawCoord.Y = 400;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -66,5 +71,16 @@ namespace AthameRPG.Characters.WarUnits
         {
             return DefaultAvailableMove;
         }
+
+        public override void SetStartPositionInBattleLikePlayer()
+        {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
+        }
+
+        public override void SetStartPositionInBattleLikeEnemy()
+        {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikeEnemy;
+        }
+
     }
 }

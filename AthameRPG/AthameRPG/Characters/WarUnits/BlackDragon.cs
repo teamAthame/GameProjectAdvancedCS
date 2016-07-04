@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace AthameRPG.Characters.WarUnits
 {
@@ -19,13 +20,16 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultMoveSpeed = 6f;
         private const float DefaultAvailableMove = 300f;
         private const int DefaultHealth = 500;
-                                 
+        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
+        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
+
         public BlackDragon() : base()
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord.X = 725;
-            this.warUnitDrawCoord.Y = 0;
+            this.warUnitDrawCoord = DefaultStartPositionInBattleLikeEnemy;
+            //this.warUnitDrawCoord.X = 725;
+            //this.warUnitDrawCoord.Y = 0;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -42,8 +46,9 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord.X = 5;
-            this.warUnitDrawCoord.Y = 5;
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
+            //this.warUnitDrawCoord.X = 5;
+            //this.warUnitDrawCoord.Y = 5;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -61,9 +66,22 @@ namespace AthameRPG.Characters.WarUnits
             return DefaultHealth;
         }
 
+
+        public override void SetStartPositionInBattleLikePlayer()
+        {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
+        }
+
+        public override void SetStartPositionInBattleLikeEnemy()
+        {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikeEnemy;
+        }
+
         protected override float GetDefaultMove()
         {
             return DefaultAvailableMove;
         }
+
+        
     }
 }

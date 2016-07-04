@@ -17,7 +17,8 @@ namespace AthameRPG.GameEngine
         private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
-        private static List<Vector2> enemiesPositionList;
+        //private static List<Vector2> enemiesPositionList;
+        private static Dictionary<int, Vector2> enemiesPositionList;
 
         protected bool oneTimeDraw;
         
@@ -35,7 +36,8 @@ namespace AthameRPG.GameEngine
         public CharacterManager()
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
-            enemiesPositionList = new List<Vector2>();
+            //enemiesPositionList = new List<Vector2>();
+            enemiesPositionList = new Dictionary<int, Vector2>();
             enemiesList = new List<Enemy>();
             this.oneTimeDraw = true;
         }
@@ -68,7 +70,7 @@ namespace AthameRPG.GameEngine
            
             foreach (var enemyPos in EnemiesPositionList)
             {
-                Enemy newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
+                Enemy newGargamel = new Gargamel(enemyPos.Value.X, enemyPos.Value.Y, id);
                 newGargamel.LoadContent(Content);
                 enemiesList.Add(newGargamel);
                 id++;
@@ -159,11 +161,11 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        public static List<Vector2> EnemiesPositionList
+        public static Dictionary<int, Vector2> EnemiesPositionList
         {
             get
             {
-                List<Vector2> copyOfEnemiesList = enemiesPositionList;
+                Dictionary<int,Vector2> copyOfEnemiesList = enemiesPositionList;
                 return copyOfEnemiesList;
             }
             set
@@ -172,9 +174,9 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        public static void AddEnemies(Vector2 enemyPosition)
+        public static void AddEnemies(KeyValuePair<int,Vector2> enemyPosition)
         {
-            enemiesPositionList.Add(enemyPosition);
+            enemiesPositionList.Add(enemyPosition.Key, enemyPosition.Value);
         }
 
         public Texture2D PlayerImage

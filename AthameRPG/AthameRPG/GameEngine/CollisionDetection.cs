@@ -50,10 +50,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
                     
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -110,10 +110,10 @@ namespace AthameRPG.GameEngine
                 {
                     count++;
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -163,10 +163,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -217,10 +217,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -274,10 +274,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -337,10 +337,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -399,10 +399,10 @@ namespace AthameRPG.GameEngine
 
                     //}
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -463,10 +463,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;

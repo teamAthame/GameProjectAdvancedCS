@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
+using AthameRPG.Characters;
 using AthameRPG.Characters.WarUnits;
+using AthameRPG.Controls;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Objects.BattleFields
 {
@@ -18,25 +21,38 @@ namespace AthameRPG.Objects.BattleFields
 
         private const string DefaultImagePath = "../Content/Obstacles/stonebattlefield";
         private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
-        
+        private const string WinText = "You Won the battle!";
+        private const string LoseText = "Game Over!";
+        private const int EndTextX = 220;
+        private const int EndTextY = 250;
+
         // Enemy change this value when set ItIsBattle....
         public static int unitStreghtLevelIndex = 7;
 
-        protected Texture2D battlefieldImage;
-        protected string imagePath;
-        protected Vector2 battlefieldDrawCoord;
-        protected SpriteFont spriteFontSmallLetters;
-        
+        private Texture2D battlefieldImage;
+        private string imagePath;
+        private Vector2 battlefieldDrawCoord;
+        private SpriteFont spriteFontSmallLetters;
+        private SpriteFont bigFont;
+        private Vector2 textCoord;
+
         private Dictionary<WarUnit, decimal> playerUnits;
         private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromPlayerArmy;
         private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromEnemyArmy;
         private Dictionary<WarUnit, decimal> enemyUnits;
 
+        protected MouseState newMouseState;
+        protected MouseState oldMouseState;
+
         private bool playerTurn;
+        private bool isBattle;
+        private bool amIWinner;
+        private bool oneTimeSwitch;
+        private int enemyId;
 
         private WarUnit supportUnit;
 
-        
+
         public Battlefield()
         {
             this.imagePath = DefaultImagePath;
@@ -44,25 +60,39 @@ namespace AthameRPG.Objects.BattleFields
             this.enemyUnits = new Dictionary<WarUnit, decimal>();
             this.supportRemoveKilledUnitsFromPlayerArmy = new Queue<KeyValuePair<WarUnit, decimal>>();
             this.supportRemoveKilledUnitsFromEnemyArmy = new Queue<KeyValuePair<WarUnit, decimal>>();
+            this.textCoord = new Vector2(EndTextX, EndTextY);
 
 
         }
-        
+
         public void LoadContent(ContentManager contentManager)
         {
             this.battlefieldImage = contentManager.Load<Texture2D>(this.imagePath);
             this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
+            this.bigFont = contentManager.Load<SpriteFont>("../Content/Fonts/ArialBig");
 
         }
 
         public void Update(GameTime gameTime)
         {
+            //MouseExtended.Current.GetState(gameTime);
+
+
+            if (!this.isBattle)
+            {
+                SwitchToMenuOrReturnInGame();
+                return;
+            }
+
+            this.CheckForBattleEnd();
+
             this.TrySwitchTurn();
             this.TryRemoveDeathUnits();
 
             foreach (var playerUnit in this.playerUnits)
             {
-                if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) && this.playerTurn && playerUnit.Key.inBattleTurn == true)
+                if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) && this.playerTurn &&
+                    playerUnit.Key.inBattleTurn == true)
                 {
                     playerUnit.Key.CanBeSeleted = true;
                 }
@@ -74,10 +104,10 @@ namespace AthameRPG.Objects.BattleFields
                 // ако нямаме гадини от текущия левел
                 if (playerTurn)
                 {
-                    
+
                 }
                 playerUnit.Key.Update(gameTime);
-                
+
             }
 
             this.TryRemovedKilledUnits();
@@ -98,24 +128,91 @@ namespace AthameRPG.Objects.BattleFields
             this.CheckEnemyUnitsForInBattleTurn();
         }
 
-        
+        private void SwitchToMenuOrReturnInGame()
+        {
+            this.oldMouseState = this.newMouseState;
+            this.newMouseState = Mouse.GetState();
+
+            if (this.amIWinner)
+            {
+                if (this.newMouseState.LeftButton == ButtonState.Pressed &&
+                    this.oldMouseState.LeftButton == ButtonState.Released)
+                {
+                    this.oneTimeSwitch = true;
+                }
+                if (this.oneTimeSwitch)
+                {
+                    Enemy unit = CharacterManager.enemiesList.FirstOrDefault(x => x.ID == this.enemyId);
+
+                    //Vector2 vector = CharacterManager.EnemiesPositionList.FirstOrDefault(x => x == unit.DrawCoordEnemy);
+                    //CharacterManager.EnemiesPositionList.Remove(vector);
+                    CharacterManager.EnemiesPositionList.Remove(this.enemyId);
+                    CharacterManager.barbarian.AvailableCreatures = this.playerUnits;
+
+                    CharacterManager.enemiesList.Remove(unit);
+                    Character.GetIsInBattle = false;
+                }
+            }
+            else
+            {
+                if (this.newMouseState.LeftButton == ButtonState.Pressed &&
+                    this.oldMouseState.LeftButton == ButtonState.Released)
+                {
+                    ScreenManager.Instance.UnloadContent();
+                    ScreenManager.Instance.ChangeScreens("MenuScreen");
+                    CharacterManager.EnemiesPositionList.Clear();
+                    CharacterManager.enemiesList.Clear();
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.battlefieldImage, this.battlefieldDrawCoord, Color.White);
 
-            foreach (var playerUnit in this.playerUnits)
+            if (this.isBattle)
             {
-                playerUnit.Key.Draw(spriteBatch);
-                spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
-                    playerUnit.Key.WarUnitDrawCoord, Color.Red);
-                
+                foreach (var playerUnit in this.playerUnits)
+                {
+                    playerUnit.Key.Draw(spriteBatch);
+                    spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
+                        playerUnit.Key.WarUnitDrawCoord, Color.Red);
 
+
+                }
+                foreach (var enemyUnit in this.enemyUnits)
+                {
+                    enemyUnit.Key.Draw(spriteBatch);
+                    spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
+                        new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
+                }
             }
-            foreach (var enemyUnit in this.enemyUnits)
+            else
             {
-                enemyUnit.Key.Draw(spriteBatch);
-                spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
-                    new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
+                if (this.amIWinner)
+                {
+                    //this.textCoord = new Vector2(this.bigFont.MeasureString(WinText).X / 2, this.bigFont.MeasureString(WinText).Y / 2);
+                    spriteBatch.DrawString(this.bigFont, WinText, this.textCoord, Color.Red);
+
+                    //Character.GetIsInBattle = false;
+                }
+                else
+                {
+                    //this.textCoord = new Vector2(this.bigFont.MeasureString(LoseText).X/2, this.bigFont.MeasureString(LoseText).Y/2);
+                    spriteBatch.DrawString(this.bigFont, LoseText, this.textCoord, Color.Red);
+                }
+            }
+
+
+        }
+
+        private void CheckForBattleEnd()
+        {
+            this.isBattle = this.playerUnits.Count > 0 && this.enemyUnits.Count > 0;
+
+            if (!this.isBattle)
+            {
+                this.amIWinner = this.playerUnits.Count > 0;
             }
         }
 
@@ -166,13 +263,24 @@ namespace AthameRPG.Objects.BattleFields
 
         }
 
-        public void LoadArmies(IReadOnlyDictionary<WarUnit, decimal> playerArmy, IReadOnlyDictionary<WarUnit, decimal> enemyArmy)
+        public void LoadArmies(IReadOnlyDictionary<WarUnit, decimal> playerArmy,
+            IReadOnlyDictionary<WarUnit, decimal> enemyArmy, int enemyID)
         {
-            this.playerUnits.Clear();
-            this.enemyUnits.Clear();
+            // взимаме ИД-то за да знаем кое енеми да премахнем. ако победим :) 
+            this.enemyId = enemyID;
 
-            this.playerUnits = (Dictionary<WarUnit, decimal>)playerArmy;
-            this.enemyUnits = (Dictionary<WarUnit, decimal>)enemyArmy;
+            //трябва ни за края на рунда 
+            this.oneTimeSwitch = false;
+            this.isBattle = true;
+
+
+            this.playerUnits = new Dictionary<WarUnit, decimal>();
+            this.enemyUnits = new Dictionary<WarUnit, decimal>();
+
+            this.playerUnits = (Dictionary<WarUnit, decimal>) playerArmy;
+            this.enemyUnits = (Dictionary<WarUnit, decimal>) enemyArmy;
+
+            this.ResetDrawPosition();
 
             this.playerTurn = true;
             this.PrepareUnitsForTurn();
@@ -196,7 +304,7 @@ namespace AthameRPG.Objects.BattleFields
                     this.supportUnit.inBattleTurn = false;
                 }
             }
-            
+
             this.TrySwitchTurn();
         }
 
@@ -212,7 +320,7 @@ namespace AthameRPG.Objects.BattleFields
 
             this.playerTurn = false;
         }
-        
+
         public bool CheckEnemyArmy(Predicate<WarUnit> condition)
         {
             foreach (var enemyUnit in this.enemyUnits)
@@ -257,6 +365,20 @@ namespace AthameRPG.Objects.BattleFields
             {
                 unitStreghtLevelIndex = 7;
             }
+        }
+
+
+        private void ResetDrawPosition()
+        {
+            foreach (var unit in this.playerUnits)
+            {
+                unit.Key.SetStartPositionInBattleLikePlayer();
+            }
+            foreach (var unit in this.enemyUnits)
+            {
+                unit.Key.SetStartPositionInBattleLikeEnemy();
+            }
+
         }
 
         private void PrepareUnitsForTurn()
@@ -304,7 +426,7 @@ namespace AthameRPG.Objects.BattleFields
         {
             foreach (var enemyUnit in this.enemyUnits)
             {
-                if (enemyUnit.Key == unit )
+                if (enemyUnit.Key == unit)
                 {
                     return enemyUnit.Value;
                 }
@@ -326,19 +448,21 @@ namespace AthameRPG.Objects.BattleFields
 
         public void AttackPlayerUnit(WarUnit defender, int damage, WarUnit attacker, int counterDamage)
         {
-            int unitsToRemoveFromDefender = damage / defender.GetDefaultHeаlth();
-            int remainingDamageToDefender = damage - (defender.GetDefaultHeаlth() * unitsToRemoveFromDefender);
-            
+            int unitsToRemoveFromDefender = damage/defender.GetDefaultHeаlth();
+            int remainingDamageToDefender = damage - (defender.GetDefaultHeаlth()*unitsToRemoveFromDefender);
+
             unitsToRemoveFromDefender += defender.DecreaseHealth(remainingDamageToDefender);
-            this.supportRemoveKilledUnitsFromPlayerArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(defender,unitsToRemoveFromDefender));
+            this.supportRemoveKilledUnitsFromPlayerArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(defender,
+                unitsToRemoveFromDefender));
 
             // counter-attack
 
-            int unitsToRemoveFromAttacker = counterDamage / attacker.GetDefaultHeаlth();
-            int remainingDamageToAttacker = counterDamage - (unitsToRemoveFromAttacker * attacker.GetDefaultHeаlth());
+            int unitsToRemoveFromAttacker = counterDamage/attacker.GetDefaultHeаlth();
+            int remainingDamageToAttacker = counterDamage - (unitsToRemoveFromAttacker*attacker.GetDefaultHeаlth());
 
             unitsToRemoveFromAttacker += attacker.DecreaseHealth(remainingDamageToAttacker);
-            this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(attacker, unitsToRemoveFromAttacker));
+            this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(attacker,
+                unitsToRemoveFromAttacker));
             //attacker.DecreaseHealth(remainingDamageToAttacker);
 
         }
@@ -347,5 +471,6 @@ namespace AthameRPG.Objects.BattleFields
         {
 
         }
+
     }
 }

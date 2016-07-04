@@ -75,9 +75,10 @@ namespace AthameRPG.Characters
             get { return this.availableMove; }
         }
 
-        public IReadOnlyDictionary<WarUnit, decimal> AvailableCreatures
+        public Dictionary<WarUnit, decimal> AvailableCreatures
         {
             get { return this.availableCreatures; }
+            set { this.availableCreatures = value; }
         }
 
         public virtual void AddCreature(WarUnit newUnit)

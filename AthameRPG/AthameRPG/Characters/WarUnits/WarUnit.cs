@@ -51,9 +51,7 @@ namespace AthameRPG.Characters.WarUnits
         protected int cropAttackWidth;
         protected int cropAttackHeight;
 
-        protected float moveSpeed;
-        protected double availableMove;
-
+        
         protected SpriteFont spriteFontSmallLetters;
         protected Vector2 smallLettersDrawCoord;
         protected AnimationReturnedValue newAnimationFrame;
@@ -61,9 +59,12 @@ namespace AthameRPG.Characters.WarUnits
         protected MouseState oldMouseState;
         protected WarUnit supportUnit;
 
+        protected float moveSpeed;
+        protected double availableMove;
         protected int health;
         protected bool isAlive;
         protected int damage;
+        
 
 
         public WarUnit()
@@ -367,8 +368,7 @@ namespace AthameRPG.Characters.WarUnits
             }
             
         }
-
-
+        
         private void SetProtectedMove()
         {
             // make default protected move;
@@ -442,6 +442,9 @@ namespace AthameRPG.Characters.WarUnits
         {
             this.availableMove = this.GetDefaultMove();
         }
+
+        public abstract void SetStartPositionInBattleLikePlayer();
+        public abstract void SetStartPositionInBattleLikeEnemy();
 
         protected abstract float GetDefaultMove();
 

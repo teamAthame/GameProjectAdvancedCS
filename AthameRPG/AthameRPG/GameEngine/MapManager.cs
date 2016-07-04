@@ -27,6 +27,7 @@ namespace AthameRPG.GameEngine
         private SandWatch sandWatch;
         private Battlefield battlefield;
 
+
         public MapManager()
         {
             this.MapIndex = 0; /// TODO 
@@ -115,6 +116,9 @@ namespace AthameRPG.GameEngine
         public void UnloadContent()
         {
             currentMap.UnloadContent();
+            charManager.UnloadContent();
+            buildingManager.UnloadContent();
+            //battlefield.UnloadContent();
         }
 
         public void Update(GameTime gameTime)

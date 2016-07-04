@@ -102,18 +102,18 @@ namespace AthameRPG.Characters
             {
 
                 // if EXIT is clicked
-                if (true)
-                {
-                    isInCastle = false;
-                }
+                //if (true)
+                //{
+                //    isInCastle = false;
+                //}
             }
             else if (isInBattle)
             {
                 // when have a winner .. continue is clicked
-                if (true)
-                {
-                    isInBattle = false;
-                }
+                //if (true)
+                //{
+                //    isInBattle = false;
+                //}
             }
 
         }

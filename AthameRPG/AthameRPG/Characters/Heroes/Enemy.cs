@@ -196,7 +196,7 @@ namespace AthameRPG.Characters
                             Character.isInBattle = true;
                             Battlefield.unitStreghtLevelIndex = MaxStrenghtLevel;
                             this.showInvitationText = false;
-                            MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
+                            MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures, this.ID);
                         }
                     }
                 }
@@ -205,11 +205,15 @@ namespace AthameRPG.Characters
                     Character.isInBattle = true;
                     Battlefield.unitStreghtLevelIndex = MaxStrenghtLevel;
                     this.showInvitationText = false;
-                    MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures);
+                    MapManager.Instance.Battlefield.LoadArmies(CharacterManager.barbarian.AvailableCreatures, this.AvailableCreatures, this.ID);
                 }
             }
         }
 
+        public Vector2 DrawCoordEnemy
+        {
+            get { return this.drawCoordEnemy; }
+        }
 
         public bool ISeePlayer
         {
