@@ -14,6 +14,7 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
         private const int DefaultHealth = 400;
+        private const int DefaultMinAttackDistance = 7;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
         private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 200);
 
@@ -35,6 +36,7 @@ namespace AthameRPG.Characters.WarUnits
             this.amIArcherOrMage = true;
             this.damage = 150;
             this.health = DefaultHealth;
+            this.minAttackDistance = DefaultMinAttackDistance;
         }
         public Goro(bool playerUnit):base(playerUnit)
         {
@@ -54,6 +56,7 @@ namespace AthameRPG.Characters.WarUnits
             this.amIArcherOrMage = true;
             this.damage = 150;
             this.health = DefaultHealth;
+            this.minAttackDistance = DefaultMinAttackDistance;
         }
 
         public override int GetDefaultHeаlth()

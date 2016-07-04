@@ -64,7 +64,9 @@ namespace AthameRPG.Characters.WarUnits
         protected int health;
         protected bool isAlive;
         protected int damage;
-        
+        protected int minAttackDistance;
+
+
 
 
         public WarUnit()
@@ -353,8 +355,8 @@ namespace AthameRPG.Characters.WarUnits
         {
             // default attack min distance
 
-            if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X, 5) 
-                && CollisionDetection.IsNear(attacker.WarUnitDrawCoord.Y, defender.WarUnitDrawCoord.Y, 5) )
+            if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X, this.minAttackDistance) 
+                && CollisionDetection.IsNear(attacker.WarUnitDrawCoord.Y, defender.WarUnitDrawCoord.Y, this.minAttackDistance) )
             {
                 decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
                 decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);

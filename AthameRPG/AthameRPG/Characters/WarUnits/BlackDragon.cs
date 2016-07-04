@@ -14,6 +14,7 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultMoveSpeed = 6f;
         private const float DefaultAvailableMove = 300f;
         private const int DefaultHealth = 500;
+        private const int DefaultMinAttackDistance = 10;
         private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
         private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
 
@@ -34,6 +35,7 @@ namespace AthameRPG.Characters.WarUnits
             this.availableMove = DefaultAvailableMove;
             this.damage = 200;
             this.health = DefaultHealth;
+            this.minAttackDistance = DefaultMinAttackDistance;
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)
@@ -53,6 +55,7 @@ namespace AthameRPG.Characters.WarUnits
             this.availableMove = DefaultAvailableMove;
             this.damage = 200;
             this.health = DefaultHealth;
+            this.minAttackDistance = DefaultMinAttackDistance;
         }
 
         public override int GetDefaultHeаlth()

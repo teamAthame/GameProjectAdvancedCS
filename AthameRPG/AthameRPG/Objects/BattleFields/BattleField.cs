@@ -160,8 +160,6 @@ namespace AthameRPG.Objects.BattleFields
                 {
                     Enemy unit = CharacterManager.enemiesList.FirstOrDefault(x => x.ID == this.enemyId);
 
-                    //Vector2 vector = CharacterManager.EnemiesPositionList.FirstOrDefault(x => x == unit.DrawCoordEnemy);
-                    //CharacterManager.EnemiesPositionList.Remove(vector);
                     CharacterManager.EnemiesPositionList.Remove(this.enemyId);
                     CharacterManager.barbarian.AvailableCreatures = this.playerUnits;
 
@@ -216,14 +214,12 @@ namespace AthameRPG.Objects.BattleFields
             {
                 if (this.amIWinner)
                 {
-                    //this.textCoord = new Vector2(this.bigFont.MeasureString(WinText).X / 2, this.bigFont.MeasureString(WinText).Y / 2);
                     spriteBatch.DrawString(this.bigFont, WinText, this.winTextCoord, Color.Red);
 
                     //Character.GetIsInBattle = false;
                 }
                 else
                 {
-                    //this.textCoord = new Vector2(this.bigFont.MeasureString(LoseText).X/2, this.bigFont.MeasureString(LoseText).Y/2);
                     spriteBatch.DrawString(this.bigFont, LoseText, this.loseTextCoord, Color.Red);
                     spriteBatch.DrawString(this.bigFont, SupportText, this.supportTextCoord, Color.Blue);
                 }
