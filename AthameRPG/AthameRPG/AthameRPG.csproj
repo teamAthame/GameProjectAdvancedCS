@@ -147,7 +147,6 @@
     <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
-    <Compile Include="GameObject.cs" />
     <Compile Include="Objects\BattleFields\Battlefield.cs" />
     <Compile Include="Objects\Castles\MainCastle.cs" />
     <Compile Include="Objects\Castles\StoneCastle.cs" />

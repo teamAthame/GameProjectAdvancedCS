@@ -1,5 +1,4 @@
 ﻿using AthameRPG.Enums;
-using DisciplesRpgGame.Units;
 
 namespace AthameRPG.Characters.WarUnits.Empire.Mages
 {

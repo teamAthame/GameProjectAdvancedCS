@@ -1,9 +1,9 @@
 ﻿using System;
 using AthameRPG.Enums;
 
-namespace DisciplesRpgGame.Units
+namespace AthameRPG.Characters.WarUnits
 {
-    public abstract class Unit : GameObject
+    public abstract class Unit
     {
         private int experience;
         private int health;

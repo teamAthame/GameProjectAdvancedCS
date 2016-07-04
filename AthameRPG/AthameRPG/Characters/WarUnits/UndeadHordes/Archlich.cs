@@ -1,10 +1,9 @@
 ﻿using AthameRPG.Contracts;
 using AthameRPG.Enums;
+using DisciplesRpgGame.Units.The_Undead_Hordes;
 
-namespace DisciplesRpgGame.Units.The_Undead_Hordes
+namespace AthameRPG.Characters.WarUnits.UndeadHordes
 {
-    using System.Collections.Generic;
-
     public class Archlich : NightWalker
     {
         private const int ArchlichInitiative = 40;

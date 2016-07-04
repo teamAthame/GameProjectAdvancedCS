@@ -4,7 +4,7 @@ using AthameRPG.Contracts;
 
 namespace AthameRPG.Characters.WarUnits.Empire.Healers
 {
-    public abstract class Healer : DisciplesRpgGame.Units.Unit, IHeal
+    public abstract class Healer : Unit, IHeal
     {
         private const int HealerArmor = 0;
         private const int HealerInitiative = 10;

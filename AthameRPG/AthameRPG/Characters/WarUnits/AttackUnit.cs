@@ -2,7 +2,7 @@
 using AthameRPG.Contracts;
 using AthameRPG.Enums;
 
-namespace DisciplesRpgGame.Units
+namespace AthameRPG.Characters.WarUnits
 {
     public abstract class AttackUnit : Unit, IAttack
     {
