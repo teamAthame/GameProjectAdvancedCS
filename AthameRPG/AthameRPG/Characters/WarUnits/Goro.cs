@@ -33,7 +33,7 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
-            this.amIArcherOrMage = false;
+            this.amIArcherOrMage = true;
             this.damage = 150;
             this.health = 400;
         }

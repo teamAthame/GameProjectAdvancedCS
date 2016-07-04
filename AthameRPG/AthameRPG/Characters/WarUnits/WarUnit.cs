@@ -299,29 +299,13 @@ namespace AthameRPG.Characters.WarUnits
 
             if (this.availableMove > 0)
             {
-                ProtectFriendArcher(hasArcherFriend);
-
-                if (!hasArcherFriend && hasArcherEnemy)
+                if (hasArcherFriend)
                 {
-                    this.supportUnit = MapManager.Instance.Battlefield.TryTakeEnemyUnit(x => x.amIArcherOrMage == true);
-
-                    if (this.supportUnit == null)
-                    {
-                        this.inBattleTurn = false;
-                    }
-                    // проверява дали може да стигне противника с оставащият му ход 
-                    if (CollisionDetection.IsNear(this.WarUnitDrawCoord.X, this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropStayWidth, (int)this.availableMove) && this.inBattleTurn == true)
-                    {
-                        this.SetMoveToEnemy(this.supportUnit);
-                        this.Moving();
-                        this.EnemyTryAttackPlayer(this, this.supportUnit);
-
-                    }
-                    else
-                    {
-                        this.SetProtectedMove();
-                        this.Moving();
-                    }
+                    ProtectFriendArcher();
+                }
+                else if (!hasArcherFriend && hasArcherEnemy)
+                {
+                    SearchForArcher();
                 }
                 else if (!hasArcherFriend && !hasArcherEnemy)
                 {
@@ -332,6 +316,31 @@ namespace AthameRPG.Characters.WarUnits
 
             }
 
+        }
+
+        private void SearchForArcher()
+        {
+            this.supportUnit = MapManager.Instance.Battlefield.TryTakeEnemyUnit(x => x.amIArcherOrMage == true);
+
+            if (this.supportUnit == null)
+            {
+                this.inBattleTurn = false;
+            }
+            // проверява дали може да стигне противника с оставащият му ход 
+            if (
+                CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
+                    this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropStayWidth, (int) this.availableMove) &&
+                this.inBattleTurn == true)
+            {
+                this.SetMoveToEnemy(this.supportUnit);
+                this.Moving();
+                this.EnemyTryAttackPlayer(this, this.supportUnit);
+            }
+            else
+            {
+                this.SetProtectedMove();
+                this.Moving();
+            }
         }
 
         private void EnemyTryAttackPlayer(WarUnit attacker, WarUnit defender)
@@ -373,37 +382,27 @@ namespace AthameRPG.Characters.WarUnits
             
         }
 
-        private void ProtectFriendArcher(bool hasArcherFriend)
+        private void ProtectFriendArcher()
         {
-            if (hasArcherFriend)
+            this.supportUnit = MapManager.Instance.Battlefield.TryTakeFriendUnit(x => x.amIArcherOrMage == true);
+
+            if (this.supportUnit == null)
             {
-                this.supportUnit = MapManager.Instance.Battlefield.TryTakeFriendUnit(x => x.amIArcherOrMage == true);
-
-                if (this.supportUnit == null)
-                {
-                    this.inBattleTurn = false;
-                }
-                // make default radius;
-
-                if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y, 10) &&
-                    this.inBattleTurn == true)
-                {
-                    this.inBattleTurn = false;
-                }
-                else
-                {
-                    this.ProtectFriend(this.supportUnit);
-                    this.Moving();
-                }
-                //if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y + this.cropStayHeight, this.supportUnit.WarUnitDrawCoord.Y, 10) && this.inBattleTurn == true)
-                //{
-
-                //}
+                this.inBattleTurn = false;
             }
-            //else
-            //{
-            //    this.inBattleTurn = false;
-            //}
+            // make default radius;
+
+            if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y, 10)
+                && CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.cropStayWidth, this.supportUnit.WarUnitDrawCoord.X, 10)
+                && this.inBattleTurn == true)
+            {
+                this.inBattleTurn = false;
+            }
+            else
+            {
+                this.ProtectFriend(this.supportUnit);
+                this.Moving();
+            }
         }
 
         protected void ProtectFriend(WarUnit unit)
