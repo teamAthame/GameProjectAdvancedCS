@@ -16,37 +16,28 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultAvailableMove = 300f;
         private const int DefaultHealth = 500;
         private const int DefaultMinAttackDistance = 10;
+        private const int DefaultProtectedStep = 90;
+
         private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
         private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
 
         public BlackDragon() : base()
         {
-            this.strengthLevel = DefaultStrengthLevel;
-            this.imagePath = DefaultImagePath;
             this.warUnitDrawCoord = DefaultStartPositionInBattleLikeEnemy;
-            //this.warUnitDrawCoord.X = 725;
-            //this.warUnitDrawCoord.Y = 0;
-            this.cropStayWidth = DefaultCropStayWidth;
-            this.cropStayHeight = DefaultCropStayHeight;
-            this.cropMoveWidth = 0;
-            this.cropMoveHeight = 0;
-            this.cropAttackWidth = 0;
-            this.cropAttackHeight = 0;
-            this.moveSpeed = DefaultMoveSpeed;
-            this.availableMove = DefaultAvailableMove;
-            this.damage = 200;
-            this.health = DefaultHealth;
-            this.minAttackDistance = DefaultMinAttackDistance;
-            this.correctionStayCropByX = DefaultCorrectionCropByX;
+
+            
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)
         {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
+            
+        }
+
+        protected override void LoadDefaultUnitStats()
+        {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
-            //this.warUnitDrawCoord.X = 5;
-            //this.warUnitDrawCoord.Y = 5;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -59,6 +50,7 @@ namespace AthameRPG.Characters.WarUnits
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
             this.correctionStayCropByX = DefaultCorrectionCropByX;
+            this.protectedStep = DefaultProtectedStep;
         }
 
         public override int GetDefaultHeаlth()

@@ -66,7 +66,7 @@ namespace AthameRPG.Characters.WarUnits
         protected bool isAlive;
         protected int damage;
         protected int minAttackDistance;
-
+        protected int protectedStep;
 
 
 
@@ -79,6 +79,7 @@ namespace AthameRPG.Characters.WarUnits
             this.inBattleTurn = true;
             this.isAlive = true;
             
+            this.LoadDefaultUnitStats();
         }
 
         public WarUnit(bool playerUnit)
@@ -88,7 +89,11 @@ namespace AthameRPG.Characters.WarUnits
             this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
             this.inBattleTurn = true;
             this.isAlive = true;
+
+            this.LoadDefaultUnitStats();
         }
+
+        protected abstract void LoadDefaultUnitStats();
 
         public abstract int GetDefaultHeаlth();
 
@@ -298,14 +303,8 @@ namespace AthameRPG.Characters.WarUnits
             if (!this.amIArcherOrMage)
             {
                 hasArcherFriend = MapManager.Instance.Battlefield.CheckEnemyArmy(isThereAnArcher);
-            }
-            else
-            {
-                // attack enemy archer
             }  
             
-
-
             if (this.availableMove > 0)
             {
                 if (hasArcherFriend)

@@ -12,6 +12,7 @@ namespace AthameRPG.Characters.WarUnits
         private const int DefaultCropAttackWidth = 0;
         private const int DefaultCropAttackHeight = 0;
         private const int DefaultCorrectionCropByX = 7;
+        private const int DefaultProtectedStep = 90;
 
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
@@ -22,32 +23,24 @@ namespace AthameRPG.Characters.WarUnits
 
         public Goro():base()
         {
-            this.strengthLevel = DefaultStrengthLevel;
-            this.imagePath = DefaultImagePath;
             this.warUnitDrawCoord = DefaultStartPositionInBattleLikeEnemy;
-            //this.warUnitDrawCoord.X = 730f;
-            //this.warUnitDrawCoord.Y = 200f;
-            this.cropStayWidth = DefaultCropStayWidth;
-            this.cropStayHeight = DefaultCropStayHeight;
-            this.cropMoveWidth = 0;
-            this.cropMoveHeight = 0;
-            this.cropAttackWidth = 0;
-            this.cropAttackHeight = 0;
-            this.moveSpeed = DefaultMoveSpeed;
-            this.availableMove = DefaultAvailableMove;
             this.amIArcherOrMage = true;
-            this.damage = 150;
-            this.health = DefaultHealth;
-            this.minAttackDistance = DefaultMinAttackDistance;
-            this.correctionStayCropByX = DefaultCorrectionCropByX;
+
+            
         }
         public Goro(bool playerUnit):base(playerUnit)
         {
+            this.warUnitDrawCoord = DefaultStartPositionInBattleLikePlayer;
+            this.amIArcherOrMage = true;
+
+            
+            
+        }
+
+        protected override void LoadDefaultUnitStats()
+        {
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            this.warUnitDrawCoord = DefaultStartPositionInBattleLikePlayer;
-            //this.warUnitDrawCoord.X = 5;
-            //this.warUnitDrawCoord.Y = 400;
             this.cropStayWidth = DefaultCropStayWidth;
             this.cropStayHeight = DefaultCropStayHeight;
             this.cropMoveWidth = 0;
@@ -56,11 +49,11 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
-            this.amIArcherOrMage = true;
             this.damage = 150;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
             this.correctionStayCropByX = DefaultCorrectionCropByX;
+            this.protectedStep = DefaultProtectedStep;
         }
 
         public override int GetDefaultHeаlth()

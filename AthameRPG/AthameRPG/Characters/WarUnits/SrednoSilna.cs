@@ -11,6 +11,7 @@ namespace AthameRPG.Characters.WarUnits
     {
         // това трябва да го има във всяка гадина  !!!
         private const int DefaultStrengthLevel = 5;
+
         private const int DefaultHealth = 400;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 5);
         private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
@@ -18,6 +19,11 @@ namespace AthameRPG.Characters.WarUnits
         public SrednoSilna()
         {
             this.strengthLevel = DefaultStrengthLevel;
+        }
+
+        protected override void LoadDefaultUnitStats()
+        {
+            
         }
 
         public override int GetDefaultHeаlth()

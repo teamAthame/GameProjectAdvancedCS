@@ -20,6 +20,11 @@ namespace AthameRPG.Characters.WarUnits
             this.strengthLevel = DefaultStrengthLevel;
         }
 
+        protected override void LoadDefaultUnitStats()
+        {
+            
+        }
+
         public override int GetDefaultHeаlth()
         {
             throw new NotImplementedException();
