@@ -50,6 +50,7 @@ namespace AthameRPG.Characters.WarUnits
         protected int cropMoveHeight;
         protected int cropAttackWidth;
         protected int cropAttackHeight;
+        protected int correctionStayCropByX;
 
         
         protected SpriteFont spriteFontSmallLetters;
@@ -150,7 +151,7 @@ namespace AthameRPG.Characters.WarUnits
                 this.frameCounter = 0;
                 
                 this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
-                        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight);
+                        this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth, cropStayHeight, this.correctionStayCropByX);
 
                 this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
 

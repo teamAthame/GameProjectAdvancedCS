@@ -102,31 +102,29 @@ namespace AthameRPG.GameEngine
             return new AnimationReturnedValue(direction, CropCurrentFramePlayer);
         }
 
-        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord, int cropStayRow, int cropMovingRow, int cropAttackRow, int cropFrame, int stayWidth, int stayHeight)
+        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord, int cropStayRow, int cropMovingRow, int cropAttackRow, int cropFrame, int stayWidth, int stayHeight, int correction)
         {
             Rectangle currentFrame = new Rectangle();
-
             
-
-            if (lastDrawCoord.X != warUnitDrawCoord.X)
-            {
+            //if (lastDrawCoord.X != warUnitDrawCoord.X)
+            //{
                 
-                //if (lastDrawCoord.X > warUnitDrawCoord.X)
-                //{
-                //    currentFrame = new Rectangle(cropFrame * cropWidth, east, cropWidth, cropHeight);
-                //    direction = "E";
-                //}
-                //else
-                //{
+            //    //if (lastDrawCoord.X > warUnitDrawCoord.X)
+            //    //{
+            //    //    currentFrame = new Rectangle(cropFrame * cropWidth, east, cropWidth, cropHeight);
+            //    //    direction = "E";
+            //    //}
+            //    //else
+            //    //{
 
-                //    direction = "W";
-                //}
-            }
-            else
-            {
-                //currentFrame = new Rectangle(326 + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
-            }
-            currentFrame = new Rectangle(326 + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
+            //    //    direction = "W";
+            //    //}
+            //}
+            //else
+            //{
+            //    //currentFrame = new Rectangle(326 + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
+            //}
+            currentFrame = new Rectangle(correction + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
 
             return new AnimationReturnedValue(" ", currentFrame);
         }

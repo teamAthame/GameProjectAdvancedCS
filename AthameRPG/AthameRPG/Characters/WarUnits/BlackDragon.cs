@@ -7,6 +7,7 @@ namespace AthameRPG.Characters.WarUnits
         private const string DefaultImagePath = "../Content/Character/blackDragon";
         private const int DefaultCropStayWidth = 69;
         private const int DefaultCropStayHeight = 97;
+        private const int DefaultCorrectionCropByX = 326;
         private const int DefaultCropMoveWidth = 0;
         private const int DefaultCropMoveHeight = 0;
         private const int DefaultCropAttackWidth = 0;
@@ -36,6 +37,7 @@ namespace AthameRPG.Characters.WarUnits
             this.damage = 200;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
+            this.correctionStayCropByX = DefaultCorrectionCropByX;
         }
 
         public BlackDragon(bool playerUnit):base(playerUnit)
@@ -56,6 +58,7 @@ namespace AthameRPG.Characters.WarUnits
             this.damage = 200;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
+            this.correctionStayCropByX = DefaultCorrectionCropByX;
         }
 
         public override int GetDefaultHeаlth()

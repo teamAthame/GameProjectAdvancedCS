@@ -5,12 +5,14 @@ namespace AthameRPG.Characters.WarUnits
     {
         private const int DefaultStrengthLevel = 6;
         private const string DefaultImagePath = "../Content/Character/goro";
-        private const int DefaultCropStayWidth = 69;
-        private const int DefaultCropStayHeight = 97;
+        private const int DefaultCropStayWidth = 50;
+        private const int DefaultCropStayHeight = 95;
         private const int DefaultCropMoveWidth = 0;
         private const int DefaultCropMoveHeight = 0;
         private const int DefaultCropAttackWidth = 0;
         private const int DefaultCropAttackHeight = 0;
+        private const int DefaultCorrectionCropByX = 7;
+
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
         private const int DefaultHealth = 400;
@@ -37,6 +39,7 @@ namespace AthameRPG.Characters.WarUnits
             this.damage = 150;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
+            this.correctionStayCropByX = DefaultCorrectionCropByX;
         }
         public Goro(bool playerUnit):base(playerUnit)
         {
@@ -57,6 +60,7 @@ namespace AthameRPG.Characters.WarUnits
             this.damage = 150;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
+            this.correctionStayCropByX = DefaultCorrectionCropByX;
         }
 
         public override int GetDefaultHeаlth()
