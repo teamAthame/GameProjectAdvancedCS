@@ -117,11 +117,7 @@ namespace AthameRPG.Objects.BattleFields
                     playerUnit.Key.CanBeSeleted = false;
                 }
 
-                // ако нямаме гадини от текущия левел
-                if (playerTurn)
-                {
-
-                }
+                
                 playerUnit.Key.Update(gameTime);
 
             }
@@ -140,8 +136,11 @@ namespace AthameRPG.Objects.BattleFields
             }
 
             this.TryRemovedKilledUnits();
-
-            this.CheckEnemyUnitsForInBattleTurn();
+            if (!this.playerTurn)
+            {
+                this.CheckEnemyUnitsForInBattleTurn();
+            }
+           
         }
 
         private void SwitchToMenuOrReturnInGame()
@@ -376,7 +375,7 @@ namespace AthameRPG.Objects.BattleFields
                     return;
                 }
             }
-
+            
             this.playerTurn = true;
 
             this.PrepareUnitsForTurn();
@@ -431,6 +430,51 @@ namespace AthameRPG.Objects.BattleFields
             return null;
         }
 
+        public WarUnit TryTakeNearestPlayerUnit(WarUnit enemyUnit, int radius )
+        {
+            this.supportUnit = null;
+
+            double minDistance = double.MaxValue;
+            
+            foreach (var unit in this.playerUnits)
+            {
+                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.WarUnitDrawCoord,
+                    enemyUnit.WarUnitDrawCoord);
+
+                if ((currentDistance < minDistance) && ((int)currentDistance < radius))
+                {
+                    this.supportUnit = unit.Key;
+
+                    minDistance = currentDistance;
+                }
+            }
+
+            return this.supportUnit;
+        }
+
+        public WarUnit TryTakeNearestEnemyUnit(WarUnit enemyUnit, int radius)
+        {
+            this.supportUnit = null;
+
+            double minDistance = double.MaxValue;
+
+            foreach (var unit in this.enemyUnits)
+            {
+                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.WarUnitDrawCoord,
+                    enemyUnit.WarUnitDrawCoord);
+
+                if ((currentDistance < minDistance) && ((int)currentDistance < radius))
+                {
+                    this.supportUnit = unit.Key;
+
+                    minDistance = currentDistance;
+                }
+            }
+
+            return this.supportUnit;
+        }
+
+
         public WarUnit TryTakeFriendUnit(Predicate<WarUnit> condition)
         {
             foreach (var unit in this.enemyUnits)
@@ -443,7 +487,7 @@ namespace AthameRPG.Objects.BattleFields
 
             return null;
         }
-
+        
         public decimal TryTakeFriendUnitQuantity(WarUnit unit)
         {
             foreach (var enemyUnit in this.enemyUnits)
@@ -478,21 +522,85 @@ namespace AthameRPG.Objects.BattleFields
                 unitsToRemoveFromDefender));
 
             // counter-attack
+            if (!attacker.AmIArcherOrMage)
+            {
+                int unitsToRemoveFromAttacker = counterDamage / attacker.GetDefaultHeаlth();
+                int remainingDamageToAttacker = counterDamage - (unitsToRemoveFromAttacker * attacker.GetDefaultHeаlth());
 
-            int unitsToRemoveFromAttacker = counterDamage/attacker.GetDefaultHeаlth();
-            int remainingDamageToAttacker = counterDamage - (unitsToRemoveFromAttacker*attacker.GetDefaultHeаlth());
-
-            unitsToRemoveFromAttacker += attacker.DecreaseHealth(remainingDamageToAttacker);
-            this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(attacker,
-                unitsToRemoveFromAttacker));
-            //attacker.DecreaseHealth(remainingDamageToAttacker);
-
+                unitsToRemoveFromAttacker += attacker.DecreaseHealth(remainingDamageToAttacker);
+                this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(attacker,
+                    unitsToRemoveFromAttacker));
+            }
+            
         }
 
-        public void AttackEnemyUnit(WarUnit unit, decimal damage)
+        public void TryToAttackEnemyUnit(WarUnit player, WarUnit enemy)
         {
+            //bool inFrontOfUs = CollisionDetection.IsNear(player.WarUnitDrawCoord.X + player.CropWidth,
+            //    enemy.WarUnitDrawCoord.X, player.MinAttackDistance)
+            //    && CollisionDetection.IsNear(player.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+            //                         player.MinAttackDistance);
 
+            //bool behindUs = CollisionDetection.IsNear(player.WarUnitDrawCoord.X,
+            //    enemy.WarUnitDrawCoord.X + enemy.CropHeight, player.MinAttackDistance)
+            //    && CollisionDetection.IsNear(player.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+            //                         player.MinAttackDistance);
+
+            //if (inFrontOfUs || behindUs)
+            //{
+            //    decimal playerQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(player);
+            //    int playerDamage = (int)(player.Damage * playerQuantity);
+
+            //    decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(enemy);
+            //    int enemyDamage = (int)(enemy.Damage * enemyQuantity);
+
+            //    if (player.inBattleTurn)
+            //    {
+            //        this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
+            //    }
+
+            //    player.inBattleTurn = false;
+
+            //}
+
+            decimal playerQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(player);
+            int playerDamage = (int)(player.Damage * playerQuantity);
+
+            decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(enemy);
+            int enemyDamage = (int)(enemy.Damage * enemyQuantity);
+
+            if (player.inBattleTurn)
+            {
+                this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
+            }
+
+            player.inBattleTurn = false;
         }
 
+        private void AttackEnemyUnit(WarUnit player, int playerDamage, WarUnit enemy, int enemyDamage)
+        {
+            int unitsToRemoveFromDefender = playerDamage / enemy.GetDefaultHeаlth();
+            int remainingDamageToDefender = playerDamage - (enemy.GetDefaultHeаlth() * unitsToRemoveFromDefender);
+
+            unitsToRemoveFromDefender += enemy.DecreaseHealth(remainingDamageToDefender);
+
+            this.supportRemoveKilledUnitsFromEnemyArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(enemy,
+                unitsToRemoveFromDefender));
+
+            
+            // counter-attack
+            if (!player.AmIArcherOrMage)
+            {
+                int unitsToRemoveFromAttacker = enemyDamage / player.GetDefaultHeаlth();
+                int remainingDamageToAttacker = enemyDamage - (unitsToRemoveFromAttacker * player.GetDefaultHeаlth());
+
+                unitsToRemoveFromAttacker += player.DecreaseHealth(remainingDamageToAttacker);
+
+                this.supportRemoveKilledUnitsFromPlayerArmy.Enqueue(new KeyValuePair<WarUnit, decimal>(player,
+                    unitsToRemoveFromAttacker));
+
+                
+            }
+        }
     }
 }

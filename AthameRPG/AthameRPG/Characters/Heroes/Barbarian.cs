@@ -49,8 +49,8 @@ namespace AthameRPG.Characters.Heroes
             this.direction = "NW";
 
             // add base army
-            //this.availableCreatures.Add(new BlackDragon(true), 1);
-            this.availableCreatures.Add(new Goro(true), 1);
+            this.availableCreatures.Add(new BlackDragon(true), 50);
+            //this.availableCreatures.Add(new Goro(true), 10);
 
             //this.AtackHandler =new AtackBarbarian();
         }

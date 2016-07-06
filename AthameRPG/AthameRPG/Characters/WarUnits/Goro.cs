@@ -12,12 +12,16 @@ namespace AthameRPG.Characters.WarUnits
         private const int DefaultCropAttackWidth = 0;
         private const int DefaultCropAttackHeight = 0;
         private const int DefaultCorrectionCropByX = 7;
-        private const int DefaultProtectedStep = 90;
 
+        private const int DefaultProtectedStep = 90;
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
         private const int DefaultHealth = 400;
-        private const int DefaultMinAttackDistance = 7;
+        private const int DefaultAttackAnywayDistance = 100;
+
+        // in this case Goro is archer
+        private const int DefaultMinAttackDistance = 500;
+
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
         private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 200);
 
@@ -54,6 +58,7 @@ namespace AthameRPG.Characters.WarUnits
             this.minAttackDistance = DefaultMinAttackDistance;
             this.correctionStayCropByX = DefaultCorrectionCropByX;
             this.protectedStep = DefaultProtectedStep;
+            this.attackAnywayDistance = DefaultAttackAnywayDistance;
         }
 
         public override int GetDefaultHeаlth()
