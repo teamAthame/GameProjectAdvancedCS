@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AthameRPG.Atack.Atack" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Atack\Atack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AthameRPG.Atack.AtackBarbarian" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Atack\AtackBarbarian.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Atack.CombatHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Atack\CombatHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AthameRPG.Characters.Barbarian" Collapsed="true">
+    <Position X="8.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAADABAAAAECAAAAACAAAAAAVAgBAAAgAAKIU=</HashCode>
+      <FileName>Characters\Barbarian.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.Character" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUCAAEgSgIQAwAICAAQAGACQBgAIAAIQBAABgAA0AQ=</HashCode>
+      <FileName>Characters\Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.Enemy" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAcAGAAgZggQgyAASAAQACAAARAgAAAAAAACBEQIigQ=</HashCode>
+      <FileName>Characters\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.Gargamel" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAABAgAIQIAEEEAAAAAABAAAAEAAAABAAAABAAAAA=</HashCode>
+      <FileName>Characters\Gargamel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.Unit" Collapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQKkAAASCCAohgQIAAQEGAIAgACAAAAAAAAEAUAIgQ=</HashCode>
+      <FileName>Characters\Unit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.NaiSilna" Collapsed="true">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\NaiSilna.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.NaiSlaba" Collapsed="true">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\NaiSlaba.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.Silna" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\Silna.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.Slaba" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\Slaba.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.Sredna" Collapsed="true">
+    <Position X="12.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\Sredna.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.SrednoSilna" Collapsed="true">
+    <Position X="14.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\SrednoSilna.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.SrednoSlaba" Collapsed="true">
+    <Position X="1" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Characters\WarUnits\SrednoSlaba.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Characters.WarUnits.WarUnit" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Characters\WarUnits\WarUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.GamepadExtended" Collapsed="true">
+    <Position X="5.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADAAEEAAAEEAAAAABACAAACAAAAAAAAAAAAAACAACAA=</HashCode>
+      <FileName>Controls\GamepadExtended.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.InputDeviceConstants" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\InputDeviceConstants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.InputDeviceExtended&lt;S&gt;" Collapsed="true">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAgACAAAABAAAABAQCAAAIAAAA=</HashCode>
+      <FileName>Controls\InputDeviceExtended.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.InputStateExtended&lt;S&gt;" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAA=</HashCode>
+      <FileName>Controls\InputStateExtended.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.KeyboardExtended" Collapsed="true">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAEEAAAEEAAAAAAACAAACAAAAAAAAAAAQAAAAAFAA=</HashCode>
+      <FileName>Controls\KeyboardExtended.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Controls.MouseExtended" Collapsed="true">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAEEAAAAAAAAAAAACAABCAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Controls\MouseExtended.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Game1" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEEAAAAAAAwAAABAAAAAAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.StartUp" Collapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>StartUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Animation" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>GameEngine\Animation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.AnimationReturnedValue" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAACAAIAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEngine\AnimationReturnedValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.BuildingManager" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>GameEngine\BuildingManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.CharacterManager" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASDEAAAAyABQgiAAAAIAAABQABAAAAAYIACAAAAAAQ=</HashCode>
+      <FileName>GameEngine\CharacterManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.CollisionDetection" Collapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAEAQAAAAAAAABAgEAgAAEAAABAAICBIIEgAAAA=</HashCode>
+      <FileName>GameEngine\CollisionDetection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.FileLoader" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>GameEngine\FileLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.MapManager" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAACAAEAggAAAAIAAAAQABAAEBAQEEASABBAAQ=</HashCode>
+      <FileName>GameEngine\MapManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.ScreenManager" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAgAAAgAAAACAAQAgAABgQAABQAAgAAAAAAQ=</HashCode>
+      <FileName>GameEngine\ScreenManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Maps.Map" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgRAEAgAAAAAAgEAAAYBAAACAAEAAAAAAAAAAAIAAAQ=</HashCode>
+      <FileName>GameEngine\Maps\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Screens.GameScreen" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>GameEngine\Screens\GameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Screens.IntroScreen" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAFAAAgAAAAhAAAAAAAEAAEAIAAAAAAAAAABAAAAQ=</HashCode>
+      <FileName>GameEngine\Screens\IntroScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Screens.MapScreen" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAgBgAAAAAAAAAAAAAgBAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>GameEngine\Screens\MapScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.GameEngine.Screens.MenuScreen" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQYEBAMAAAAAhAEgCAAAFAgEAAACgAABIAAAACACAQ=</HashCode>
+      <FileName>GameEngine\Screens\MenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Objects.Castles.MainCastle" Collapsed="true">
+    <Position X="8.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SQQGEBCAACEAAgQoECAABAAAwhACGAAAQgCCCAQEMRY=</HashCode>
+      <FileName>Objects\Castles\MainCastle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Objects.Castles.StoneCastle" Collapsed="true">
+    <Position X="8.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAAAAAAAAAAACAAAIAAACAAhCAAAACAAAAQIAABAA=</HashCode>
+      <FileName>Objects\Castles\StoneCastle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AthameRPG.Objects.UI.SandWatch" Collapsed="true">
+    <Position X="17" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAgAIAAIAAAaAAAAAACAAAAwAAAAAAAA=</HashCode>
+      <FileName>Objects\UI\SandWatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AthameRPG.Contracts.IAtack" Collapsed="true">
+    <Position X="17" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IAtack.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AthameRPG.Contracts.ICombatHandler" Collapsed="true">
+    <Position X="18.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\ICombatHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AthameRPG.Controls.MouseButton" Collapsed="true">
+    <Position X="17" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAABAAAAAAAAAAAAAACACQAAAAAAA=</HashCode>
+      <FileName>Controls\MouseButton.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

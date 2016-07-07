@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AthameRPG.Characters.Heroes;
+using AthameRPG.Controls;
 
 namespace AthameRPG.GameEngine
 {
@@ -49,10 +51,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
                     
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -109,10 +111,10 @@ namespace AthameRPG.GameEngine
                 {
                     count++;
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -162,10 +164,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -216,10 +218,10 @@ namespace AthameRPG.GameEngine
                 foreach (var enemy in CharacterManager.EnemiesPositionList)
                 {
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + Enemy.cropHeight;
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + Enemy.cropWidth;
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + Enemy.cropHeight;
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + Enemy.cropWidth;
 
                     float pUp = coordPlayer.Y;
                     float pDown = coordPlayer.Y + cropHeight;
@@ -273,10 +275,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -336,10 +338,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -398,10 +400,10 @@ namespace AthameRPG.GameEngine
 
                     //}
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -462,10 +464,10 @@ namespace AthameRPG.GameEngine
                     // Does not WORK with this ckeck ...
                     // when there are on same X ... they don't detect collision
 
-                    float enemyTop = enemy.Y;
-                    float enemyBottom = enemy.Y + (cropHeight);
-                    float enemyLeft = enemy.X;
-                    float enemyRight = enemy.X + (cropWidth);
+                    float enemyTop = enemy.Value.Y;
+                    float enemyBottom = enemy.Value.Y + (cropHeight);
+                    float enemyLeft = enemy.Value.X;
+                    float enemyRight = enemy.Value.X + (cropWidth);
 
                     float pUp = drawCoordEnemy.Y;
                     float pDown = drawCoordEnemy.Y + cropHeight;
@@ -581,9 +583,28 @@ namespace AthameRPG.GameEngine
             return result;
         }
 
-        public static bool IsNear(float playerDrawPosition, float enemyDrawPosition)
+        public static bool HaveCollisionWithCurrentRadius(float pSide, float enemySide, float pCheckFirstSide, float enemyOpositeFirstSide, float pCheckSecondSide, float enemyOpositeSecondSide, int radius)
         {
-            if (Math.Abs(playerDrawPosition - enemyDrawPosition) < Enemy.SearchingRadius)
+            bool result = false;
+
+            if (Math.Abs(pSide - enemySide) <= radius)
+            {
+                if ((pCheckFirstSide > enemyOpositeFirstSide) || (pCheckSecondSide < enemyOpositeSecondSide))
+                {
+                    result = false;
+                }
+                else
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        public static bool IsNear(float playerDrawPosition, float enemyDrawPosition, int radius)
+        {
+            if (Math.Abs(playerDrawPosition - enemyDrawPosition) < radius)
             {
                 return true;
             }
@@ -591,8 +612,25 @@ namespace AthameRPG.GameEngine
             return false;
         }
 
+        public static double CalculateDistanceTravelled(Vector2 lastCoords, Vector2 curruntCoords)
+        {
+            return Math.Sqrt((Math.Pow(lastCoords.X - curruntCoords.X, 2)) +
+                          (Math.Pow(lastCoords.Y - curruntCoords.Y, 2)));
+        }
+
+        public static bool IsMouseOverObject(Vector2 currentObject, int width, int height, GameTime gameTime)
+        {
+            bool betweenX = MouseExtended.Current.GetState(gameTime).X > currentObject.X &&
+                            MouseExtended.Current.GetState(gameTime).X < (currentObject.X + width);
+
+            bool betweenY = MouseExtended.Current.GetState(gameTime).Y > currentObject.Y &&
+                            MouseExtended.Current.GetState(gameTime).Y < (currentObject.Y + height);
+
+            return betweenX && betweenY;
+        }
+
         /// <summary>
-        /// //////////////////////////////   NEEEEEEEEEEEEEEEEEE TRIIIIIIIIIIIIIIIIIIIII -----------------------------
+        /// ---------------------------------------   NE TRII -----------------------------
         /// </summary>
         /// <param name="spriteBatch"></param>
 

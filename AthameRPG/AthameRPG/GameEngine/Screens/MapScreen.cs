@@ -56,7 +56,7 @@ namespace AthameRPG.GameEngine.Screens
             //spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
 
             MapManager.Instance.LoadContent(content);
-            CharacterManager.Instance.LoadContent(content);
+            //CharacterManager.Instance.LoadContent(content);
 
         }
         public override void UnloadContent()

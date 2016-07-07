@@ -1,81 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using AthameRPG.Characters;
-using AthameRPG.GameEngine.Maps;
+using AthameRPG.Characters.Heroes;
 
 namespace AthameRPG.GameEngine
 {
     public class CharacterManager
     {
+        // SandWatch can change this value;
+        public static bool itIsPlayerTurn = true;
+
         private const float PLAYER_START_POSITION_X = 400;
         private const float PLAYER_START_POSITION_Y = 300;
-        private const string PATH_ENEMY_POSITION_ON_MAP = @"../../../../Content/Maps/01-enemy.txt";
+        private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
-        private static List<Vector2> enemiesPositionList;
-        
+        //private static List<Vector2> enemiesPositionList;
+        private static Dictionary<int, Vector2> enemiesPositionList;
+
+        protected bool oneTimeDraw;
         
         private Texture2D gargamelImage;
-        public static Barbarian barbarian;
 
+        public Vector2 StartPosition
+        {
+            get { return new Vector2(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);}
+        }
+        
+        public static Character barbarian;
+        
+        //private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
 
-        private const string PATH_GARGAMEL_IMAGE = @"../Content/Character/GoblinWalk";
-        
-        
-        public static List<Gargamel> enemiesList;
+        //public static
+        public static List<Enemy> enemiesList;
 
         protected ContentManager content;
 
         public CharacterManager()
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
-            enemiesPositionList = new List<Vector2>();
-            enemiesList = new List<Gargamel>();
+            //enemiesPositionList = new List<Vector2>();
+            enemiesPositionList = new Dictionary<int, Vector2>();
+            enemiesList = new List<Enemy>();
+            this.oneTimeDraw = true;
         }
         
-        public static List<Vector2> EnemiesPositionList
-        {
-            get
-            {
-                List<Vector2> copyOfEnemiesList = enemiesPositionList;
-                return copyOfEnemiesList; 
-            }
-            set
-            {
-                enemiesPositionList = value;
-            }
-        }
-
-        public static void AddEnemies(Vector2 enemyPosition)
-        {
-            enemiesPositionList.Add(enemyPosition);
-        }
-
-        public Texture2D PlayerImage
-        {
-            get
-            {
-                return Character.PlayerImage;
-            }
-        }
-
-
-        // this will be fix ... will be like barb... every char will give his image
-        public Texture2D GargamelImage
-        {
-            get
-            {
-                return this.gargamelImage;
-            }
-        }
-
-
         public static CharacterManager Instance
         {
             get
@@ -87,29 +57,25 @@ namespace AthameRPG.GameEngine
                 return instance;
             }
         }
-
+        
         public ContentManager Content { get; private set; }
 
         public void LoadContent(ContentManager Content)
         {
             
-            Content = new ContentManager(Content.ServiceProvider, "Content");
-
-            //playerImage = Content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);// -- moved to barb class
-            barbarian.LoadContent();
-
-
+            barbarian.LoadContent(Content);
+            
             // this will be fix ... will be like barb... every char will give his image
-            gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
+            //gargamelImage = Content.Load<Texture2D>(PATH_GARGAMEL_IMAGE);
 
-            FileLoader.ReadEnemyPosition(PATH_ENEMY_POSITION_ON_MAP);
+            FileLoader.ReadEnemyAndBuildingPositions(PathEnemyAndBuildingPositionOnMap);
 
             int id = 0;
            
             foreach (var enemyPos in EnemiesPositionList)
             {
-                Gargamel newGargamel = new Gargamel(enemyPos.X, enemyPos.Y, id);
-                newGargamel.LoadContent();
+                Enemy newGargamel = new Gargamel(enemyPos.Value.X, enemyPos.Value.Y, id);
+                newGargamel.LoadContent(Content);
                 enemiesList.Add(newGargamel);
                 id++;
             }
@@ -128,20 +94,100 @@ namespace AthameRPG.GameEngine
 
         public void Update(GameTime gameTime)
         {
-            barbarian.Update(gameTime);
-
-            foreach (var gargamelcho in enemiesList)
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                gargamelcho.Update(gameTime);
+
+                if (itIsPlayerTurn)
+                {
+                    barbarian.Update(gameTime);
+                    
+                }
+
+                bool support = true;
+                
+                foreach (var gargamelcho in enemiesList)
+                {
+                    gargamelcho.Update(gameTime);
+                    
+                    if (!itIsPlayerTurn && gargamelcho.ISeePlayer)
+                    {
+                        
+                        support = false;
+                    }
+                }
+
+                if (support && !itIsPlayerTurn)
+                {
+                    itIsPlayerTurn = true;
+                }
+                
             }
+            else if (Character.GetIsInCastle)
+            {
+
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
+
+            
         }
+
         public void Draw(SpriteBatch spritebatch)
         {
-            barbarian.Draw(spritebatch);
-
-            foreach (var gargamelcho in enemiesList)
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-                gargamelcho.Draw(spritebatch);
+                barbarian.Draw(spritebatch);
+
+                foreach (var gargamelcho in enemiesList)
+                {
+                    gargamelcho.Draw(spritebatch);
+                }
+            }
+            else if (Character.GetIsInCastle)
+            {
+                
+            }
+            else if (Character.GetIsInBattle)
+            {
+
+            }
+            
+        }
+
+        // this will be fix ... will be like barb... every char will give his image
+        public Texture2D GargamelImage
+        {
+            get
+            {
+                return this.gargamelImage;
+            }
+        }
+
+        public static Dictionary<int, Vector2> EnemiesPositionList
+        {
+            get
+            {
+                Dictionary<int,Vector2> copyOfEnemiesList = enemiesPositionList;
+                return copyOfEnemiesList;
+            }
+            set
+            {
+                enemiesPositionList = value;
+            }
+        }
+
+        public static void AddEnemies(KeyValuePair<int,Vector2> enemyPosition)
+        {
+            enemiesPositionList.Add(enemyPosition.Key, enemyPosition.Value);
+        }
+
+        public Texture2D PlayerImage
+        {
+            get
+            {
+                return Character.PlayerImage;
             }
         }
     }

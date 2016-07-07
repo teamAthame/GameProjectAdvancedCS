@@ -1,9 +1,4 @@
-﻿using AthameRPG.Characters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AthameRPG.Characters.Heroes;
 
 namespace AthameRPG.Contracts
 {
@@ -11,6 +6,6 @@ namespace AthameRPG.Contracts
     {
         Unit Unit { get; set; }
 
-        IAtack GenerateAtack();
+        IAttack GenerateAtack();
     }
 }
