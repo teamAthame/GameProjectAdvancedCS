@@ -32,7 +32,7 @@ namespace AthameRPG.Objects.BattleFields
         private const int SupportTextX = 220;
         private const int SupportTextY = 300;
 
-        // Enemy change this value when set ItIsBattle....
+        // class Enemy change this value when set ItIsBattle....
         public static int unitStreghtLevelIndex = 7;
 
         private Texture2D battlefieldImage;
@@ -284,22 +284,22 @@ namespace AthameRPG.Objects.BattleFields
 
         }
 
-        public void LoadArmies(IReadOnlyDictionary<WarUnit, decimal> playerArmy,
-            IReadOnlyDictionary<WarUnit, decimal> enemyArmy, int enemyID)
+        public void LoadArmies(Dictionary<WarUnit, decimal> playerArmy,
+            Dictionary<WarUnit, decimal> enemyArmy, int enemyID)
         {
             // взимаме ИД-то за да знаем кое енеми да премахнем. ако победим :) 
             this.enemyId = enemyID;
 
             //трябва ни за края на рунда 
             this.oneTimeSwitch = false;
+
             this.isBattle = true;
-
-
+            
             this.playerUnits = new Dictionary<WarUnit, decimal>();
             this.enemyUnits = new Dictionary<WarUnit, decimal>();
 
-            this.playerUnits = (Dictionary<WarUnit, decimal>) playerArmy;
-            this.enemyUnits = (Dictionary<WarUnit, decimal>) enemyArmy;
+            this.playerUnits =  playerArmy;
+            this.enemyUnits = enemyArmy;
 
             this.ResetDrawPosition();
 
@@ -387,8 +387,7 @@ namespace AthameRPG.Objects.BattleFields
                 unitStreghtLevelIndex = 7;
             }
         }
-
-
+        
         private void ResetDrawPosition()
         {
             foreach (var unit in this.playerUnits)
@@ -473,8 +472,7 @@ namespace AthameRPG.Objects.BattleFields
 
             return this.supportUnit;
         }
-
-
+        
         public WarUnit TryTakeFriendUnit(Predicate<WarUnit> condition)
         {
             foreach (var unit in this.enemyUnits)
@@ -536,33 +534,7 @@ namespace AthameRPG.Objects.BattleFields
 
         public void TryToAttackEnemyUnit(WarUnit player, WarUnit enemy)
         {
-            //bool inFrontOfUs = CollisionDetection.IsNear(player.WarUnitDrawCoord.X + player.CropWidth,
-            //    enemy.WarUnitDrawCoord.X, player.MinAttackDistance)
-            //    && CollisionDetection.IsNear(player.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
-            //                         player.MinAttackDistance);
-
-            //bool behindUs = CollisionDetection.IsNear(player.WarUnitDrawCoord.X,
-            //    enemy.WarUnitDrawCoord.X + enemy.CropHeight, player.MinAttackDistance)
-            //    && CollisionDetection.IsNear(player.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
-            //                         player.MinAttackDistance);
-
-            //if (inFrontOfUs || behindUs)
-            //{
-            //    decimal playerQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(player);
-            //    int playerDamage = (int)(player.Damage * playerQuantity);
-
-            //    decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(enemy);
-            //    int enemyDamage = (int)(enemy.Damage * enemyQuantity);
-
-            //    if (player.inBattleTurn)
-            //    {
-            //        this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
-            //    }
-
-            //    player.inBattleTurn = false;
-
-            //}
-
+            
             decimal playerQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(player);
             int playerDamage = (int)(player.Damage * playerQuantity);
 
