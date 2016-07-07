@@ -107,8 +107,9 @@ namespace AthameRPG.Objects.BattleFields
 
             foreach (var playerUnit in this.playerUnits)
             {
-                if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) && this.playerTurn &&
-                    playerUnit.Key.inBattleTurn == true)
+                if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) 
+                    && this.playerTurn 
+                    && playerUnit.Key.inBattleTurn == true)
                 {
                     playerUnit.Key.CanBeSeleted = true;
                 }
@@ -142,52 +143,7 @@ namespace AthameRPG.Objects.BattleFields
             }
            
         }
-
-        private void SwitchToMenuOrReturnInGame()
-        {
-            this.oldMouseState = this.newMouseState;
-            this.newMouseState = Mouse.GetState();
-
-            if (this.amIWinner)
-            {
-                if (this.newMouseState.LeftButton == ButtonState.Pressed &&
-                    this.oldMouseState.LeftButton == ButtonState.Released)
-                {
-                    this.oneTimeSwitch = true;
-                }
-                if (this.oneTimeSwitch)
-                {
-                    Enemy unit = CharacterManager.enemiesList.FirstOrDefault(x => x.ID == this.enemyId);
-
-                    CharacterManager.EnemiesPositionList.Remove(this.enemyId);
-                    CharacterManager.barbarian.AvailableCreatures = this.playerUnits;
-
-                    CharacterManager.enemiesList.Remove(unit);
-                    Character.GetIsInBattle = false;
-                }
-            }
-            else
-            {
-                //Keyboard.GetState().IsKeyDown(Keys.Enter)
-                // this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    Character.GetIsInBattle = false;
-                    CharacterManager.EnemiesPositionList.Clear();
-                    CharacterManager.enemiesList.Clear();
-                    ScreenManager.Instance.UnloadContent();
-                    ScreenManager.Instance.ChangeScreens("MenuScreen");
-                    
-                    CharacterManager.barbarian.Restart();
-                    foreach (var enemy in CharacterManager.enemiesList)
-                    {
-                        enemy.Restart();
-                    }
-                }
-            }
-        }
-
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.battlefieldImage, this.battlefieldDrawCoord, Color.White);
@@ -225,6 +181,51 @@ namespace AthameRPG.Objects.BattleFields
             }
 
 
+        }
+
+        private void SwitchToMenuOrReturnInGame()
+        {
+            this.oldMouseState = this.newMouseState;
+            this.newMouseState = Mouse.GetState();
+
+            if (this.amIWinner)
+            {
+                if (this.newMouseState.LeftButton == ButtonState.Pressed &&
+                    this.oldMouseState.LeftButton == ButtonState.Released)
+                {
+                    this.oneTimeSwitch = true;
+                }
+                if (this.oneTimeSwitch)
+                {
+                    Enemy unit = CharacterManager.enemiesList.FirstOrDefault(x => x.ID == this.enemyId);
+
+                    CharacterManager.EnemiesPositionList.Remove(this.enemyId);
+                    CharacterManager.barbarian.AvailableCreatures = this.playerUnits;
+
+                    CharacterManager.enemiesList.Remove(unit);
+                    Character.GetIsInBattle = false;
+                }
+            }
+            else
+            {
+                //Keyboard.GetState().IsKeyDown(Keys.Enter)
+                // this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    Character.GetIsInBattle = false;
+                    CharacterManager.EnemiesPositionList.Clear();
+                    CharacterManager.enemiesList.Clear();
+                    ScreenManager.Instance.UnloadContent();
+                    ScreenManager.Instance.ChangeScreens("MenuScreen");
+
+                    CharacterManager.barbarian.Restart();
+                    foreach (var enemy in CharacterManager.enemiesList)
+                    {
+                        enemy.Restart();
+                    }
+                }
+            }
         }
 
         private void CheckForBattleEnd()

@@ -127,7 +127,7 @@ namespace AthameRPG.Objects.Castles
             {
                 MouseExtended.Current.GetState(gameTime);
 
-                ExitFromCastle();
+                TryExitFromCastle();
 
                 BuyCreature(gameTime);
             }
@@ -271,7 +271,7 @@ namespace AthameRPG.Objects.Castles
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
         }
 
-        private void ExitFromCastle()
+        private void TryExitFromCastle()
         {
             if (MouseExtended.Current.CurrentState.Position.X > 750 &&
                 MouseExtended.Current.CurrentState.Position.X < 800 &&
