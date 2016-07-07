@@ -19,9 +19,7 @@ namespace AthameRPG.Characters.WarUnits
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const float smallLetterCoordX = 395;
         protected const float smallLetterCoordY = 580;
-
-        //public static bool isPlayerTurnInBattle;
-
+        
         protected int strengthLevel;
         protected Texture2D warUnitImage;
         protected string imagePath;
@@ -116,6 +114,12 @@ namespace AthameRPG.Characters.WarUnits
             get { return this.minAttackDistance; }
         }
 
+        public abstract void SetStartPositionInBattleLikePlayer();
+
+        public abstract void SetStartPositionInBattleLikeEnemy();
+
+        protected abstract float GetDefaultMove();
+
         protected abstract void LoadDefaultUnitStats();
 
         public abstract int GetDefaultHeаlth();
@@ -135,21 +139,8 @@ namespace AthameRPG.Characters.WarUnits
             get { return this.isAlive; }
         }
 
-        public int DecreaseHealth(int damage)
-        {
-            this.health -= damage;
-
-            if (this.health < 0)
-            {
-                this.health = this.GetDefaultHeаlth() - Math.Abs(this.health);
-
-                return 1;
-            }
-            return 0;
-        }
-
         public bool CanBeSeleted { get; set; }
-
+        
         public Vector2 WarUnitDrawCoord
         {
             get { return this.warUnitDrawCoord; }
@@ -255,6 +246,19 @@ namespace AthameRPG.Characters.WarUnits
                         0f);
                 }
             }
+        }
+
+        public int DecreaseHealth(int damage)
+        {
+            this.health -= damage;
+
+            if (this.health < 0)
+            {
+                this.health = this.GetDefaultHeаlth() - Math.Abs(this.health);
+
+                return 1;
+            }
+            return 0;
         }
 
         private void SelectAndMove(GameTime gameTime)
@@ -399,7 +403,7 @@ namespace AthameRPG.Characters.WarUnits
             get { return this.strengthLevel; }
         }
 
-        public void MoveInBattle() // attack ? ? ?
+        public void MoveInBattle() 
         {
 
             Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true;
@@ -591,11 +595,7 @@ namespace AthameRPG.Characters.WarUnits
             this.availableMove = this.GetDefaultMove();
         }
 
-        public abstract void SetStartPositionInBattleLikePlayer();
-        public abstract void SetStartPositionInBattleLikeEnemy();
-
-        protected abstract float GetDefaultMove();
-
+        
         //public static bool operator ==(WarUnit firstUnit, WarUnit secondUnit)
         //{
         //    return firstUnit.GetType().Name == secondUnit.GetType().Name;
