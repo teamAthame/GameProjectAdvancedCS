@@ -50,6 +50,7 @@
     <Compile Include="Characters\Heroes\Unit.cs" />
     <Compile Include="Characters\WarUnits\AttackUnit.cs" />
     <Compile Include="Characters\WarUnits\BlackDragon.cs" />
+    <Compile Include="Characters\WarUnits\Elf.cs" />
     <Compile Include="Characters\WarUnits\Empire\Healers\Acolyte.cs" />
     <Compile Include="Characters\WarUnits\Empire\Healers\Cleric.cs" />
     <Compile Include="Characters\WarUnits\Empire\Healers\Healer.cs" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Character\blackDragon.png" />
+    <Content Include="Content\Character\elf.png" />
     <Content Include="Content\Character\GoblinWalk.png" />
     <Content Include="Content\Character\goro.png" />
     <Content Include="Content\Character\HexenFighter.png" />

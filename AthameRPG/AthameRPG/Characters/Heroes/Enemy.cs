@@ -23,15 +23,15 @@ namespace AthameRPG.Characters.Heroes
         protected static SpriteFont spriteFontSmallLetters;
         protected static SpriteFont bigLetters;
 
-        protected int cropStay = 0;
-        protected int north = 440;
-        protected int south = 15;
-        protected int east = 660;
-        protected int west = 224;
-        protected int northEast = 550;
-        protected int northWest = 330;
-        protected int southEast = 770;
-        protected int southWest = 122;
+        protected int cropStay;
+        protected int north;
+        protected int south;
+        protected int east;
+        protected int west;
+        protected int northEast;
+        protected int northWest;
+        protected int southEast;
+        protected int southWest;
         protected float moveSpeedEnemy = 1f;
         protected Rectangle cropCurrentFrameGargamel;
         protected Vector2 coordGargamel;

@@ -32,6 +32,13 @@ namespace AthameRPG.Characters.Heroes
             : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints,
                 DefaultBarbarianDefencePoints)
         {
+            //this.LoadDefaultStats();
+             //this.AtackHandler =new AtackBarbarian();
+        }
+
+
+        protected override void LoadDefaultStats()
+        {
             cropWidth = DefaultBarbarianCropWidth;
             cropHeight = DeafaultBarbarianCropHeight;
             this.moveSpeedPlayer = DefaultBarbarianMoveSpeed;
@@ -48,14 +55,8 @@ namespace AthameRPG.Characters.Heroes
             this.defaultPlayerMove = DefaultBarbarianMove;
             this.direction = "NW";
 
-            // add base army
-            this.availableCreatures.Add(new BlackDragon(true), 50);
-            this.availableCreatures.Add(new Goro(true), 10);
-
-            //this.AtackHandler =new AtackBarbarian();
+            this.LoadDefaultStartArmy();
         }
-
-
 
         public override void LoadContent(ContentManager content)
         {
@@ -70,8 +71,16 @@ namespace AthameRPG.Characters.Heroes
 
         public override void Restart()
         {
-            this.availableCreatures.Add(new Goro(true), 1);
             drawCoordPlayer = CharacterManager.Instance.StartPosition;
+            this.abstractPlayerPositon = this.GetStartPosition;
+            base.Restart();
+        }
+
+        protected override void LoadDefaultStartArmy()
+        {
+            this.availableCreatures.Add(new BlackDragon(true), 50);
+            this.availableCreatures.Add(new Goro(true), 10);
+            this.availableCreatures.Add(new Elf(true), 20);
         }
     }
 }

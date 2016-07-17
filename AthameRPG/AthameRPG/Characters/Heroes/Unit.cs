@@ -43,7 +43,11 @@ namespace AthameRPG.Characters.Heroes
             this.AtackPoints = atack;
             this.HealthPoints = health;
             this.DefencePoints = defence;
+
+            this.LoadDefaultStats();
         }
+
+        protected abstract void LoadDefaultStats();
 
         public virtual int AtackPoints { get; set; }
         public virtual int DefencePoints { get; set; }
@@ -134,6 +138,11 @@ namespace AthameRPG.Characters.Heroes
             protected set { this.startPositionY = value; }
         }
 
-        public abstract void Restart();
+        public virtual void Restart()
+        {
+            this.LoadDefaultStartArmy();
+        }
+
+        protected abstract void LoadDefaultStartArmy();
     }
 }

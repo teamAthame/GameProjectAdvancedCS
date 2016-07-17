@@ -13,6 +13,8 @@ namespace AthameRPG.Characters.Heroes
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
 
+        private Vector2 startPosition;
+        
         protected static int cropWidth;
         protected static int cropHeight;
         //protected static bool isInCastle;
@@ -199,6 +201,13 @@ namespace AthameRPG.Characters.Heroes
         {
             // minus default start position where we draw ourself in the center of the screen for X = 400 and for Y = 300
             this.abstractPlayerPositon = new Vector2(-(startPositionFromFile.X - this.startPositionX), -(startPositionFromFile.Y- this.startPositionY));
+            this.startPosition = this.abstractPlayerPositon;
+        }
+
+        public Vector2 GetStartPosition
+        {
+            get { return this.startPosition; }
+            protected set { this.startPosition = value; }
         }
 
         public Vector2 CoordP()

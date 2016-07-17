@@ -15,9 +15,10 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultMoveSpeed = 6f;
         private const float DefaultAvailableMove = 300f;
         private const int DefaultHealth = 500;
-        private const int DefaultMinAttackDistance = 25;
+        private const int DefaultDamage = 200;
         private const int DefaultProtectedStep = 90;
         private const int DefaultAttackAnywayDistance = 250;
+        private const int DefaultMinAttackDistance = 10;
 
         private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
         private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
@@ -48,7 +49,7 @@ namespace AthameRPG.Characters.WarUnits
             this.cropAttackHeight = 0;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
-            this.damage = 200;
+            this.damage = DefaultDamage;
             this.health = DefaultHealth;
             this.minAttackDistance = DefaultMinAttackDistance;
             this.correctionStayCropByX = DefaultCorrectionCropByX;

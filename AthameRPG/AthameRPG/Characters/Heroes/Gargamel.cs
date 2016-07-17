@@ -30,6 +30,11 @@ namespace AthameRPG.Characters.Heroes
                 DefaultWariorDefence)
         {
             this.coordGargamel = new Vector2(startPositionX - (cropWidth/2f), startPositionY - (cropHeight/2f));
+            
+        }
+
+        protected override void LoadDefaultStats()
+        {
             this.direction = "NW";
             this.cropStay = DefaultGargamelDirectionCropStay;
             this.north = DefaultGargamelDirectionNorth;
@@ -40,28 +45,23 @@ namespace AthameRPG.Characters.Heroes
             this.northWest = DefaultGargamelDirectionNorthWest;
             this.southEast = DefaultGargamelDirectionSouthEast;
             this.southWest = DefaultGargamelDirectionSouthWest;
-            //this is only test ... it can be smth like this - this.availableCreatures.Add(new NaiSlaba(), 5 * creature_level); !!! idea is yours
-            // or it can be randomized
-            this.availableCreatures.Add(new BlackDragon(), 1);
-            this.availableCreatures.Add(new Goro(), 3);
-
             this.defaultPlayerMove = DefaultGargamelMove;
+
+            this.LoadDefaultStartArmy();
         }
 
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
             enemyImage = content.Load<Texture2D>(PathGargamelImage);
-
-            //this.availableCreatures.Add(new BlackDragon(), 1);
-            //this.availableCreatures.Add(new Goro(), 3);
+            
         }
-
-        public override void Restart()
+        
+        protected override void LoadDefaultStartArmy()
         {
-            // reload same creature when game restarted
             this.availableCreatures.Add(new BlackDragon(), 1);
             this.availableCreatures.Add(new Goro(), 3);
+            this.availableCreatures.Add(new Elf(), 10);
         }
     }
 }

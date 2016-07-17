@@ -1,45 +1,39 @@
 ﻿using Microsoft.Xna.Framework;
+
 namespace AthameRPG.Characters.WarUnits
 {
-    public class Goro : WarUnit
+    public class Elf : WarUnit
     {
-        private const int DefaultStrengthLevel = 6;
-        private const string DefaultImagePath = "../Content/Character/goro";
-        private const int DefaultCropStayWidth = 50;
-        private const int DefaultCropStayHeight = 95;
+        private const string DefaultImagePath = "../Content/Character/elf";
+        private const int DefaultStrengthLevel = 5;
+        private const int DefaultCropStayWidth = 62;
+        private const int DefaultCropStayHeight = 90;
+        private const int DefaultCorrectionCropByX = 0;
         private const int DefaultCropMoveWidth = 0;
         private const int DefaultCropMoveHeight = 0;
         private const int DefaultCropAttackWidth = 0;
         private const int DefaultCropAttackHeight = 0;
-        private const int DefaultCorrectionCropByX = 7;
-
+        private const float DefaultMoveSpeed = 6f;
+        private const float DefaultAvailableMove = 150f;
+        private const int DefaultHealth = 200;
+        private const int DefaultDamage = 70;
+        private const int DefaultMinAttackDistance = 650;
         private const int DefaultProtectedStep = 90;
-        private const float DefaultMoveSpeed = 2f;
-        private const float DefaultAvailableMove = 200f;
-        private const int DefaultHealth = 400;
-        private const int DefaultDamage = 150;
-        private const int DefaultAttackAnywayDistance = 100;
+        private const int DefaultAttackAnywayDistance = 250;
 
-        // in this case Goro is archer
-        private const int DefaultMinAttackDistance = 10;
+        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
+        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 400);
 
-        private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 200);
-        private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 200);
-
-        public Goro():base()
+        public Elf() : base()
         {
             this.warUnitDrawCoord = DefaultStartPositionInBattleLikeEnemy;
-            this.amIArcherOrMage = false;
-
-            
+            this.amIArcherOrMage = true;
         }
-        public Goro(bool playerUnit):base(playerUnit)
-        {
-            this.warUnitDrawCoord = DefaultStartPositionInBattleLikePlayer;
-            this.amIArcherOrMage = false;
 
-            
-            
+        public Elf(bool playerUnit):base(playerUnit)
+        {
+            this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
+            this.amIArcherOrMage = true;
         }
 
         protected override void LoadDefaultUnitStats()
@@ -68,11 +62,6 @@ namespace AthameRPG.Characters.WarUnits
             return DefaultHealth;
         }
 
-        protected override float GetDefaultMove()
-        {
-            return DefaultAvailableMove;
-        }
-
         public override void SetStartPositionInBattleLikePlayer()
         {
             this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
@@ -83,5 +72,11 @@ namespace AthameRPG.Characters.WarUnits
             this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikeEnemy;
         }
 
+        protected override float GetDefaultMove()
+        {
+            return DefaultAvailableMove;
+        }
+
+        
     }
 }

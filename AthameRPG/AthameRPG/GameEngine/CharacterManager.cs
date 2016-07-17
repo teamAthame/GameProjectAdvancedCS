@@ -16,7 +16,7 @@ namespace AthameRPG.GameEngine
         private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
 
         private static CharacterManager instance;
-        //private static List<Vector2> enemiesPositionList;
+        
         private static Dictionary<int, Vector2> enemiesPositionList;
 
         protected bool oneTimeDraw;
@@ -38,7 +38,6 @@ namespace AthameRPG.GameEngine
         public CharacterManager()
         {
             barbarian = new Barbarian(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);
-            //enemiesPositionList = new List<Vector2>();
             enemiesPositionList = new Dictionary<int, Vector2>();
             enemiesList = new List<Enemy>();
             this.oneTimeDraw = true;

@@ -83,7 +83,11 @@ namespace AthameRPG.Objects.Castles
             // index 0- nai silna , 1- sredno silna ..... 
             this.creatureCounter = new int[7];
 
+            this.LoadUnitsThatWillBeGenerated();
+
         }
+
+        protected abstract void LoadUnitsThatWillBeGenerated();
 
         public Texture2D ImageOfCastle
         {
@@ -336,7 +340,7 @@ namespace AthameRPG.Objects.Castles
                 this.turnCounter = 1;
             }
 
-            // support list е само за да правя промени по речника ... 
+            // without this supportList i cant make changes on original dictionary 
             this.supportList.Clear();
             this.supportList = new List<WarUnit>(this.gadini.Keys);
 
@@ -361,7 +365,7 @@ namespace AthameRPG.Objects.Castles
 
                     if (this.turnCounter % 3 == 0)
                     {
-                        this.gadini[warUnit] += 3m;
+                        this.gadini[warUnit] += 4m;
                     }
                 }
                 else if (warUnit.GetStrengthLevel == 4 && this.gadini[warUnit] < 10000)
