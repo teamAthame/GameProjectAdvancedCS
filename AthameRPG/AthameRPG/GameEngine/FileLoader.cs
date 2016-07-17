@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using AthameRPG.Objects.Castles;
 using Microsoft.Xna.Framework;
@@ -11,7 +9,8 @@ namespace AthameRPG.GameEngine
 {
     public static class FileLoader
     {
-        
+        private const int DefaultMapSquareSize = 50;
+
         public static List<string> PathsReader(string path)
         {
             List<string> pathList = new List<string>();
@@ -94,13 +93,13 @@ namespace AthameRPG.GameEngine
                     {
                         case 9:
                             //CharacterManager.AddEnemies(new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
-                            KeyValuePair<int,Vector2> support = new KeyValuePair<int, Vector2>(id, new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
+                            KeyValuePair<int,Vector2> support = new KeyValuePair<int, Vector2>(id, new Vector2((float)(j * DefaultMapSquareSize) + DefaultMapSquareSize / 2, (float)(i * DefaultMapSquareSize) + DefaultMapSquareSize/2));
                             CharacterManager.AddEnemies(support);
                             id++;
                         break;
-                        case 10:  // създаваме замъците на картата и включваме техните крайни точки/размери/блокчета в листа за колизиите
-                            BuildingManager.AddCastleFromTxtMapToList(new StoneCastle(new Vector2((float)(j * 50), (float)(i * 50))));
-                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
+                        case 10:  // Create castle on map and include it's external sides for collision detection 
+                            BuildingManager.AddCastleFromTxtMapToList(new StoneCastle(new Vector2((float)(j * DefaultMapSquareSize), (float)(i * DefaultMapSquareSize))));
+                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * DefaultMapSquareSize), (float)(i * DefaultMapSquareSize)));
                             break;
 
                         // only outside borders of Castles
@@ -117,13 +116,16 @@ namespace AthameRPG.GameEngine
                         case 27:
                         case 28:
                         case 29:
-                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
+                            MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * DefaultMapSquareSize), (float)(i * DefaultMapSquareSize)));
+                            break;
+
+                        case 99:
+                            CharacterManager.barbarian.SetStartPosition(new Vector2((float)(j* DefaultMapSquareSize) ,(float)(i * DefaultMapSquareSize)));
                             break;
                     }
                 }
             }
-            //debug !
-            int a = 0;
+            
         }
     }
 }

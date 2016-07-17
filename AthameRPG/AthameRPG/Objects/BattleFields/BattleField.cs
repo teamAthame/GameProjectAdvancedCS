@@ -25,6 +25,15 @@ namespace AthameRPG.Objects.BattleFields
         private const string WinText = "You Won the battle!";
         private const string LoseText = "Game Over!";
         private const string SupportText = "Press ENTER to continue.";
+        private readonly string[] InfoText = new []
+        {
+            "If creature is flashing in red, you can select it by RIGHT mouse click.",
+            "You can move selected creature by double click.",
+            "Your selected creature can attack enemy if it is in YOUR attack radius."
+        };
+        private const float DrawInfoX = 100;
+        private const float DrawInfoY = 0;
+        private const float DrawInfoStepY = 25;
         private const int WinTextX = 220;
         private const int WinTextY = 250;
         private const int LoseTextX = 220;
@@ -43,6 +52,7 @@ namespace AthameRPG.Objects.BattleFields
         private Vector2 winTextCoord;
         private Vector2 loseTextCoord;
         private Vector2 supportTextCoord;
+        private Vector2 drawInfo;
 
         private Dictionary<WarUnit, decimal> playerUnits;
         private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromPlayerArmy;
@@ -71,7 +81,7 @@ namespace AthameRPG.Objects.BattleFields
             this.winTextCoord = new Vector2(WinTextX, WinTextY);
             this.loseTextCoord = new Vector2(LoseTextX,LoseTextY);
             this.supportTextCoord = new Vector2(SupportTextX,SupportTextY);
-
+            
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -147,23 +157,12 @@ namespace AthameRPG.Objects.BattleFields
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.battlefieldImage, this.battlefieldDrawCoord, Color.White);
+            
+            this.PrintInfoText(spriteBatch);
 
             if (this.isBattle)
             {
-                foreach (var playerUnit in this.playerUnits)
-                {
-                    playerUnit.Key.Draw(spriteBatch);
-                    spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
-                        playerUnit.Key.WarUnitDrawCoord, Color.Red);
-
-
-                }
-                foreach (var enemyUnit in this.enemyUnits)
-                {
-                    enemyUnit.Key.Draw(spriteBatch);
-                    spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
-                        new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
-                }
+                this.DrawUnitsInBattleAndTheirQuantity(spriteBatch);
             }
             else
             {
@@ -181,6 +180,33 @@ namespace AthameRPG.Objects.BattleFields
             }
 
 
+        }
+
+        private void DrawUnitsInBattleAndTheirQuantity(SpriteBatch spriteBatch)
+        {
+            foreach (var playerUnit in this.playerUnits)
+            {
+                playerUnit.Key.Draw(spriteBatch);
+                spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
+                    playerUnit.Key.WarUnitDrawCoord, Color.Red);
+            }
+            foreach (var enemyUnit in this.enemyUnits)
+            {
+                enemyUnit.Key.Draw(spriteBatch);
+                spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
+                    new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
+            }
+        }
+
+        private void PrintInfoText(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                this.drawInfo = new Vector2(DrawInfoX, DrawInfoY + (i * DrawInfoStepY));
+
+                spriteBatch.DrawString(this.spriteFontSmallLetters, InfoText[i], this.drawInfo, Color.Blue);
+            }
+            
         }
 
         private void SwitchToMenuOrReturnInGame()
@@ -288,10 +314,10 @@ namespace AthameRPG.Objects.BattleFields
         public void LoadArmies(Dictionary<WarUnit, decimal> playerArmy,
             Dictionary<WarUnit, decimal> enemyArmy, int enemyID)
         {
-            // взимаме ИД-то за да знаем кое енеми да премахнем. ако победим :) 
+            // we take enemy ID because if we win to know whick enemy to remove from the active enemies.
             this.enemyId = enemyID;
 
-            //трябва ни за края на рунда 
+            // need in the end of round.
             this.oneTimeSwitch = false;
 
             this.isBattle = true;
@@ -574,6 +600,11 @@ namespace AthameRPG.Objects.BattleFields
 
                 
             }
+        }
+
+        public Dictionary<WarUnit, decimal> TryTakeEnemyArmy()
+        {
+            return this.enemyUnits;
         }
     }
 }

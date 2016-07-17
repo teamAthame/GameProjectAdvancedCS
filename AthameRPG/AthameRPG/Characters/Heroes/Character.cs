@@ -194,7 +194,13 @@ namespace AthameRPG.Characters.Heroes
             }
             
         }
-        
+
+        public void SetStartPosition(Vector2 startPositionFromFile)
+        {
+            // minus default start position where we draw ourself in the center of the screen for X = 400 and for Y = 300
+            this.abstractPlayerPositon = new Vector2(-(startPositionFromFile.X - this.startPositionX), -(startPositionFromFile.Y- this.startPositionY));
+        }
+
         public Vector2 CoordP()
         {
             return this.abstractPlayerPositon;

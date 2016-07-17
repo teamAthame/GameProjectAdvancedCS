@@ -37,6 +37,7 @@ namespace AthameRPG.Characters.WarUnits
 
         protected override void LoadDefaultUnitStats()
         {
+            base.LoadDefaultUnitStats();
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
             this.cropStayWidth = DefaultCropStayWidth;

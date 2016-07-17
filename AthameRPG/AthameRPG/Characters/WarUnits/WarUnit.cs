@@ -19,7 +19,7 @@ namespace AthameRPG.Characters.WarUnits
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const float smallLetterCoordX = 395;
         protected const float smallLetterCoordY = 580;
-        
+
         protected int strengthLevel;
         protected Texture2D warUnitImage;
         protected string imagePath;
@@ -34,6 +34,7 @@ namespace AthameRPG.Characters.WarUnits
         internal bool isChoosen;
         internal bool inBattleTurn;
         internal bool HaveActionForCurrentTurn;
+        private Color color;
 
 
         protected int frameCounter;
@@ -94,6 +95,12 @@ namespace AthameRPG.Characters.WarUnits
             this.LoadDefaultUnitStats();
         }
 
+        public Color Color
+        {
+            get { return this.color; }
+            protected set { this.color = value; }
+        }
+
         public bool AmIArcherOrMage
         {
             get { return this.amIArcherOrMage; }
@@ -120,7 +127,10 @@ namespace AthameRPG.Characters.WarUnits
 
         protected abstract float GetDefaultMove();
 
-        protected abstract void LoadDefaultUnitStats();
+        protected virtual void LoadDefaultUnitStats()
+        {
+            this.Color = Color.White;
+        }
 
         public abstract int GetDefaultHeаlth();
 
@@ -140,7 +150,7 @@ namespace AthameRPG.Characters.WarUnits
         }
 
         public bool CanBeSeleted { get; set; }
-        
+
         public Vector2 WarUnitDrawCoord
         {
             get { return this.warUnitDrawCoord; }
@@ -167,6 +177,8 @@ namespace AthameRPG.Characters.WarUnits
 
             if (this.frameCounter >= this.switchCounter)
             {
+                this.FlashIfCanBeSelectedInBattle();
+
                 this.frameCounter = 0;
 
                 this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
@@ -197,6 +209,25 @@ namespace AthameRPG.Characters.WarUnits
 
         }
 
+        private void FlashIfCanBeSelectedInBattle()
+        {
+            if (this.CanBeSeleted)
+            {
+                if (this.Color == Color.White)
+                {
+                    this.Color = Color.Red;
+                }
+                else
+                {
+                    this.Color = Color.White;
+                }
+            }
+            else
+            {
+                this.Color = Color.White;
+            }
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (this.playerUnit)
@@ -211,14 +242,14 @@ namespace AthameRPG.Characters.WarUnits
                 }
                 else
                 {
-                    spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.White);
+                    spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, this.Color);
                 }
 
             }
             else
             {
                 //spriteBatch.Draw(this.warUnitImage, this.cropCurrentFrame, new Rectangle?(), Color.White, 0.0f, this.warUnitDrawCoord, this.warUnitEffect, 0.0f );
-                
+
                 if (this.IsAttackable)
                 {
                     spriteBatch.Draw(this.warUnitImage, // The Texture2D
@@ -239,7 +270,7 @@ namespace AthameRPG.Characters.WarUnits
                             this.cropStayHeight),
                         // This rectangle positions the texture on the screen and scales it can also be a Vector2
                         this.cropCurrentFrame,
-                        Color.White,
+                        this.Color,
                         0f,
                         new Vector2(0, 0), // why this 0,0 i don't know... with this.warUnitDrawCoord it doesn't work 
                         this.warUnitEffect,
@@ -289,19 +320,122 @@ namespace AthameRPG.Characters.WarUnits
             {
                 // this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released
                 // MouseExtended.Current.WasDoubleClick(MouseButton.Left)
-                if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-                {
-                    this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth/2);
-                    this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight/2);
-                }
+                this.SetMoveTo();
 
                 this.Moving();
 
-                PlayerAttack(gameTime);
+                this.PlayerAttack(gameTime);
+            }
+        }
+
+        private void SetMoveTo()
+        {
+            if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+            {
+                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth/2);
+                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight/2);
             }
         }
 
         private void PlayerAttack(GameTime gameTime)
+        {
+            var enemies = MapManager.Instance.Battlefield.TryTakeEnemyArmy();
+
+            foreach (var enemy in enemies.Keys)
+            {
+                if (CollisionDetection.IsMouseOverObject(enemy.warUnitDrawCoord,
+                    enemy.cropStayWidth, enemy.cropStayHeight, gameTime) 
+                    && this.CanIAttack(enemy))
+                {
+                    enemy.IsAttackable = true;
+
+                    if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+                    {
+                        if (this.AmIArcherOrMage)
+                        {
+                            MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+                        }
+                        else
+                        {
+                            bool inFrontOfUs =
+                                CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.CropWidth,
+                                    enemy.WarUnitDrawCoord.X, this.MinAttackDistance)
+                                && CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+                                    this.MinAttackDistance);
+
+                            bool behindUs =
+                                CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
+                                    enemy.WarUnitDrawCoord.X + enemy.CropHeight, this.MinAttackDistance)
+                                &&
+                                CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+                                    this.MinAttackDistance);
+
+                            if (behindUs || inFrontOfUs)
+                            {
+                                MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+                            }
+                            else
+                            {
+                                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth / 2);
+                                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight / 2);
+
+                                this.Moving();
+                            }
+                            
+                        }
+                    }
+                }
+                else
+                {
+                    enemy.IsAttackable = false;
+                }
+            }
+
+            ///////////////////////////////////////////
+            
+
+            //// check if WE can reach nearest enemy 
+            //this.supportUnit = MapManager.Instance.Battlefield.TryTakeNearestEnemyUnit(this,
+            //    supportRange);
+
+            //if (this.supportUnit != null)
+            //{
+            //    bool inFrontOfUs =
+            //        CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.CropWidth,
+            //            this.supportUnit.WarUnitDrawCoord.X, this.MinAttackDistance)
+            //        && CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y,
+            //            this.MinAttackDistance);
+
+            //    bool behindUs =
+            //        CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
+            //            this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.CropHeight, this.MinAttackDistance)
+            //        &&
+            //        CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y,
+            //            this.MinAttackDistance);
+
+            //    if (behindUs || inFrontOfUs)
+            //    {
+            //        if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
+            //        {
+            //            MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, this.supportUnit);
+            //        }
+            //    }
+
+            //    if (CollisionDetection.IsMouseOverObject(this.supportUnit.warUnitDrawCoord,
+            //        this.supportUnit.cropStayWidth, this.supportUnit.cropStayHeight, gameTime))
+            //    {
+            //        this.supportUnit.IsAttackable = true;
+            //    }
+            //    else
+            //    {
+            //        this.supportUnit.IsAttackable = false;
+            //    }
+
+
+            //}
+        }
+
+        private bool CanIAttack(WarUnit enemy)
         {
             int supportRange = 0;
 
@@ -311,55 +445,22 @@ namespace AthameRPG.Characters.WarUnits
             }
             else
             {
-                supportRange = (int) this.availableMove;
+                supportRange = (int)this.availableMove;
             }
 
-            // check if WE can reach nearest enemy 
-            this.supportUnit = MapManager.Instance.Battlefield.TryTakeNearestEnemyUnit(this,
-                supportRange);
+            double xx = CollisionDetection.CalculateDistanceTravelled(this.warUnitDrawCoord, enemy.warUnitDrawCoord);
 
-            if (this.supportUnit != null)
+            if (xx <= supportRange + this.cropStayWidth / 2)
             {
-                bool inFrontOfUs =
-                    CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.CropWidth,
-                        this.supportUnit.WarUnitDrawCoord.X, this.MinAttackDistance)
-                    && CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y,
-                        this.MinAttackDistance);
-
-                bool behindUs =
-                    CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
-                        this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.CropHeight, this.MinAttackDistance)
-                    &&
-                    CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y,
-                        this.MinAttackDistance);
-
-                if (behindUs || inFrontOfUs)
-                {
-                    if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-                    {
-                        MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, this.supportUnit);
-                    }
-                }
-
-                if (CollisionDetection.IsMouseOverObject(this.supportUnit.warUnitDrawCoord,
-                    this.supportUnit.cropStayWidth, this.supportUnit.cropStayHeight, gameTime))
-                {
-                    this.supportUnit.IsAttackable = true;
-                }
-                else
-                {
-                    this.supportUnit.IsAttackable = false;
-                }
-
-                //if (CollisionDetection.IsMouseOverObject(this.supportUnit.warUnitDrawCoord, this.supportUnit.cropStayWidth, this.supportUnit.cropStayHeight, gameTime)
-                //    && MouseExtended.Current.WasDoubleClick(MouseButton.Left))
-                //{
-                //    MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, this.supportUnit);
-
-                //}
+                return true;
             }
+            else
+            {
+                return false;
+            }
+            
         }
-
+        
         private void Moving()
         {
             if (this.availableMove > 0)
@@ -403,7 +504,7 @@ namespace AthameRPG.Characters.WarUnits
             get { return this.strengthLevel; }
         }
 
-        public void MoveInBattle() 
+        public void MoveInBattle()
         {
 
             Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true;
@@ -595,7 +696,7 @@ namespace AthameRPG.Characters.WarUnits
             this.availableMove = this.GetDefaultMove();
         }
 
-        
+
         //public static bool operator ==(WarUnit firstUnit, WarUnit secondUnit)
         //{
         //    return firstUnit.GetType().Name == secondUnit.GetType().Name;
