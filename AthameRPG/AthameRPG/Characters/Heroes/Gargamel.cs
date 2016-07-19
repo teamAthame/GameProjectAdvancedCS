@@ -61,7 +61,7 @@ namespace AthameRPG.Characters.Heroes
         {
             this.availableCreatures.Add(new BlackDragon(), 20);
             this.availableCreatures.Add(new Goro(), 3);
-            this.availableCreatures.Add(new Elf(), 10);
+            this.availableCreatures.Add(new Elf(), 1);
         }
     }
 }

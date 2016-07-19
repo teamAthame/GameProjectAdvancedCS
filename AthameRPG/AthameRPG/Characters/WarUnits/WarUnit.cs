@@ -74,7 +74,7 @@ namespace AthameRPG.Characters.WarUnits
         protected Arrow attackerArrow;
 
 
-        public WarUnit()
+        protected WarUnit()
         {
             this.playerUnit = false;
             this.switchCounter = MinFrameSwitch;
@@ -87,7 +87,7 @@ namespace AthameRPG.Characters.WarUnits
             this.LoadDefaultUnitStats();
         }
 
-        public WarUnit(bool playerUnit)
+        protected WarUnit(bool playerUnit)
         {
             this.playerUnit = playerUnit;
             this.switchCounter = MinFrameSwitch;
@@ -449,16 +449,6 @@ namespace AthameRPG.Characters.WarUnits
                     {
                         if (this.AmIArcherOrMage)
                         {
-                            // add arrow/weapon to damage
-                            /*
-                             * enemy.isAttacked -> this method will execute when have collision ... 
-                             * isAttacked
-                             * ExecuteAttack
-                             */
-                            
-                            //MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
-                            //enemy.WaitForHit();
-
                             this.arrow.FlyTo(this.WarUnitDrawCoord, enemy.warUnitDrawCoord, this.warUnitImage);
                             enemy.isAttacked = true;
                             enemy.SetAttacker(this, arrow);
@@ -750,19 +740,14 @@ namespace AthameRPG.Characters.WarUnits
                 this.inBattleTurn = false;
             }
             
-            // check if can reach enemy with current move
-            if (
-                CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
-                    this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropWidth, (int) this.availableMove) &&
-                this.inBattleTurn == true)
+            if (CollisionDetection.IsBehindOrInFrontUsForAttack(this, this.supportUnit) && this.inBattleTurn)
             {
-                this.SetMoveToEnemy(this.supportUnit);
-                this.Moving();
+                this.amIAttacking = true;
                 this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
             }
             else
             {
-                this.SetProtectedMove();
+                this.SetMoveToEnemy(this.supportUnit);
                 this.Moving();
             }
         }
