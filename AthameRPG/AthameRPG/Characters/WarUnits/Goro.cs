@@ -21,7 +21,7 @@ namespace AthameRPG.Characters.WarUnits
         private const float DefaultAvailableMove = 200f;
         private const int DefaultHealth = 400;
         private const int DefaultDamage = 150;
-        private const int DefaultAttackAnywayDistance = 100;
+        private const int DefaultAttackAnywayDistance = 200;
 
         // in this case Goro is archer
         private const int DefaultMinAttackDistance = 10;

@@ -16,6 +16,8 @@ namespace AthameRPG.Characters.WarUnits
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const float smallLetterCoordX = 395;
         protected const float smallLetterCoordY = 580;
+        private const int SearchAnyEnemyRadius = 1000;
+        private const int DefaultAttackingFrames = 8;
 
         protected int strengthLevel;
         protected Texture2D warUnitImage;
@@ -63,6 +65,8 @@ namespace AthameRPG.Characters.WarUnits
         protected int protectedStep;
         protected bool IsAttackable;
         protected bool isAttacked;
+        private bool amIAttacking;
+        private int attackingFrames;
 
         protected Arrow arrow;
         protected WarUnit attacker;
@@ -78,6 +82,7 @@ namespace AthameRPG.Characters.WarUnits
             this.smallLettersDrawCoord = new Vector2(smallLetterCoordX, smallLetterCoordY);
             this.inBattleTurn = true;
             this.isAlive = true;
+            
 
             this.LoadDefaultUnitStats();
         }
@@ -92,7 +97,12 @@ namespace AthameRPG.Characters.WarUnits
 
             this.LoadDefaultUnitStats();
         }
-        
+
+        public bool AmIAttacking
+        {
+            get { return this.amIAttacking; }
+        }
+
         public Color Color
         {
             get { return this.color; }
@@ -143,7 +153,7 @@ namespace AthameRPG.Characters.WarUnits
         protected virtual void LoadDefaultUnitStats()
         {
             this.Color = Color.White;
-            
+            this.attackingFrames = DefaultAttackingFrames;
         }
 
         public abstract int GetDefaultHeаlth();
@@ -207,7 +217,7 @@ namespace AthameRPG.Characters.WarUnits
                 //    this.correctionStayCropByX, this.correctionMoveByX, this.correctionAttackByX);
 
                 this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
-                    this.cropStay, this.cropMove, this.cropAttack, this.cropHit, this.cropFrame);
+                    this.cropStay, this.cropMove, this.cropAttack, this.cropHit, this.cropFrame, this.AmIAttacking);
 
                 this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
 
@@ -216,6 +226,17 @@ namespace AthameRPG.Characters.WarUnits
                 if (this.cropFrame == 4)
                 {
                     this.cropFrame = 0;
+                }
+
+                if (this.AmIAttacking)
+                {
+                    this.attackingFrames--;
+
+                    if (this.attackingFrames == -1)
+                    {
+                        this.amIAttacking = false;
+                        this.attackingFrames = DefaultAttackingFrames;
+                    }
                 }
             }
 
@@ -436,43 +457,56 @@ namespace AthameRPG.Characters.WarUnits
                              */
                             
                             //MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+                            //enemy.WaitForHit();
 
                             this.arrow.FlyTo(this.WarUnitDrawCoord, enemy.warUnitDrawCoord, this.warUnitImage);
                             enemy.isAttacked = true;
                             enemy.SetAttacker(this, arrow);
-                            //enemy.WaitForHit();
+                            this.amIAttacking = true;
                             this.availableMove = 0;
 
                             enemy.IsAttackable = false;
                         }
                         else
                         {
-                            bool inFrontOfUs =
-                                CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.CropWidth,
-                                    enemy.WarUnitDrawCoord.X, this.MinAttackDistance)
-                                && CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
-                                    this.MinAttackDistance);
+                            //bool inFrontOfUs =
+                            //    CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.CropWidth,
+                            //        enemy.WarUnitDrawCoord.X, this.MinAttackDistance)
+                            //    && CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+                            //        this.MinAttackDistance);
 
-                            bool behindUs =
-                                CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
-                                    enemy.WarUnitDrawCoord.X + enemy.CropHeight, this.MinAttackDistance)
-                                &&
-                                CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
-                                    this.MinAttackDistance);
+                            //bool behindUs =
+                            //    CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
+                            //        enemy.WarUnitDrawCoord.X + enemy.CropHeight, this.MinAttackDistance)
+                            //    &&
+                            //    CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, enemy.WarUnitDrawCoord.Y,
+                            //        this.MinAttackDistance);
 
-                            if (behindUs || inFrontOfUs)
+                            //if (behindUs || inFrontOfUs)
+                            //{
+                            //    MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy, this.weapon);
+                            //    this.amIAttacking = true;
+                            //    enemy.IsAttackable = false;
+                            //}
+                            //else
+                            //{
+                            //    this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropWidth / 2);
+                            //    this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropHeight / 2);
+
+                            //    this.Moving();
+                            //}
+                            if (CollisionDetection.IsBehindOrInFrontUsForAttack(this, enemy))
                             {
                                 MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy, this.weapon);
+                                this.amIAttacking = true;
                                 enemy.IsAttackable = false;
                             }
                             else
                             {
-                                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropWidth / 2);
-                                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropHeight / 2);
-
+                                this.SetMoveToEnemy(enemy);
                                 this.Moving();
                             }
-                            
+
                         }
                     }
                 }
@@ -622,23 +656,60 @@ namespace AthameRPG.Characters.WarUnits
                         else
                         {
                             // move to ... moving to ....  if TARGET is close enough I will attack it 
-                            this.SetMoveToEnemy(this.supportUnit);
-                            this.Moving();
-                            this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+
+                            if (CollisionDetection.IsBehindOrInFrontUsForAttack(this, this.supportUnit))
+                            {
+                                this.amIAttacking = true;
+                                this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+                            }
+                            else
+                            {
+                                this.SetMoveToEnemy(this.supportUnit);
+                                this.Moving();
+                            }
+
+                            //
+                            //this.SetMoveToEnemy(this.supportUnit);
+                            //this.Moving();
+                            //this.amIAttacking = true;
+                            //this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
                         }
 
                     }
                     else if (!hasArcherFriend && hasArcherEnemy)
                     {
-                        SearchForArcher();
+                        this.SearchForArcher();
                     }
                     else if (!hasArcherFriend && !hasArcherEnemy)
                     {
-                        // search enemy in some radius
-                        this.SetProtectedMove();
-                        this.Moving();
-                    }
+                        this.supportUnit = MapManager.Instance.Battlefield.TryTakeNearestPlayerUnit(this,
+                            SearchAnyEnemyRadius);
 
+                        if (this.supportUnit == null)
+                        {
+                            this.SetProtectedMove();
+                            this.Moving();
+                        }
+                        else
+                        {
+                            // move to ... moving to ....  if TARGET is close enough I will attack it 
+                            //this.SetMoveToEnemy(this.supportUnit);
+                            //this.Moving();
+                            //this.amIAttacking = true;
+                            //this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+
+                            if (CollisionDetection.IsBehindOrInFrontUsForAttack(this, this.supportUnit))
+                            {
+                                this.amIAttacking = true;
+                                this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+                            }
+                            else
+                            {
+                                this.SetMoveToEnemy(this.supportUnit);
+                                this.Moving();
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -661,6 +732,7 @@ namespace AthameRPG.Characters.WarUnits
                         this.supportUnit.isAttacked = true;
                         this.supportUnit.SetAttacker(this, arrow);
                         //this.supportUnit.WaitForHit();
+                        this.amIAttacking = true;
                         this.availableMove = 0;
                     }
                     
@@ -704,20 +776,38 @@ namespace AthameRPG.Characters.WarUnits
                 weaponDamage = weapon.Damage;
             }
 
-            if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X,
-                this.minAttackDistance)
-                &&
-                CollisionDetection.IsNear(attacker.WarUnitDrawCoord.Y, defender.WarUnitDrawCoord.Y,
-                    this.minAttackDistance)
-                && this.inBattleTurn)
+            //if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X,
+            //    this.minAttackDistance)
+            //    &&
+            //    CollisionDetection.IsNear(attacker.WarUnitDrawCoord.Y, defender.WarUnitDrawCoord.Y,
+            //        this.minAttackDistance)
+            //    && this.inBattleTurn)
+            //{
+            //    if (attacker.inBattleTurn)
+            //    {
+            //        decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
+            //        int attackerDamage = (weaponDamage + attacker.Damage)*(int)attackerQuantity;
+
+            //        decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
+            //        int defenderDamage = (int) (defender.Damage*enemyQuantity);
+
+            //        MapManager.Instance.Battlefield.AttackPlayerUnit(defender, attackerDamage, attacker, defenderDamage);
+            //    }
+
+            //    attacker.inBattleTurn = false;
+
+            //    this.HaveActionForCurrentTurn = false;
+            //}
+
+            if (attacker.AmIArcherOrMage)
             {
                 if (attacker.inBattleTurn)
                 {
                     decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
-                    int attackerDamage = (weaponDamage + attacker.Damage)*(int)attackerQuantity;
+                    int attackerDamage = (weaponDamage + attacker.Damage) * (int)attackerQuantity;
 
                     decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
-                    int defenderDamage = (int) (defender.Damage*enemyQuantity);
+                    int defenderDamage = (int)(defender.Damage * enemyQuantity);
 
                     MapManager.Instance.Battlefield.AttackPlayerUnit(defender, attackerDamage, attacker, defenderDamage);
                 }
@@ -726,8 +816,7 @@ namespace AthameRPG.Characters.WarUnits
 
                 this.HaveActionForCurrentTurn = false;
             }
-
-            if (attacker.AmIArcherOrMage)
+            else if (!attacker.AmIArcherOrMage)
             {
                 if (attacker.inBattleTurn)
                 {
@@ -806,17 +895,17 @@ namespace AthameRPG.Characters.WarUnits
             this.wantedPosition.Y = unit.warUnitDrawCoord.Y;
         }
 
-        protected void SetMoveToEnemy(WarUnit warUnit)
+        protected void SetMoveToEnemy(WarUnit enemy)
         {
-            //if (this.WarUnitDrawCoord.X > warUnit.WarUnitDrawCoord.X)
-            //{
-            //    this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X, warUnit.WarUnitDrawCoord.Y);
-            //}
-            //else
-            //{
-            //    this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X , warUnit.warUnitDrawCoord.Y);
-            //}
-            this.wantedPosition = new Vector2(warUnit.WarUnitDrawCoord.X, warUnit.WarUnitDrawCoord.Y);
+            if (this.WarUnitDrawCoord.X > enemy.WarUnitDrawCoord.X)
+            {
+                this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X + enemy.CropWidth, enemy.WarUnitDrawCoord.Y);
+            }
+            else
+            {
+                this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X - this.cropWidth, enemy.warUnitDrawCoord.Y);
+            }
+            //this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X, enemy.WarUnitDrawCoord.Y);
 
         }
 

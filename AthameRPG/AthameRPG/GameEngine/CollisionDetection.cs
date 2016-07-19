@@ -614,6 +614,28 @@ namespace AthameRPG.GameEngine
             return false;
         }
 
+        public static bool IsBehindOrInFrontUsForAttack(WarUnit currentUnit, WarUnit targetUnit)
+        {
+            bool isBehind = IsNear(currentUnit.WarUnitDrawCoord.X + currentUnit.CropWidth, targetUnit.WarUnitDrawCoord.X,
+                currentUnit.MinAttackDistance);
+
+            bool inFront = IsNear(currentUnit.WarUnitDrawCoord.X, targetUnit.WarUnitDrawCoord.X + targetUnit.CropWidth,
+                currentUnit.MinAttackDistance);
+
+            bool nearUsByY = currentUnit.WarUnitDrawCoord.Y >= targetUnit.WarUnitDrawCoord.Y &&
+                             currentUnit.WarUnitDrawCoord.Y <= targetUnit.WarUnitDrawCoord.Y + targetUnit.CropHeight;
+
+            bool nearUsByYCrop = currentUnit.WarUnitDrawCoord.Y + currentUnit.CropHeight >= targetUnit.WarUnitDrawCoord.Y &&
+                                 currentUnit.WarUnitDrawCoord.Y + currentUnit.CropHeight <=
+                                 targetUnit.WarUnitDrawCoord.Y + targetUnit.CropHeight;
+
+            bool byY = nearUsByY || nearUsByYCrop;
+
+            bool result = (isBehind && byY) || (inFront && byY);
+            
+            return result;
+        }
+
         public static double CalculateDistanceTravelled(Vector2 lastCoords, Vector2 curruntCoords)
         {
             return Math.Sqrt((Math.Pow(lastCoords.X - curruntCoords.X, 2)) +

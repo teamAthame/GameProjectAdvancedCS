@@ -103,19 +103,21 @@ namespace AthameRPG.Objects.BattleFields
         public void Update(GameTime gameTime)
         {
             //MouseExtended.Current.GetState(gameTime);
-
-
+            
             if (!this.isBattle)
             {
-                SwitchToMenuOrReturnInGame();
+                this.SwitchToMenuOrReturnInGame();
                 return;
             }
 
             this.CheckForBattleEnd();
 
-            this.TrySwitchTurn();
-            this.TryRemoveDeathUnits();
-
+            if (!this.CheckForAttackAnimation())
+            {
+                this.TrySwitchTurn();
+                this.TryRemoveDeathUnits();
+            }
+            
             foreach (var playerUnit in this.playerUnits)
             {
                 if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) 
@@ -135,8 +137,11 @@ namespace AthameRPG.Objects.BattleFields
 
             }
 
-            this.TryRemovedKilledUnits();
-            this.TryRemoveDeathUnits();
+            if (!this.CheckForAttackAnimation())
+            {
+                this.TrySwitchTurn();
+                this.TryRemoveDeathUnits();
+            }
 
             foreach (var enemyUnit in this.enemyUnits)
             {
@@ -258,12 +263,39 @@ namespace AthameRPG.Objects.BattleFields
 
         private void CheckForBattleEnd()
         {
-            this.isBattle = this.playerUnits.Count > 0 && this.enemyUnits.Count > 0;
+            bool hasAttackAnimation = this.CheckForAttackAnimation();
 
-            if (!this.isBattle)
+            if (!hasAttackAnimation)
             {
-                this.amIWinner = this.playerUnits.Count > 0;
+                this.isBattle = this.playerUnits.Count > 0 && this.enemyUnits.Count > 0;
+
+                if (!this.isBattle)
+                {
+                    this.amIWinner = this.playerUnits.Count > 0;
+                }
             }
+            
+        }
+
+        private bool CheckForAttackAnimation()
+        {
+            foreach (var unit in this.playerUnits.Keys)
+            {
+                if (unit.AmIAttacking)
+                {
+                    return true;
+                }
+            }
+
+            foreach (var unit in this.enemyUnits.Keys)
+            {
+                if (unit.AmIAttacking)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void TryRemovedKilledUnits()

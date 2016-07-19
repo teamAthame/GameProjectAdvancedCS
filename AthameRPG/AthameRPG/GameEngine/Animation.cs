@@ -97,11 +97,15 @@ namespace AthameRPG.GameEngine
             return new AnimationReturnedValue(direction, CropCurrentFramePlayer);
         }
 
-        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord,Rectangle[] cropStay, Rectangle[] cropMove, Rectangle[] cropAttack, Rectangle[] cropHit, int cropFrame)
+        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord,Rectangle[] cropStay, Rectangle[] cropMove, Rectangle[] cropAttack, Rectangle[] cropHit, int cropFrame, bool AmIAttacking)
         {
             Rectangle currentFrame = new Rectangle();
 
-            if (lastDrawCoord != warUnitDrawCoord)
+            if (AmIAttacking)
+            {
+                currentFrame = cropAttack[cropFrame];
+            }
+            else if (lastDrawCoord != warUnitDrawCoord)
             {
 
                 currentFrame = cropMove[cropFrame];

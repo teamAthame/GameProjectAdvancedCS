@@ -16,7 +16,7 @@ namespace AthameRPG.Characters.WarUnits
         //private const int DefaultCropAttackHeight = 0;
         //private const int DefaultCorrectionCropByX = 326;
         private const float DefaultMoveSpeed = 6f;
-        private const float DefaultAvailableMove = 300f;
+        private const float DefaultAvailableMove = 450f;
         private const int DefaultHealth = 500;
         private const int DefaultDamage = 200;
         private const int DefaultProtectedStep = 90;
