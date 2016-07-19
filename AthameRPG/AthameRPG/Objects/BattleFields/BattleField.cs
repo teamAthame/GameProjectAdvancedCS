@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using AthameRPG.Objects.Weapons;
 
 namespace AthameRPG.Objects.BattleFields
 {
@@ -119,7 +120,8 @@ namespace AthameRPG.Objects.BattleFields
             {
                 if ((playerUnit.Key.GetStrengthLevel == unitStreghtLevelIndex) 
                     && this.playerTurn 
-                    && playerUnit.Key.inBattleTurn == true)
+                    && playerUnit.Key.inBattleTurn == true
+                    && this.CanShoot())
                 {
                     playerUnit.Key.CanBeSeleted = true;
                 }
@@ -138,12 +140,12 @@ namespace AthameRPG.Objects.BattleFields
 
             foreach (var enemyUnit in this.enemyUnits)
             {
-                enemyUnit.Key.Update(gameTime);
 
                 if (!this.playerTurn && enemyUnit.Key.GetStrengthLevel == unitStreghtLevelIndex)
                 {
                     enemyUnit.Key.MoveInBattle();
                 }
+                enemyUnit.Key.Update(gameTime);
             }
 
             this.TryRemovedKilledUnits();
@@ -559,21 +561,28 @@ namespace AthameRPG.Objects.BattleFields
             
         }
 
-        public void TryToAttackEnemyUnit(WarUnit player, WarUnit enemy)
+        public void TryToAttackEnemyUnit(WarUnit player, WarUnit enemy, Weapon weapon)
         {
+            int weaponDamage = 0;
+
+            if (weapon != null)
+            {
+                weaponDamage = weapon.Damage;
+            }
             
             decimal playerQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(player);
-            int playerDamage = (int)(player.Damage * playerQuantity);
+            int playerDamage = (player.Damage + weaponDamage) * (int)playerQuantity;
 
             decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(enemy);
             int enemyDamage = (int)(enemy.Damage * enemyQuantity);
 
-            if (player.inBattleTurn)
-            {
-                this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
-            }
+            //if (player.inBattleTurn)
+            //{
+            //    this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
+            //}
 
-            player.inBattleTurn = false;
+            //player.inBattleTurn = false;
+            this.AttackEnemyUnit(player, playerDamage, enemy, enemyDamage);
         }
 
         private void AttackEnemyUnit(WarUnit player, int playerDamage, WarUnit enemy, int enemyDamage)
@@ -605,6 +614,27 @@ namespace AthameRPG.Objects.BattleFields
         public Dictionary<WarUnit, decimal> TryTakeEnemyArmy()
         {
             return this.enemyUnits;
+        }
+
+        public bool CanShoot()
+        {
+            foreach (var unit in this.playerUnits.Keys)
+            {
+                if (unit.IsArrowHasTarget)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var unit in this.enemyUnits.Keys)
+            {
+                if (unit.IsArrowHasTarget)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

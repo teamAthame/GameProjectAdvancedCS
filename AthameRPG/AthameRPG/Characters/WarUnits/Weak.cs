@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace AthameRPG.Characters.WarUnits
 {
-    public class NaiSilna : WarUnit
+    public class Weak : WarUnit
     {
         // това трябва да го има във всяка гадина  !!!
-        private const int DefaultStrengthLevel = 7;
+        private const int DefaultStrengthLevel = 2;
         private const int DefaultHealth = 400;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 5);
         private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
 
-        public NaiSilna():base()
-        {
-            this.strengthLevel = DefaultStrengthLevel;
-        }
-        public NaiSilna(bool playerUnit) : base(playerUnit)
+        public Weak()
         {
             this.strengthLevel = DefaultStrengthLevel;
         }
@@ -34,7 +34,6 @@ namespace AthameRPG.Characters.WarUnits
         {
             throw new NotImplementedException();
         }
-
         public override void SetStartPositionInBattleLikePlayer()
         {
             this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;

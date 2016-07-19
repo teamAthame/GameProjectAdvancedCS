@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AthameRPG.Characters.Heroes;
+using AthameRPG.Characters.WarUnits;
 using AthameRPG.Controls;
+using AthameRPG.Objects.Weapons.Arrows;
 
 namespace AthameRPG.GameEngine
 {
@@ -629,6 +631,20 @@ namespace AthameRPG.GameEngine
             return betweenX && betweenY;
         }
 
+        public static bool HaveCollisonBetweenTwoObj(WarUnit target, Arrow arrow)
+        {
+            bool collisionByX = (arrow.DrawCoords.X > target.WarUnitDrawCoord.X &&
+                                 arrow.DrawCoords.X < (target.WarUnitDrawCoord.X + target.CropWidth))
+                                ||
+                                ((arrow.DrawCoords.X + arrow.CropWidth) > target.WarUnitDrawCoord.X &&
+                                 (arrow.DrawCoords.X + arrow.CropWidth) < (target.WarUnitDrawCoord.X + target.CropWidth));
+
+            bool collisionByY = arrow.DrawCoords.Y > target.WarUnitDrawCoord.Y &&
+                                arrow.DrawCoords.Y < (target.WarUnitDrawCoord.Y + target.CropHeight);
+
+            return collisionByX ;//&& collisionByY;
+        }
+
         /// <summary>
         /// ---------------------------------------   NE TRII -----------------------------
         /// </summary>
@@ -788,5 +804,6 @@ namespace AthameRPG.GameEngine
 
         //    return result;
         //}7
+
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AthameRPG.GameEngine
 {
@@ -102,31 +97,49 @@ namespace AthameRPG.GameEngine
             return new AnimationReturnedValue(direction, CropCurrentFramePlayer);
         }
 
-        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord, int cropStayRow, int cropMovingRow, int cropAttackRow, int cropFrame, int stayWidth, int stayHeight, int correction)
+        public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord,Rectangle[] cropStay, Rectangle[] cropMove, Rectangle[] cropAttack, Rectangle[] cropHit, int cropFrame)
         {
             Rectangle currentFrame = new Rectangle();
-            
-            //if (lastDrawCoord.X != warUnitDrawCoord.X)
-            //{
-                
-            //    //if (lastDrawCoord.X > warUnitDrawCoord.X)
-            //    //{
-            //    //    currentFrame = new Rectangle(cropFrame * cropWidth, east, cropWidth, cropHeight);
-            //    //    direction = "E";
-            //    //}
-            //    //else
-            //    //{
 
-            //    //    direction = "W";
-            //    //}
-            //}
-            //else
-            //{
-            //    //currentFrame = new Rectangle(326 + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
-            //}
-            currentFrame = new Rectangle(correction + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
+            if (lastDrawCoord != warUnitDrawCoord)
+            {
+
+                currentFrame = cropMove[cropFrame];
+            }
+            else
+            {
+                currentFrame = cropStay[cropFrame];
+            }
+
 
             return new AnimationReturnedValue(" ", currentFrame);
         }
+
+        //public static AnimationReturnedValue BattlefieldAnimation(Vector2 lastDrawCoord, Vector2 warUnitDrawCoord, int cropStayRow, int cropMovingRow, int cropAttackRow, int cropFrame, int stayWidth, int stayHeight,int movingWidth, int movingHeight, int attackWidth, int attackHeight, int correctionStay, int correctionMove, int correctionAttack)
+        //{
+        //    Rectangle currentFrame = new Rectangle();
+
+        //    if (lastDrawCoord.X != warUnitDrawCoord.X)
+        //    {
+
+        //        if (lastDrawCoord.X > warUnitDrawCoord.X)
+        //        {
+        //            currentFrame = new Rectangle(correctionMove + cropFrame * movingWidth, cropMovingRow, movingWidth, movingHeight);
+
+        //        }
+        //        else
+        //        {
+
+        //            currentFrame = new Rectangle(correctionMove + cropFrame * movingWidth, cropMovingRow, movingWidth, movingHeight);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        currentFrame = new Rectangle(correctionStay + cropFrame * stayWidth, cropStayRow, stayWidth, stayHeight);
+        //    }
+
+
+        //    return new AnimationReturnedValue(" ", currentFrame);
+        //}
     }
 }

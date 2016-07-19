@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine;
+using AthameRPG.Objects.Weapons;
+using AthameRPG.Objects.Weapons.Arrows;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,18 +37,15 @@ namespace AthameRPG.Characters.WarUnits
         protected int frameCounter;
         protected int switchCounter;
         protected int cropFrame;
-        protected int cropStayRow;
-        protected int cropMovingRow;
-        protected int cropAttackRow;
-        protected int cropStayWidth;
-        protected int cropStayHeight;
-        protected int cropMoveWidth;
-        protected int cropMoveHeight;
-        protected int cropAttackWidth;
-        protected int cropAttackHeight;
-        protected int correctionStayCropByX;
+        
+        protected int cropWidth;
+        protected int cropHeight;
 
-
+        protected Rectangle[] cropStay;
+        protected Rectangle[] cropMove;
+        protected Rectangle[] cropAttack;
+        protected Rectangle[] cropHit;
+        
         protected SpriteFont spriteFontSmallLetters;
         protected Vector2 smallLettersDrawCoord;
         protected AnimationReturnedValue newAnimationFrame;
@@ -68,8 +62,12 @@ namespace AthameRPG.Characters.WarUnits
         protected int attackAnywayDistance;
         protected int protectedStep;
         protected bool IsAttackable;
+        protected bool isAttacked;
 
-
+        protected Arrow arrow;
+        protected WarUnit attacker;
+        protected Weapon weapon;
+        protected Arrow attackerArrow;
 
 
         public WarUnit()
@@ -94,7 +92,7 @@ namespace AthameRPG.Characters.WarUnits
 
             this.LoadDefaultUnitStats();
         }
-
+        
         public Color Color
         {
             get { return this.color; }
@@ -108,12 +106,27 @@ namespace AthameRPG.Characters.WarUnits
 
         public int CropWidth
         {
-            get { return this.cropStayWidth; }
+            get { return this.cropWidth; }
         }
 
         public int CropHeight
         {
-            get { return this.cropStayHeight; }
+            get { return this.cropHeight; }
+        }
+
+        public bool IsArrowHasTarget
+        {
+            get
+            {
+                if (this.arrow != null)
+                {
+                    return this.arrow.HasTarget;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public int MinAttackDistance
@@ -130,6 +143,7 @@ namespace AthameRPG.Characters.WarUnits
         protected virtual void LoadDefaultUnitStats()
         {
             this.Color = Color.White;
+            
         }
 
         public abstract int GetDefaultHeаlth();
@@ -168,8 +182,12 @@ namespace AthameRPG.Characters.WarUnits
 
         public virtual void Update(GameTime gameTime)
         {
+            if (this.playerUnit)
+            {
+                this.lastDrawCoord = this.warUnitDrawCoord;
+            }
 
-            this.lastDrawCoord = this.warUnitDrawCoord;
+            this.CheckForHitFromArrow();
 
             this.SelectAndMove(gameTime);
 
@@ -179,11 +197,17 @@ namespace AthameRPG.Characters.WarUnits
             {
                 this.FlashIfCanBeSelectedInBattle();
 
+                this.UpdateArrow(gameTime);
+
                 this.frameCounter = 0;
 
+                //this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
+                //    this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, this.cropStayWidth,
+                //    this.cropStayHeight, this.cropMoveWidth, this.cropMoveHeight, this.cropAttackWidth, this.cropAttackHeight,
+                //    this.correctionStayCropByX, this.correctionMoveByX, this.correctionAttackByX);
+
                 this.newAnimationFrame = Animation.BattlefieldAnimation(this.lastDrawCoord, this.warUnitDrawCoord,
-                    this.cropStayRow, this.cropMovingRow, this.cropAttackRow, this.cropFrame, cropStayWidth,
-                    cropStayHeight, this.correctionStayCropByX);
+                    this.cropStay, this.cropMove, this.cropAttack, this.cropHit, this.cropFrame);
 
                 this.cropCurrentFrame = this.newAnimationFrame.ImageCrop;
 
@@ -193,6 +217,11 @@ namespace AthameRPG.Characters.WarUnits
                 {
                     this.cropFrame = 0;
                 }
+            }
+
+            if (!this.playerUnit)
+            {
+                this.lastDrawCoord = this.warUnitDrawCoord;
             }
 
             if (!this.inBattleTurn)
@@ -207,6 +236,22 @@ namespace AthameRPG.Characters.WarUnits
             }
 
 
+        }
+
+        private void CheckForHitFromArrow()
+        {
+            if (this.isAttacked)
+            {
+                this.WaitForHit();
+            }
+        }
+
+        private void UpdateArrow(GameTime gameTime)
+        {
+            if (this.arrow != null && this.arrow.HasTarget)
+            {
+                this.arrow.Update(gameTime);
+            }
         }
 
         private void FlashIfCanBeSelectedInBattle()
@@ -253,8 +298,8 @@ namespace AthameRPG.Characters.WarUnits
                 if (this.IsAttackable)
                 {
                     spriteBatch.Draw(this.warUnitImage, // The Texture2D
-                        new Rectangle((int) this.warUnitDrawCoord.X, (int) this.warUnitDrawCoord.Y, this.cropStayWidth,
-                            this.cropStayHeight),
+                        new Rectangle((int) this.warUnitDrawCoord.X, (int) this.warUnitDrawCoord.Y, this.cropWidth,
+                            this.cropHeight),
                         // This rectangle positions the texture on the screen and scales it can also be a Vector2
                         this.cropCurrentFrame,
                         Color.Blue,
@@ -266,8 +311,8 @@ namespace AthameRPG.Characters.WarUnits
                 else
                 {
                     spriteBatch.Draw(this.warUnitImage, // The Texture2D
-                        new Rectangle((int) this.warUnitDrawCoord.X, (int) this.warUnitDrawCoord.Y, this.cropStayWidth,
-                            this.cropStayHeight),
+                        new Rectangle((int) this.warUnitDrawCoord.X, (int) this.warUnitDrawCoord.Y, this.cropWidth,
+                            this.cropHeight),
                         // This rectangle positions the texture on the screen and scales it can also be a Vector2
                         this.cropCurrentFrame,
                         this.Color,
@@ -277,6 +322,12 @@ namespace AthameRPG.Characters.WarUnits
                         0f);
                 }
             }
+
+            if (this.arrow != null && this.arrow.HasTarget)
+            {
+                this.arrow.Draw(spriteBatch);
+            }
+            
         }
 
         public int DecreaseHealth(int damage)
@@ -299,7 +350,7 @@ namespace AthameRPG.Characters.WarUnits
 
             IsAnotherSelectedUnit();
 
-            if (CollisionDetection.IsMouseOverObject(this.warUnitDrawCoord, cropStayWidth, cropStayHeight, gameTime)
+            if (CollisionDetection.IsMouseOverObject(this.warUnitDrawCoord, cropWidth, cropHeight, gameTime)
                 && this.newMouseState.RightButton == ButtonState.Pressed &&
                 this.oldMouseState.RightButton == ButtonState.Released
                 && this.playerUnit && this.CanBeSeleted)
@@ -332,9 +383,33 @@ namespace AthameRPG.Characters.WarUnits
         {
             if (MouseExtended.Current.WasDoubleClick(MouseButton.Left))
             {
-                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth/2);
-                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight/2);
+                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropWidth/2);
+                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropHeight/2);
             }
+        }
+
+        private void WaitForHit()
+        {
+            if (CollisionDetection.HaveCollisonBetweenTwoObj(this, this.attackerArrow))
+            {
+                if (this.attacker.playerUnit)
+                {
+                    MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this.attacker, this, this.attackerArrow);
+                    
+                }
+                else
+                {
+                    this.EnemyTryAttackPlayer(this.attacker, this, this.attackerArrow);
+                }
+                this.isAttacked = false;
+            }
+   
+        }
+
+        private void SetAttacker(WarUnit attacker, Arrow attackerArrow)
+        {
+            this.attacker = attacker;
+            this.attackerArrow = attackerArrow;
         }
 
         private void PlayerAttack(GameTime gameTime)
@@ -344,8 +419,8 @@ namespace AthameRPG.Characters.WarUnits
             foreach (var enemy in enemies.Keys)
             {
                 if (CollisionDetection.IsMouseOverObject(enemy.warUnitDrawCoord,
-                    enemy.cropStayWidth, enemy.cropStayHeight, gameTime) 
-                    && this.CanIAttack(enemy))
+                    enemy.cropWidth, enemy.cropHeight, gameTime) 
+                    && this.CanIAttack(enemy) && this.inBattleTurn)
                 {
                     enemy.IsAttackable = true;
 
@@ -353,7 +428,22 @@ namespace AthameRPG.Characters.WarUnits
                     {
                         if (this.AmIArcherOrMage)
                         {
-                            MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+                            // add arrow/weapon to damage
+                            /*
+                             * enemy.isAttacked -> this method will execute when have collision ... 
+                             * isAttacked
+                             * ExecuteAttack
+                             */
+                            
+                            //MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+
+                            this.arrow.FlyTo(this.WarUnitDrawCoord, enemy.warUnitDrawCoord, this.warUnitImage);
+                            enemy.isAttacked = true;
+                            enemy.SetAttacker(this, arrow);
+                            //enemy.WaitForHit();
+                            this.availableMove = 0;
+
+                            enemy.IsAttackable = false;
                         }
                         else
                         {
@@ -372,12 +462,13 @@ namespace AthameRPG.Characters.WarUnits
 
                             if (behindUs || inFrontOfUs)
                             {
-                                MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy);
+                                MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy, this.weapon);
+                                enemy.IsAttackable = false;
                             }
                             else
                             {
-                                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropStayWidth / 2);
-                                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropStayHeight / 2);
+                                this.wantedPosition.X = MouseExtended.Current.CurrentState.X - (cropWidth / 2);
+                                this.wantedPosition.Y = MouseExtended.Current.CurrentState.Y - (cropHeight / 2);
 
                                 this.Moving();
                             }
@@ -434,7 +525,7 @@ namespace AthameRPG.Characters.WarUnits
 
             //}
         }
-
+        
         private bool CanIAttack(WarUnit enemy)
         {
             int supportRange = 0;
@@ -448,9 +539,9 @@ namespace AthameRPG.Characters.WarUnits
                 supportRange = (int)this.availableMove;
             }
 
-            double xx = CollisionDetection.CalculateDistanceTravelled(this.warUnitDrawCoord, enemy.warUnitDrawCoord);
+            double distanceBetweenAttackerEnemy = CollisionDetection.CalculateDistanceTravelled(this.warUnitDrawCoord, enemy.warUnitDrawCoord);
 
-            if (xx <= supportRange + this.cropStayWidth / 2)
+            if (distanceBetweenAttackerEnemy <= supportRange + this.cropWidth / 2)
             {
                 return true;
             }
@@ -526,14 +617,14 @@ namespace AthameRPG.Characters.WarUnits
 
                         if (this.supportUnit == null)
                         {
-                            ProtectFriendArcher();
+                            this.ProtectFriendArcher();
                         }
                         else
                         {
                             // move to ... moving to ....  if TARGET is close enough I will attack it 
                             this.SetMoveToEnemy(this.supportUnit);
                             this.Moving();
-                            this.EnemyTryAttackPlayer(this, this.supportUnit);
+                            this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
                         }
 
                     }
@@ -561,7 +652,18 @@ namespace AthameRPG.Characters.WarUnits
                 }
                 else
                 {
-                    this.EnemyTryAttackPlayer(this, this.supportUnit);
+                    // check if there is another attack with arrow ... when other attack end then this will continue
+                    if (MapManager.Instance.Battlefield.CanShoot())
+                    {
+                        this.arrow.FlyTo(this.WarUnitDrawCoord, this.supportUnit.warUnitDrawCoord, this.warUnitImage);
+                        //this.EnemyTryAttackPlayer(this, this.supportUnit);
+
+                        this.supportUnit.isAttacked = true;
+                        this.supportUnit.SetAttacker(this, arrow);
+                        //this.supportUnit.WaitForHit();
+                        this.availableMove = 0;
+                    }
+                    
                 }
             }
 
@@ -575,15 +677,16 @@ namespace AthameRPG.Characters.WarUnits
             {
                 this.inBattleTurn = false;
             }
-            // проверява дали може да стигне противника с оставащият му ход 
+            
+            // check if can reach enemy with current move
             if (
                 CollisionDetection.IsNear(this.WarUnitDrawCoord.X,
-                    this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropStayWidth, (int) this.availableMove) &&
+                    this.supportUnit.WarUnitDrawCoord.X + this.supportUnit.cropWidth, (int) this.availableMove) &&
                 this.inBattleTurn == true)
             {
                 this.SetMoveToEnemy(this.supportUnit);
                 this.Moving();
-                this.EnemyTryAttackPlayer(this, this.supportUnit);
+                this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
             }
             else
             {
@@ -592,8 +695,14 @@ namespace AthameRPG.Characters.WarUnits
             }
         }
 
-        private void EnemyTryAttackPlayer(WarUnit attacker, WarUnit defender)
+        private void EnemyTryAttackPlayer(WarUnit attacker, WarUnit defender, Weapon weapon)
         {
+            int weaponDamage = 0;
+
+            if (weapon != null)
+            {
+                weaponDamage = weapon.Damage;
+            }
 
             if (CollisionDetection.IsNear(attacker.WarUnitDrawCoord.X, defender.WarUnitDrawCoord.X,
                 this.minAttackDistance)
@@ -605,10 +714,28 @@ namespace AthameRPG.Characters.WarUnits
                 if (attacker.inBattleTurn)
                 {
                     decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
-                    int attackerDamage = (int) (attacker.Damage*attackerQuantity);
+                    int attackerDamage = (weaponDamage + attacker.Damage)*(int)attackerQuantity;
 
                     decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
                     int defenderDamage = (int) (defender.Damage*enemyQuantity);
+
+                    MapManager.Instance.Battlefield.AttackPlayerUnit(defender, attackerDamage, attacker, defenderDamage);
+                }
+
+                attacker.inBattleTurn = false;
+
+                this.HaveActionForCurrentTurn = false;
+            }
+
+            if (attacker.AmIArcherOrMage)
+            {
+                if (attacker.inBattleTurn)
+                {
+                    decimal attackerQuantity = MapManager.Instance.Battlefield.TryTakeFriendUnitQuantity(attacker);
+                    int attackerDamage = (weaponDamage + attacker.Damage) * (int)attackerQuantity;
+
+                    decimal enemyQuantity = MapManager.Instance.Battlefield.TryTakeEnemmyUnitQuantity(defender);
+                    int defenderDamage = (int)(defender.Damage * enemyQuantity);
 
                     MapManager.Instance.Battlefield.AttackPlayerUnit(defender, attackerDamage, attacker, defenderDamage);
                 }
@@ -650,7 +777,7 @@ namespace AthameRPG.Characters.WarUnits
 
             if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y, 10)
                 &&
-                CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.cropStayWidth,
+                CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.cropWidth,
                     this.supportUnit.WarUnitDrawCoord.X, 10)
                 && this.inBattleTurn == true)
             {
@@ -674,7 +801,9 @@ namespace AthameRPG.Characters.WarUnits
             //    this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X, unit.warUnitDrawCoord.Y);
             //}
 
-            this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X - this.cropStayWidth, unit.warUnitDrawCoord.Y);
+            //this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X - this.cropWidth, unit.warUnitDrawCoord.Y);
+            this.wantedPosition.X = unit.WarUnitDrawCoord.X - this.cropWidth;
+            this.wantedPosition.Y = unit.warUnitDrawCoord.Y;
         }
 
         protected void SetMoveToEnemy(WarUnit warUnit)

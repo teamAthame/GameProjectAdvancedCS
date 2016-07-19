@@ -80,13 +80,13 @@
     <Compile Include="Characters\WarUnits\Empire\Ranged\Marksman.cs" />
     <Compile Include="Characters\WarUnits\Empire\Ranged\Ranger.cs" />
     <Compile Include="Characters\WarUnits\Goro.cs" />
-    <Compile Include="Characters\WarUnits\NaiSilna.cs" />
-    <Compile Include="Characters\WarUnits\NaiSlaba.cs" />
-    <Compile Include="Characters\WarUnits\Silna.cs" />
-    <Compile Include="Characters\WarUnits\Slaba.cs" />
-    <Compile Include="Characters\WarUnits\Sredna.cs" />
-    <Compile Include="Characters\WarUnits\SrednoSilna.cs" />
-    <Compile Include="Characters\WarUnits\SrednoSlaba.cs" />
+    <Compile Include="Characters\WarUnits\Strongest.cs" />
+    <Compile Include="Characters\WarUnits\Weakest.cs" />
+    <Compile Include="Characters\WarUnits\Strong.cs" />
+    <Compile Include="Characters\WarUnits\Weak.cs" />
+    <Compile Include="Characters\WarUnits\Normal.cs" />
+    <Compile Include="Characters\WarUnits\Stronger.cs" />
+    <Compile Include="Characters\WarUnits\Weaker.cs" />
     <Compile Include="Characters\WarUnits\UndeadHordes\Archlich.cs" />
     <Compile Include="Characters\WarUnits\UndeadHordes\DarkLord.cs" />
     <Compile Include="Characters\WarUnits\UndeadHordes\Death.cs" />
@@ -155,6 +155,9 @@
     <Compile Include="Objects\Castles\MainCastle.cs" />
     <Compile Include="Objects\Castles\StoneCastle.cs" />
     <Compile Include="Objects\UI\SandWatch.cs" />
+    <Compile Include="Objects\Weapons\Arrows\Arrow.cs" />
+    <Compile Include="Objects\Weapons\Arrows\WoodArrow.cs" />
+    <Compile Include="Objects\Weapons\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartUp.cs" />
   </ItemGroup>
