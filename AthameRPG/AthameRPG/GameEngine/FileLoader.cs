@@ -80,9 +80,9 @@ namespace AthameRPG.GameEngine
 
         public static void ReadEnemyAndBuildingPositions(string path)
         {
-            int id = 0;
+            int enemyID = 0;
             List<List<int>> currentEnemyMap = MapReader(path);
-
+            
             for (int i = 0; i < currentEnemyMap.Count(); i++)
             {
                 for (int j = 0; j < currentEnemyMap[i].Count(); j++)
@@ -93,11 +93,11 @@ namespace AthameRPG.GameEngine
                     {
                         case 9:
                             //CharacterManager.AddEnemies(new Vector2((float)(j * 50) + 25f, (float)(i * 50) + 25f));
-                            KeyValuePair<int,Vector2> support = new KeyValuePair<int, Vector2>(id, new Vector2((float)(j * DefaultMapSquareSize) + DefaultMapSquareSize / 2, (float)(i * DefaultMapSquareSize) + DefaultMapSquareSize/2));
+                            KeyValuePair<int,Vector2> support = new KeyValuePair<int, Vector2>(enemyID, new Vector2((float)(j * DefaultMapSquareSize) + DefaultMapSquareSize / 2, (float)(i * DefaultMapSquareSize) + DefaultMapSquareSize/2));
                             CharacterManager.AddEnemies(support);
-                            id++;
+                            enemyID++;
                         break;
-                        case 10:  // Create castle on map and include it's external sides for collision detection 
+                        case 10:  // Create castle/s on map and include it's external sides for collision detection 
                             BuildingManager.AddCastleFromTxtMapToList(new StoneCastle(new Vector2((float)(j * DefaultMapSquareSize), (float)(i * DefaultMapSquareSize))));
                             MapManager.Instance.CurrentMap.AddObstacle(new Vector2((float)(j * DefaultMapSquareSize), (float)(i * DefaultMapSquareSize)));
                             break;
@@ -120,6 +120,7 @@ namespace AthameRPG.GameEngine
                             break;
 
                         case 99:
+                            // set player start position
                             CharacterManager.barbarian.SetStartPosition(new Vector2((float)(j* DefaultMapSquareSize) ,(float)(i * DefaultMapSquareSize)));
                             break;
                     }

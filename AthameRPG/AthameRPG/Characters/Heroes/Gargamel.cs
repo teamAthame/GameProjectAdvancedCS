@@ -59,8 +59,8 @@ namespace AthameRPG.Characters.Heroes
         
         protected override void LoadDefaultStartArmy()
         {
-            this.availableCreatures.Add(new BlackDragon(), 20);
-            this.availableCreatures.Add(new Goro(), 3);
+            //this.availableCreatures.Add(new BlackDragon(), 20);
+            //this.availableCreatures.Add(new Goro(), 3);
             this.availableCreatures.Add(new Elf(), 1);
         }
     }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace AthameRPG.Objects.Castles
 {
-    public class StoneCastle : MainCastle
+    public class StoneCastle : Castle
     {
         // units which will be generated in this castle
         private BlackDragon blackDragon;

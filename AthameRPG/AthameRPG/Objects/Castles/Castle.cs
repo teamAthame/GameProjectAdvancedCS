@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Objects.Castles
 {
-    public abstract class MainCastle
+    public abstract class Castle
     {
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
         protected const int EntryInCastleMinX = 350;
@@ -58,7 +58,7 @@ namespace AthameRPG.Objects.Castles
         protected int maxXCheckButton;
 
 
-        protected MainCastle(Vector2 coordinatesOnMap)
+        protected Castle(Vector2 coordinatesOnMap)
         {
             this.coordinatesOnMap = coordinatesOnMap;
             this.gadini = new Dictionary<WarUnit, decimal>();

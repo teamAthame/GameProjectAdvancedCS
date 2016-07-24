@@ -67,8 +67,7 @@ namespace AthameRPG.GameEngine.Maps
                 {
 
                     int currentNum = FullMap[i][j];
-                    /// elements with those NUMBERS are obstacles. /// this is example !!!
-                    /// 
+
                     switch (currentNum)
                     {
                         case 1:
@@ -94,7 +93,7 @@ namespace AthameRPG.GameEngine.Maps
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawWorld(spriteBatch);
+            this.DrawWorld(spriteBatch);
 
         }
 
@@ -137,12 +136,12 @@ namespace AthameRPG.GameEngine.Maps
         {
             get
             {
-                List<List<int>> copyOfMap = fullMap;
+                List<List<int>> copyOfMap = this.fullMap;
                 return copyOfMap;
             }
             private set
             {
-                fullMap = FileLoader.MapReader(mapPath);
+                this.fullMap = FileLoader.MapReader(mapPath);
             }
         }
         

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AthameRPG.Objects.Castles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,25 +8,26 @@ namespace AthameRPG.GameEngine
 {
     public class BuildingManager
     {
-        private static List<MainCastle> listOfCastlesOnMap;
-
+        private static List<Castle> listOfCastlesOnMap;
+        
         public BuildingManager()
         {
-            listOfCastlesOnMap = new List<MainCastle>();
+            listOfCastlesOnMap = new List<Castle>();
         }
         
         public void LoadContent(ContentManager content)
         {
+            
             foreach (var castle in listOfCastlesOnMap)
             {
                 castle.LoadContent(content);
             }
 
         }
-
+        
         public void UnloadContent()
         {
-
+            //listOfCastlesOnMap.Clear();
         }
 
         public void Update(GameTime gameTime)
@@ -49,7 +46,7 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        public static void AddCastleFromTxtMapToList(MainCastle castle)
+        public static void AddCastleFromTxtMapToList(Castle castle)
         {
             listOfCastlesOnMap.Clear();
             listOfCastlesOnMap.Add(castle);

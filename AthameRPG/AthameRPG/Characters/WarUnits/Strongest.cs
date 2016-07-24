@@ -5,7 +5,6 @@ namespace AthameRPG.Characters.WarUnits
 {
     public class Strongest : WarUnit
     {
-        // това трябва да го има във всяка гадина  !!!
         private const int DefaultStrengthLevel = 7;
         private const int DefaultHealth = 400;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 5);

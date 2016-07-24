@@ -1,15 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AthameRPG.GameEngine.Screens
 {
-    class IntroScreen : GameScreen
+    public class IntroScreen : GameScreen
     {
         private const float HALF_SCREEN_WIDTH = ScreenManager.SCREEN_WIDTH / 2;
         private const float HALF_SCREEN_HEIGHT = ScreenManager.SCREEN_HEIGHT / 2;

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace AthameRPG.Characters.WarUnits
 {
     public class Strong : WarUnit
     {
-        // това трябва да го има във всяка гадина  !!!
         private const int DefaultStrengthLevel = 6;
         private const int DefaultHealth = 400;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 5);

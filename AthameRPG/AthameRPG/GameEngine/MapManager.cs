@@ -13,11 +13,15 @@ namespace AthameRPG.GameEngine
     {
         private const string Map_List_Path = @"../../../../Content/Maps/mapList.txt";
         private const string Terrain_Path = @"../Content/MapImages/terrain";
-        private Texture2D terrain;
-        private int mapIndex;
-        private List<string> mapListPath;
+        private const int StartingMapIndex = 0;
+        private const int ValueForEnemyPath = 1;
+
         private static MapManager instance;
+        private ContentManager contentManager;
+
         private Map currentMap;
+        private List<string> mapListPath;
+        private Texture2D terrain;
         private CharacterManager charManager;
         private BuildingManager buildingManager;
         private SandWatch sandWatch;
@@ -26,9 +30,9 @@ namespace AthameRPG.GameEngine
 
         public MapManager()
         {
-            this.MapIndex = 0; /// TODO 
+            this.MapIndex = StartingMapIndex; 
             this.MapListPath = new List<string>();
-            this.currentMap = new Map(MapListPath[MapIndex]);
+            this.currentMap = new Map(this.MapListPath[MapIndex]);
             this.charManager = new CharacterManager();
             this.buildingManager = new BuildingManager();
             this.sandWatch = new SandWatch();
@@ -72,17 +76,7 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        private int MapIndex
-        {
-            get
-            {
-                return this.mapIndex;
-            }
-            set
-            {
-                this.mapIndex = value;
-            }
-        }
+        private int MapIndex { get; set; }
 
         private List<string> MapListPath
         {
@@ -96,16 +90,21 @@ namespace AthameRPG.GameEngine
             }
         }
 
-        //public ContentManager ContentManager { get; private set; }
-
-        public void LoadContent(ContentManager ContentManager)
+        public string GetEnemyBuildingFilePath
         {
-            ContentManager = new ContentManager(ContentManager.ServiceProvider, "Content");
-            terrain = ContentManager.Load<Texture2D>(Terrain_Path);
+            get { return this.MapListPath[this.MapIndex + ValueForEnemyPath]; }
+        }
+
+        public void LoadContent(ContentManager contentManager)
+        {
+            
+            contentManager = new ContentManager(contentManager.ServiceProvider, "Content");
+            this.contentManager = contentManager;
+            terrain = contentManager.Load<Texture2D>(Terrain_Path);
             currentMap.LoadContent();
-            charManager.LoadContent(ContentManager);
-            buildingManager.LoadContent(ContentManager);
-            battlefield.LoadContent(ContentManager);
+            charManager.LoadContent(contentManager);
+            buildingManager.LoadContent(contentManager);
+            battlefield.LoadContent(contentManager);
 
         }
 
@@ -150,6 +149,20 @@ namespace AthameRPG.GameEngine
             charManager.Draw(spriteBantch);
         }
 
-        
+        public void TryChangeLevel(Character currentPlayer)
+        {
+            //this.IsThereNoMoreLevels();
+
+            this.MapIndex += 2;
+            
+            this.buildingManager = new BuildingManager();
+            this.currentMap = new Map(this.MapListPath[MapIndex]);
+            this.currentMap.LoadContent();
+            this.charManager.PrepareUnitsForNextLevel();
+
+            this.buildingManager.LoadContent(this.contentManager);
+        }
+
+
     }
 }

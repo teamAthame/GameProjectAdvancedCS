@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,27 +14,15 @@ namespace AthameRPG.GameEngine
 
         private const float PLAYER_START_POSITION_X = 400;
         private const float PLAYER_START_POSITION_Y = 300;
-        private const string PathEnemyAndBuildingPositionOnMap = @"../../../../Content/Maps/01-enemy.txt";
-
-        private static CharacterManager instance;
         
+        private static CharacterManager instance;
         private static Dictionary<int, Vector2> enemiesPositionList;
 
-        protected bool oneTimeDraw;
-        
-        private Texture2D gargamelImage;
-
-        public Vector2 StartPosition
-        {
-            get { return new Vector2(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y);}
-        }
-        
         public static Character barbarian;
-        
-        //public static
         public static List<Enemy> enemiesList;
 
-        protected ContentManager content;
+        private ContentManager content;
+        private bool oneTimeDraw;
 
         public CharacterManager()
         {
@@ -42,7 +31,12 @@ namespace AthameRPG.GameEngine
             enemiesList = new List<Enemy>();
             this.oneTimeDraw = true;
         }
-        
+
+        public Vector2 StartPosition
+        {
+            get { return new Vector2(PLAYER_START_POSITION_X, PLAYER_START_POSITION_Y); }
+        }
+
         public static CharacterManager Instance
         {
             get
@@ -54,25 +48,34 @@ namespace AthameRPG.GameEngine
                 return instance;
             }
         }
-        
-        public ContentManager Content { get; private set; }
 
-        public void LoadContent(ContentManager Content)
+        public void LoadContent(ContentManager content)
         {
-            
-            barbarian.LoadContent(Content);
-            
-            FileLoader.ReadEnemyAndBuildingPositions(PathEnemyAndBuildingPositionOnMap);
+            this.content = content;
 
-            int id = 0;
-           
+            barbarian.LoadContent(content);
+
+            this.ReadBuildingEnemyPositionAndCreateEnemies(content);
+        }
+
+        private void ReadBuildingEnemyPositionAndCreateEnemies(ContentManager content)
+        {
+            FileLoader.ReadEnemyAndBuildingPositions(MapManager.Instance.GetEnemyBuildingFilePath);
+
+            int setEnemyid = 0;
+
             foreach (var enemyPos in EnemiesPositionList)
             {
-                Enemy newGargamel = new Gargamel(enemyPos.Value.X, enemyPos.Value.Y, id);
-                newGargamel.LoadContent(Content);
-                enemiesList.Add(newGargamel);
-                id++;
+                Enemy enemy = new Gargamel(enemyPos.Value.X, enemyPos.Value.Y, setEnemyid);
+                enemy.LoadContent(content);
+                enemiesList.Add(enemy);
+                setEnemyid++;
             }
+        }
+
+        public void PrepareUnitsForNextLevel()
+        {
+            this.ReadBuildingEnemyPositionAndCreateEnemies(this.content);
         }
 
         public void UnloadContent()
@@ -88,24 +91,26 @@ namespace AthameRPG.GameEngine
 
         public void Update(GameTime gameTime)
         {
+            this.CheckForMapAccomplished();
+
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
 
                 if (itIsPlayerTurn)
                 {
                     barbarian.Update(gameTime);
-                    
+
                 }
 
                 bool support = true;
-                
-                foreach (var gargamelcho in enemiesList)
+
+                foreach (var enemy in enemiesList)
                 {
-                    gargamelcho.Update(gameTime);
-                    
-                    if (!itIsPlayerTurn && gargamelcho.ISeePlayer)
+                    enemy.Update(gameTime);
+
+                    if (!itIsPlayerTurn && enemy.ISeePlayer)
                     {
-                        
+
                         support = false;
                     }
                 }
@@ -114,18 +119,17 @@ namespace AthameRPG.GameEngine
                 {
                     itIsPlayerTurn = true;
                 }
-                
+
             }
-            else if (Character.GetIsInCastle)
+        }
+
+        private void CheckForMapAccomplished()
+        {
+            if (enemiesList.Count == 0)
             {
-
+                //Environment.Exit(0);
+                MapManager.Instance.TryChangeLevel(barbarian);
             }
-            else if (Character.GetIsInBattle)
-            {
-
-            }
-
-            
         }
 
         public void Draw(SpriteBatch spritebatch)
@@ -141,48 +145,33 @@ namespace AthameRPG.GameEngine
             }
             else if (Character.GetIsInCastle)
             {
-                
+
             }
             else if (Character.GetIsInBattle)
             {
 
             }
-            
-        }
 
-        // this will be fix ... will be like barb... every char will give his image
-        public Texture2D GargamelImage
-        {
-            get
-            {
-                return this.gargamelImage;
-            }
         }
-
+        
         public static Dictionary<int, Vector2> EnemiesPositionList
         {
             get
             {
-                Dictionary<int,Vector2> copyOfEnemiesList = enemiesPositionList;
+                Dictionary<int, Vector2> copyOfEnemiesList = enemiesPositionList;
                 return copyOfEnemiesList;
             }
-            set
-            {
-                enemiesPositionList = value;
-            }
+            set { enemiesPositionList = value; }
         }
 
-        public static void AddEnemies(KeyValuePair<int,Vector2> enemyPosition)
+        public static void AddEnemies(KeyValuePair<int, Vector2> enemyPosition)
         {
             enemiesPositionList.Add(enemyPosition.Key, enemyPosition.Value);
         }
 
         public Texture2D PlayerImage
         {
-            get
-            {
-                return Character.PlayerImage;
-            }
+            get { return Character.PlayerImage; }
         }
     }
 }

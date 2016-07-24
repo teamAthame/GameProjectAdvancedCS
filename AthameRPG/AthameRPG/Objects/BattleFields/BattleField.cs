@@ -30,7 +30,7 @@ namespace AthameRPG.Objects.BattleFields
         {
             "If creature is flashing in red, you can select it by RIGHT mouse click.",
             "You can move selected creature by double click.",
-            "Your selected creature can attack enemy if it is in YOUR attack radius."
+            "Your selected creature can attack enemy one if enemy creature is in attack radius."
         };
         private const float DrawInfoX = 100;
         private const float DrawInfoY = 0;
@@ -211,7 +211,7 @@ namespace AthameRPG.Objects.BattleFields
             {
                 this.drawInfo = new Vector2(DrawInfoX, DrawInfoY + (i * DrawInfoStepY));
 
-                spriteBatch.DrawString(this.spriteFontSmallLetters, InfoText[i], this.drawInfo, Color.Blue);
+                spriteBatch.DrawString(this.spriteFontSmallLetters, InfoText[i], this.drawInfo, Color.White);
             }
             
         }
