@@ -211,3 +211,9 @@
 /processorParam:TextureFormat=Color
 /build:Image/levelChanging.jpg
 
+#begin Fonts/Comic Sans MS.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Comic Sans MS.spritefont
+

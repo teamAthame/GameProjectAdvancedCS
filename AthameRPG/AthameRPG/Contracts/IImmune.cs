@@ -1,4 +1,5 @@
 ﻿using AthameRPG.Enums;
+using AthameRPG.Enums.Unused;
 
 namespace AthameRPG.Contracts
 {

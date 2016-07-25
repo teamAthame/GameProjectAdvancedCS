@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AthameRPG.Characters.Heroes;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Loaders;
+using AthameRPG.GameEngine.Managers;
+using AthameRPG.Objects.Characters.Heroes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,8 +19,8 @@ namespace AthameRPG.Objects.BattleFields
         // instance/loaded from MapManager
 
         private const string DefaultImagePath = "../Content/Obstacles/stonebattlefield";
-        private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
-        private const string BigSizeLetterPath = @"../Content/Fonts/ArialBig";
+        //private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
+        //private const string BigSizeLetterPath = @"../Content/Fonts/ArialBig";
         private const string WinText = "You Won the battle!";
         private const string LoseText = "Game Over!";
         private const string SupportText = "Press ENTER to continue.";
@@ -44,8 +46,8 @@ namespace AthameRPG.Objects.BattleFields
         private Texture2D battlefieldImage;
         private string imagePath;
         private Vector2 battlefieldDrawCoord;
-        private SpriteFont spriteFontSmallLetters;
-        private SpriteFont bigFont;
+        //private SpriteFont spriteFontSmallLetters;
+        //private SpriteFont bigFont;
         private Vector2 winTextCoord;
         private Vector2 loseTextCoord;
         private Vector2 supportTextCoord;
@@ -84,15 +86,15 @@ namespace AthameRPG.Objects.BattleFields
         public void LoadContent(ContentManager contentManager)
         {
             this.battlefieldImage = contentManager.Load<Texture2D>(this.imagePath);
-            this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
-            this.bigFont = contentManager.Load<SpriteFont>(BigSizeLetterPath);
+            //this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
+            //this.bigFont = contentManager.Load<SpriteFont>(BigSizeLetterPath);
 
-            this.winTextCoord = new Vector2(ScreenManager.SCREEN_WIDTH/2 - this.bigFont.MeasureString(WinText).X/2,
+            this.winTextCoord = new Vector2(ScreenManager.SCREEN_WIDTH/2 - FontLoader.BigSizeFont.MeasureString(WinText).X/2,
                 WinTextY);
             this.loseTextCoord = new Vector2(
-                ScreenManager.SCREEN_WIDTH/2 - this.bigFont.MeasureString(LoseText).X/2, LoseTextY);
+                ScreenManager.SCREEN_WIDTH/2 - FontLoader.BigSizeFont.MeasureString(LoseText).X/2, LoseTextY);
             this.supportTextCoord = 
-                new Vector2(ScreenManager.SCREEN_WIDTH/2 - this.bigFont.MeasureString(SupportText).X/2, SupportTextY);
+                new Vector2(ScreenManager.SCREEN_WIDTH/2 - FontLoader.BigSizeFont.MeasureString(SupportText).X/2, SupportTextY);
 
         }
 
@@ -171,14 +173,14 @@ namespace AthameRPG.Objects.BattleFields
             {
                 if (this.amIWinner)
                 {
-                    spriteBatch.DrawString(this.bigFont, WinText, this.winTextCoord, Color.Red);
+                    spriteBatch.DrawString(FontLoader.BigSizeFont, WinText, this.winTextCoord, Color.Red);
 
                     //Character.GetIsInBattle = false;
                 }
                 else
                 {
-                    spriteBatch.DrawString(this.bigFont, LoseText, this.loseTextCoord, Color.Red);
-                    spriteBatch.DrawString(this.bigFont, SupportText, this.supportTextCoord, Color.Blue);
+                    spriteBatch.DrawString(FontLoader.BigSizeFont, LoseText, this.loseTextCoord, Color.Red);
+                    spriteBatch.DrawString(FontLoader.BigSizeFont, SupportText, this.supportTextCoord, Color.Blue);
                 }
             }
 
@@ -190,13 +192,13 @@ namespace AthameRPG.Objects.BattleFields
             foreach (var playerUnit in this.playerUnits)
             {
                 playerUnit.Key.Draw(spriteBatch);
-                spriteBatch.DrawString(this.spriteFontSmallLetters, playerUnit.Value.ToString(),
+                spriteBatch.DrawString(FontLoader.SmallSizeFont, playerUnit.Value.ToString(),
                     playerUnit.Key.WarUnitDrawCoord, Color.Red);
             }
             foreach (var enemyUnit in this.enemyUnits)
             {
                 enemyUnit.Key.Draw(spriteBatch);
-                spriteBatch.DrawString(this.spriteFontSmallLetters, enemyUnit.Value.ToString(),
+                spriteBatch.DrawString(FontLoader.SmallSizeFont, enemyUnit.Value.ToString(),
                     new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
             }
         }
@@ -207,7 +209,7 @@ namespace AthameRPG.Objects.BattleFields
             {
                 this.drawInfo = new Vector2(DrawInfoX, DrawInfoY + (i * DrawInfoStepY));
 
-                spriteBatch.DrawString(this.spriteFontSmallLetters, InfoText[i], this.drawInfo, Color.White);
+                spriteBatch.DrawString(FontLoader.SmallSizeFont, InfoText[i], this.drawInfo, Color.White);
             }
             
         }
@@ -240,19 +242,27 @@ namespace AthameRPG.Objects.BattleFields
                 //Keyboard.GetState().IsKeyDown(Keys.Enter)
                 // this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    Character.GetIsInBattle = false;
-                    CharacterManager.EnemiesPositionList.Clear();
-                    CharacterManager.enemiesList.Clear();
-                    ScreenManager.Instance.UnloadContent();
-                    ScreenManager.Instance.ChangeScreens("MenuScreen");
+                this.RestartGame();
+            }
+        }
 
-                    CharacterManager.barbarian.Restart();
-                    foreach (var enemy in CharacterManager.enemiesList)
-                    {
-                        enemy.Restart();
-                    }
+        private void RestartGame()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                MapManager.Instance.RestartGame();
+                MapManager.Instance.SandWatch.Restart();
+                MapManager.Instance.ChangeLevel.Restart();
+                Character.GetIsInBattle = false;
+                CharacterManager.EnemiesPositionList.Clear();
+                CharacterManager.enemiesList.Clear();
+                ScreenManager.Instance.UnloadContent();
+                ScreenManager.Instance.ChangeScreens("MenuScreen");
+
+                CharacterManager.barbarian.Restart();
+                foreach (var enemy in CharacterManager.enemiesList)
+                {
+                    enemy.Restart();
                 }
             }
         }
@@ -300,11 +310,19 @@ namespace AthameRPG.Objects.BattleFields
             {
                 KeyValuePair<WarUnit, decimal> currentUnit = this.supportRemoveKilledUnitsFromPlayerArmy.Dequeue();
                 this.playerUnits[currentUnit.Key] -= currentUnit.Value;
+                if (this.playerUnits[currentUnit.Key] < 0)
+                {
+                    this.playerUnits[currentUnit.Key] = 0;
+                }
             }
             while (this.supportRemoveKilledUnitsFromEnemyArmy.Count > 0)
             {
                 KeyValuePair<WarUnit, decimal> currentUnit = this.supportRemoveKilledUnitsFromEnemyArmy.Dequeue();
                 this.enemyUnits[currentUnit.Key] -= currentUnit.Value;
+                if (this.enemyUnits[currentUnit.Key] < 0)
+                {
+                    this.enemyUnits[currentUnit.Key] = 0;
+                }
             }
         }
 

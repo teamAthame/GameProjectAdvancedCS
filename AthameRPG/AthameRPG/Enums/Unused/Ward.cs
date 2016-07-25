@@ -1,4 +1,4 @@
-﻿namespace AthameRPG.Enums
+﻿namespace AthameRPG.Enums.Unused
 {
     public enum Ward
     {

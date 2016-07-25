@@ -1,14 +1,10 @@
-﻿using AthameRPG.Characters;
-using AthameRPG.GameEngine.Maps;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AthameRPG.Characters.Heroes;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.Controls;
+using AthameRPG.GameEngine.Managers;
+using AthameRPG.Objects.Characters.Heroes;
+using AthameRPG.Objects.Maps;
 using AthameRPG.Objects.Weapons.Arrows;
 
 namespace AthameRPG.GameEngine

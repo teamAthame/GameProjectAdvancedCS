@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using AthameRPG.Characters;
-using AthameRPG.Characters.Heroes;
 using AthameRPG.Characters.WarUnits;
 using AthameRPG.Controls;
-using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Managers;
+using AthameRPG.Objects.Characters.Heroes;
 using AthameRPG.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

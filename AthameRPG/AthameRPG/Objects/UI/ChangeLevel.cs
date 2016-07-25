@@ -1,5 +1,5 @@
 ﻿using AthameRPG.Enums;
-using AthameRPG.Loaders;
+using AthameRPG.GameEngine.Loaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +14,9 @@ namespace AthameRPG.Objects.UI
         private const float SymbolDrawStepX = 5f;
         private const int MinFrameSwitch = 100;
         private const int MaxLoadingTime = 4000;
-        
+        private const int StartingTime = 0;
+
+
         private Vector2 imageDrawCoord;
         private Vector2 symbolDrawCoord;
 
@@ -26,13 +28,24 @@ namespace AthameRPG.Objects.UI
 
         public ChangeLevel()
         {
+            this.LoadDefaults();
+        }
+
+        private void LoadDefaults()
+        {
             this.Status = Status.Complete;
             this.symbolDrawCoord = new Vector2(300, 450);
             this.imageDrawCoord = Vector2.Zero;
             this.switchCounter = MinFrameSwitch;
+            this.elapsedTime = StartingTime;
         }
 
         public Status Status { get; set; }
+
+        public void Restart()
+        {
+            this.LoadDefaults();
+        }
 
         public void LoadContent(ContentManager contentManager)
         {

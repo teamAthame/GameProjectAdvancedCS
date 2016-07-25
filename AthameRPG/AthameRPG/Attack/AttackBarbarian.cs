@@ -1,4 +1,4 @@
-﻿using AthameRPG.Characters.Heroes;
+﻿using AthameRPG.Objects.Characters.Heroes;
 
 namespace AthameRPG.Attack
 {

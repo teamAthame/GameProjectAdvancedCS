@@ -1,6 +1,6 @@
-﻿
-using AthameRPG.Characters.Heroes;
-using AthameRPG.GameEngine;
+﻿using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Managers;
+using AthameRPG.Objects.Characters.Heroes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,9 +17,10 @@ namespace AthameRPG.Objects.UI
         private const int ImageCropX = 250;
         private const int ImageCropY = 200;
         private const int ImageWidthHeight = 50;
+        private const int CounterStarValue = 0;
 
-        protected MouseState newMouseState;
-        protected MouseState oldMouseState;
+        private MouseState newMouseState;
+        private MouseState oldMouseState;
         
         private Vector2 drawCoord;
         private Rectangle cropDimmensionsOfWatch;
@@ -30,9 +31,16 @@ namespace AthameRPG.Objects.UI
             this.cropDimmensionsOfWatch = new Rectangle(ImageCropX, ImageCropY, ImageWidthHeight, ImageWidthHeight);
         }
 
+        public int TurnCounter { get; private set; }
+
         public Vector2 DrawCoordSandwatch
         {
             get { return this.drawCoord; }
+        }
+
+        public void Restart()
+        {
+            this.TurnCounter = CounterStarValue;
         }
         
         public void Update(GameTime gameTime)
@@ -49,6 +57,8 @@ namespace AthameRPG.Objects.UI
                 {
                     if (this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released)
                     {
+                        this.TurnCounter++;
+
                         CharacterManager.barbarian.ReFillMovement();
 
                         foreach (var enemy in CharacterManager.enemiesList)
