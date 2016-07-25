@@ -24,15 +24,13 @@ namespace AthameRPG.Characters.Heroes
         private const float DefaultBarbarianMoveSpeed = 3f;
         private const double DefaultBarbarianMove = 300;
 
-        private const string PATH_BARBARIAN_IMAGE = @"../Content/Character/HexenFighter";
-        
-        //private ContentManager content;
+        private const string BarbarianImagePath = @"../Content/Character/HexenFighter";
         
         public Barbarian(float startPositionX, float startPositionY)
             : base(startPositionX, startPositionY, DefaultBarbarianAttackPoints, DefaultBarbarianHealthPoints,
                 DefaultBarbarianDefencePoints)
         {
-            //this.LoadDefaultStats();
+            
              //this.AtackHandler =new AtackBarbarian();
         }
 
@@ -61,7 +59,7 @@ namespace AthameRPG.Characters.Heroes
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            playerImage = content.Load<Texture2D>(PATH_BARBARIAN_IMAGE);
+            playerImage = content.Load<Texture2D>(BarbarianImagePath);
         }
 
         public override void UnloadContent()

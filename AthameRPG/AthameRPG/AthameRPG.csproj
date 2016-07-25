@@ -131,6 +131,7 @@
     <Compile Include="Controls\KeyboardExtended.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseExtended.cs" />
+    <Compile Include="Enums\Status.cs" />
     <Compile Include="Enums\Unused\AttackSource.cs" />
     <Compile Include="Enums\Unused\AttackType.cs" />
     <Compile Include="Enums\Unused\Immunity.cs" />
@@ -151,9 +152,11 @@
     <Compile Include="GameEngine\Screens\IntroScreen.cs" />
     <Compile Include="GameEngine\Screens\MapScreen.cs" />
     <Compile Include="GameEngine\Screens\MenuScreen.cs" />
+    <Compile Include="Loaders\FontLoader.cs" />
     <Compile Include="Objects\BattleFields\Battlefield.cs" />
     <Compile Include="Objects\Castles\Castle.cs" />
     <Compile Include="Objects\Castles\StoneCastle.cs" />
+    <Compile Include="Objects\UI\ChangeLevel.cs" />
     <Compile Include="Objects\UI\SandWatch.cs" />
     <Compile Include="Objects\Weapons\Arrows\Arrow.cs" />
     <Compile Include="Objects\Weapons\Arrows\WoodArrow.cs" />
@@ -179,6 +182,7 @@
     <Content Include="Content\Image\athame3.jpg" />
     <Content Include="Content\Image\AthameSplashScreen.jpg" />
     <Content Include="Content\Image\Image.jpg" />
+    <Content Include="Content\Image\levelChanging.jpg" />
     <Content Include="Content\MapImages\terrain.png" />
     <Content Include="Content\Maps\01-enemy.txt" />
     <Content Include="Content\Maps\01-level.txt" />

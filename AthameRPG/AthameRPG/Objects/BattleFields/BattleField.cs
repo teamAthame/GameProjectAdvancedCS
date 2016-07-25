@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-using AthameRPG.Characters;
 using AthameRPG.Characters.Heroes;
 using AthameRPG.Characters.WarUnits;
-using AthameRPG.Controls;
 using AthameRPG.GameEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -23,6 +18,7 @@ namespace AthameRPG.Objects.BattleFields
 
         private const string DefaultImagePath = "../Content/Obstacles/stonebattlefield";
         private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
+        private const string BigSizeLetterPath = @"../Content/Fonts/ArialBig";
         private const string WinText = "You Won the battle!";
         private const string LoseText = "Game Over!";
         private const string SupportText = "Press ENTER to continue.";
@@ -89,7 +85,7 @@ namespace AthameRPG.Objects.BattleFields
         {
             this.battlefieldImage = contentManager.Load<Texture2D>(this.imagePath);
             this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
-            this.bigFont = contentManager.Load<SpriteFont>("../Content/Fonts/ArialBig");
+            this.bigFont = contentManager.Load<SpriteFont>(BigSizeLetterPath);
 
             this.winTextCoord = new Vector2(ScreenManager.SCREEN_WIDTH/2 - this.bigFont.MeasureString(WinText).X/2,
                 WinTextY);

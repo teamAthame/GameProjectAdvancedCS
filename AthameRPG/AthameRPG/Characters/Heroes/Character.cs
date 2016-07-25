@@ -12,14 +12,15 @@ namespace AthameRPG.Characters.Heroes
         /// <summary>
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
-
-        private Vector2 startPosition;
+        private const string SmallLetterPath = @"../Content/Fonts/SmallLetters";
         
         protected static int cropWidth;
         protected static int cropHeight;
-        //protected static bool isInCastle;
-        //protected static bool isInBattle;
-        
+        protected static Texture2D playerImage;
+        protected static SpriteFont spriteFontSmallLetters;
+        protected static Vector2 drawCoordPlayer;
+
+        private Vector2 startPosition;
         protected float playerCenterCoordX;
         protected float playerCenterCoordY;
         protected float moveSpeedPlayer;
@@ -34,15 +35,11 @@ namespace AthameRPG.Characters.Heroes
         protected int southWest;
 
         protected Vector2 abstractPlayerPositon;
-        protected static Texture2D playerImage;
         protected MouseState mouse;
         protected Vector2 lastMouseClickPosition;
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
-        protected static SpriteFont spriteFontSmallLetters;
-        //protected double defaultPlayerMove;
 
-        protected static Vector2 drawCoordPlayer;
 
         public Character(float startPositionX, float startPositionY, int atack, int health, int defence)
             : base(startPositionX, startPositionY, atack, health, defence)
@@ -57,7 +54,7 @@ namespace AthameRPG.Characters.Heroes
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            spriteFontSmallLetters = content.Load<SpriteFont>("../Content/Fonts/SmallLetters");
+            spriteFontSmallLetters = content.Load<SpriteFont>(SmallLetterPath);
             
         }
         
@@ -86,14 +83,14 @@ namespace AthameRPG.Characters.Heroes
 
                 if (this.availableMove > 0)
                 {
-                    CharacterMoving();
+                    this.CharacterMoving();
 
                     // re-calculate player available move
                     this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastAbstractCoord,
                         this.abstractPlayerPositon);
                 }
 
-                MakeCurrentAnimationFrame(gameTime);
+                this.MakeCurrentAnimationFrame(gameTime);
             }
             else if (isInCastle)
             {

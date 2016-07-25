@@ -10,6 +10,8 @@ namespace AthameRPG.Characters.Heroes
 {
     public abstract class Unit
     {
+        private const int StartingIndexFrame = 0;
+
         protected static bool isInCastle;
         protected static bool isInBattle;
         protected const int MinFrameSwitch = 100;
@@ -37,7 +39,7 @@ namespace AthameRPG.Characters.Heroes
             this.StartPositionY = startPositionY;
             this.IsAlive = true;
             this.switchCounter = MinFrameSwitch;
-            this.cropFrame = 0;
+            this.cropFrame = StartingIndexFrame;
             this.returnedValue = new AnimationReturnedValue();
             //this.CropCurrentFrame = cropCurrentFrame;
             this.AtackPoints = atack;

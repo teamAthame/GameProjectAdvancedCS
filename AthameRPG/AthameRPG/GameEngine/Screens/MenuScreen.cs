@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input; 
 
@@ -10,6 +8,8 @@ namespace AthameRPG.GameEngine.Screens
     {
         private const string NEW_GAME_TEXT = "NEW GAME";
         private const string EXIT_TEXT = "EXIT";
+        private const string ImagePath = @"../Content/Image/athame3";
+        private const string ArialBigPath = @"../Content/Fonts/ArialBig";
         private const float IMAGE_X = 150f;
         private const float IMAGE_Y = 50f;
         private const float NEW_GAME_X = 0f;
@@ -35,12 +35,17 @@ namespace AthameRPG.GameEngine.Screens
             this.ImagePosition = imagePosition;
             this.NewGameTextPosition = newGamePosition;
             this.ExitTextPosition = exitTextPosition;
-            this.imagePath = @"../Content/Image/athame3";
+            this.imagePath = ImagePath;
             this.newGameColor = Color.White;
             this.exitColor = Color.Red;
             
         }
-        
+
+        public SpriteFont SpriteFont
+        {
+            get { return this.spriteFont; }
+        }
+
         public Vector2 ImagePosition
         {
             get
@@ -52,6 +57,7 @@ namespace AthameRPG.GameEngine.Screens
                 this.imagePosition = new Vector2(IMAGE_X, IMAGE_Y);
             }
         }
+
         public Vector2 NewGameTextPosition
         {
             get
@@ -63,6 +69,7 @@ namespace AthameRPG.GameEngine.Screens
                 this.newGamePosition = new Vector2(NEW_GAME_X, NEW_GAME_Y);               
             }
         }
+
         public Vector2 ExitTextPosition
         {
             get
@@ -80,7 +87,7 @@ namespace AthameRPG.GameEngine.Screens
             base.LoadContent();
             
             image = content.Load<Texture2D>(imagePath);
-            spriteFont = content.Load<SpriteFont>("../Content/Fonts/ArialBig");
+            spriteFont = content.Load<SpriteFont>(ArialBigPath);
             
         }
         public override void UnloadContent()

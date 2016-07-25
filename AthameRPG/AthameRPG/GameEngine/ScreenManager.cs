@@ -39,6 +39,11 @@ namespace AthameRPG.GameEngine
             }
         }
 
+        public GameScreen CurrentScreen
+        {
+            get { return this.currentScreen; }
+        }
+
         public void ChangeScreens(string screenName)
         {
             newScreen = (GameScreen)Activator.CreateInstance(Type.GetType("AthameRPG.GameEngine.Screens." + screenName));

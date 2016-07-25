@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using AthameRPG.Characters.Heroes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using AthameRPG.Characters.Heroes;
+using AthameRPG.Enums;
 using AthameRPG.GameEngine.Maps;
 using AthameRPG.Objects.BattleFields;
 using AthameRPG.Objects.UI;
@@ -17,6 +18,7 @@ namespace AthameRPG.GameEngine
         private const int ValueForEnemyPath = 1;
 
         private static MapManager instance;
+
         private ContentManager contentManager;
 
         private Map currentMap;
@@ -26,7 +28,10 @@ namespace AthameRPG.GameEngine
         private BuildingManager buildingManager;
         private SandWatch sandWatch;
         private Battlefield battlefield;
-
+        private ChangeLevel changeLevel;
+        
+        private bool isLevelChanging;
+        private bool IsDrawLevelChanging;
 
         public MapManager()
         {
@@ -37,6 +42,7 @@ namespace AthameRPG.GameEngine
             this.buildingManager = new BuildingManager();
             this.sandWatch = new SandWatch();
             this.battlefield = new Battlefield();
+            this.changeLevel = new ChangeLevel();
         }
 
 
@@ -100,12 +106,12 @@ namespace AthameRPG.GameEngine
             
             contentManager = new ContentManager(contentManager.ServiceProvider, "Content");
             this.contentManager = contentManager;
-            terrain = contentManager.Load<Texture2D>(Terrain_Path);
-            currentMap.LoadContent();
-            charManager.LoadContent(contentManager);
-            buildingManager.LoadContent(contentManager);
-            battlefield.LoadContent(contentManager);
-
+            this.terrain = contentManager.Load<Texture2D>(Terrain_Path);
+            this.currentMap.LoadContent();
+            this.charManager.LoadContent(contentManager);
+            this.buildingManager.LoadContent(contentManager);
+            this.battlefield.LoadContent(contentManager);
+            this.changeLevel.LoadContent(contentManager);
         }
 
         public void UnloadContent()
@@ -118,43 +124,86 @@ namespace AthameRPG.GameEngine
 
         public void Update(GameTime gameTime)
         {
-            currentMap.Update(gameTime);
-            sandWatch.Update(gameTime);
-            charManager.Update(gameTime);
-            buildingManager.Update(gameTime);
-
-            if (Character.GetIsInBattle)
+            if (this.IsDrawLevelChanging)
             {
-                battlefield.Update(gameTime);
-            }
+                if (this.isLevelChanging)
+                {
+                    this.ChangeLevel();
+                    this.changeLevel.Status = Status.Working;
+                    this.isLevelChanging = false;
+                }
+                
+                this.changeLevel.Update(gameTime);
 
+                if (this.changeLevel.Status == Status.Complete)
+                {
+                    this.IsDrawLevelChanging = false;
+                }
+            }
+            else if (!this.IsDrawLevelChanging)
+            {
+                currentMap.Update(gameTime);
+                sandWatch.Update(gameTime);
+                charManager.Update(gameTime);
+                buildingManager.Update(gameTime);
+
+                if (Character.GetIsInBattle)
+                {
+                    battlefield.Update(gameTime);
+                }
+            }
+            
         }
 
-        public void Draw(SpriteBatch spriteBantch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            if (!this.IsDrawLevelChanging)
             {
-                currentMap.Draw(spriteBantch);
-            }
-            if (!Character.GetIsInBattle)
-            {
-                buildingManager.Draw(spriteBantch);
+                this.DrawGame(spriteBatch);
             }
             else
             {
-                battlefield.Draw(spriteBantch);
+                this.DrawChangeLevel(spriteBatch);
             }
             
-            sandWatch.Draw(spriteBantch);
-            charManager.Draw(spriteBantch);
+        }
+
+        private void DrawChangeLevel(SpriteBatch spriteBatch)
+        {
+            this.changeLevel.Draw(spriteBatch);
+        }
+
+        private void DrawGame(SpriteBatch spriteBantch)
+        {
+            if (!Character.GetIsInBattle && !Character.GetIsInCastle)
+            {
+                this.currentMap.Draw(spriteBantch);
+            }
+            if (!Character.GetIsInBattle)
+            {
+                this.buildingManager.Draw(spriteBantch);
+            }
+            else
+            {
+                this.battlefield.Draw(spriteBantch);
+            }
+
+            this.sandWatch.Draw(spriteBantch);
+            this.charManager.Draw(spriteBantch);
         }
 
         public void TryChangeLevel(Character currentPlayer)
         {
             //this.IsThereNoMoreLevels();
 
+            this.isLevelChanging = true;
+            this.IsDrawLevelChanging = true;
+        }
+
+        private void ChangeLevel()
+        {
             this.MapIndex += 2;
-            
+
             this.buildingManager = new BuildingManager();
             this.currentMap = new Map(this.MapListPath[MapIndex]);
             this.currentMap.LoadContent();
@@ -162,7 +211,5 @@ namespace AthameRPG.GameEngine
 
             this.buildingManager.LoadContent(this.contentManager);
         }
-
-
     }
 }

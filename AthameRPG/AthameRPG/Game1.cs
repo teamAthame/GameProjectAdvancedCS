@@ -1,4 +1,6 @@
-﻿using AthameRPG.GameEngine;
+﻿using System.Runtime.CompilerServices;
+using AthameRPG.GameEngine;
+using AthameRPG.Loaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,17 +12,21 @@ namespace AthameRPG
     /// </summary>
     public class Game1 : Game
     {
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        
         public static bool exitGame;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            //this.FontLoader = new FontLoader();
         }
 
+        //public FontLoader FontLoader { get; private set; }
+        
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -35,7 +41,7 @@ namespace AthameRPG
             graphics.PreferredBackBufferHeight = (int)ScreenManager.Instance.Dimension.Y;
             graphics.ApplyChanges();
             this.IsMouseVisible = true;
-
+            
             base.Initialize();
         }
         
@@ -51,6 +57,7 @@ namespace AthameRPG
             // TODO: use this.Content to load your game content here
 
             ScreenManager.Instance.LoadContent(Content);
+            FontLoader.LoadContent(Content);
         }
 
         /// <summary>
