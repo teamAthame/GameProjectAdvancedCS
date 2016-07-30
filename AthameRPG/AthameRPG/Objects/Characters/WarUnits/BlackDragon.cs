@@ -9,7 +9,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
     [FlyUnit]
     public class BlackDragon : WarUnit
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const int DefaultStrengthLevel = 7;
         private const string DefaultImagePath = "../Content/Character/blackDragon";

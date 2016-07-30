@@ -6,7 +6,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
 {
     public class Strong : WarUnit
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const int DefaultStrengthLevel = 6;
         private const int DefaultHealth = 400;

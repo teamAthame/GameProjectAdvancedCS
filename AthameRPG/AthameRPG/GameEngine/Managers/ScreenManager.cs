@@ -40,6 +40,11 @@ namespace AthameRPG.GameEngine.Managers
             }
         }
 
+        public SoundEffectManager SoundEffectManager
+        {
+            get { return this.soundEffectManager; }
+        }
+
         public GameScreen CurrentScreen
         {
             get { return this.currentScreen; }
@@ -51,6 +56,7 @@ namespace AthameRPG.GameEngine.Managers
 
             IsTransitioning = true;
         }
+
         private void Transition()
         {
             if (IsTransitioning)
@@ -58,7 +64,7 @@ namespace AthameRPG.GameEngine.Managers
                 currentScreen.UnloadContent();
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
-                this.currentScreen.OnClick += this.soundEffectManager.ExecuteQuery;
+                this.currentScreen.OnEvent += this.soundEffectManager.ExecuteQuery;
                 IsTransitioning = false;
             }
         }
@@ -69,7 +75,7 @@ namespace AthameRPG.GameEngine.Managers
             currentScreen.LoadContent();
 
             this.soundEffectManager = new SoundEffectManager(this.Content);
-            this.currentScreen.OnClick += this.soundEffectManager.ExecuteQuery;
+            this.currentScreen.OnEvent += this.soundEffectManager.ExecuteQuery;
         }
 
         public void UnloadContent()

@@ -8,7 +8,7 @@ namespace AthameRPG.Objects.Screens
 {
     public class IntroScreen : GameScreen
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const string INTRO_IMAGE_PATH =  @"../Content/Image/AthameSplashScreen";
         private const float HALF_SCREEN_WIDTH = ScreenManager.SCREEN_WIDTH / 2;
@@ -54,9 +54,9 @@ namespace AthameRPG.Objects.Screens
 
             if (mouse.LeftButton == ButtonState.Pressed)
             {
-                if (this.OnClick != null)
+                if (this.OnEvent != null)
                 {
-                    this.OnClick(this);
+                    this.OnEvent(this);
                 }
 
                 

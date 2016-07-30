@@ -9,7 +9,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
     [WalkUnit]
     public class Elf : WarUnit
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const string DefaultImagePath = "../Content/Character/elf";
         private const int DefaultStrengthLevel = 5;

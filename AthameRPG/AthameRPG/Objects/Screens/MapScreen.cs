@@ -7,7 +7,7 @@ namespace AthameRPG.Objects.Screens
 {
     public class MapScreen : GameScreen
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private Vector2 newScreenPosition;
         

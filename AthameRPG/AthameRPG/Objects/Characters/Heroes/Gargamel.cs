@@ -1,5 +1,4 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.Objects.Characters.WarUnits;
+﻿using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +7,7 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public class Gargamel : Enemy
     {
-        public override event OnClick OnClick;
+        //public override event OnEvent OnEvent;
 
         private const int DefaultWariorAttackPoints = 80;
         private const int DefaultWariorHealthPoints = 80;
@@ -26,6 +25,7 @@ namespace AthameRPG.Objects.Characters.Heroes
         private const int DefaultGargamelDirectionSouthEast = 770;
         private const int DefaultGargamelDirectionSouthWest = 122;
         private const double DefaultGargamelMove = 90;
+        private const int SoundFrameSwitch = 300;
         
         public Gargamel(float startPositionX, float startPositionY, int id)
             : base(
@@ -49,6 +49,7 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.southEast = DefaultGargamelDirectionSouthEast;
             this.southWest = DefaultGargamelDirectionSouthWest;
             this.defaultPlayerMove = DefaultGargamelMove;
+            this.maxSoundFrameSwitch = SoundFrameSwitch;
 
             this.LoadDefaultStartArmy();
         }

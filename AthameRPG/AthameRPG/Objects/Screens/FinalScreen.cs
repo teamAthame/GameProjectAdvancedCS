@@ -10,7 +10,7 @@ namespace AthameRPG.Objects.Screens
 {
     public class FinalScreen : GameScreen
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const string Credits =
             "Copyright: Team Athame\r\n\r\nSoftware Developers:\r\n\r\nAleksey Tsekov\r\nStanimir Todorov\r\nNikolay Genov\r\nIvo Lekov\r\nZdravko Stoynov";
@@ -75,9 +75,9 @@ namespace AthameRPG.Objects.Screens
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                if (this.OnClick != null)
+                if (this.OnEvent != null)
                 {
-                    this.OnClick(this);
+                    this.OnEvent(this);
                 }
                 MapManager.Instance.RestartGame();
                 MapManager.Instance.SandWatch.Restart();

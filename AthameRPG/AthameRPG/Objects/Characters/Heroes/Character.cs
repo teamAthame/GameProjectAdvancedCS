@@ -1,7 +1,8 @@
-﻿using AthameRPG.Controls;
-using AthameRPG.GameEngine;
+﻿using AthameRPG.Contracts;
+using AthameRPG.Controls;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
+using AthameRPG.GameEngine.Loaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,12 +15,12 @@ namespace AthameRPG.Objects.Characters.Heroes
         /// <summary>
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
-        private const string SmallLetterPath = @"../Content/Fonts/SmallLetters";
-        
+         
+        public override event OnEvent OnEvent;
+
         protected static int cropWidth;
         protected static int cropHeight;
         protected static Texture2D playerImage;
-        protected static SpriteFont spriteFontSmallLetters;
         protected static Vector2 drawCoordPlayer;
 
         private Vector2 startPosition;
@@ -56,7 +57,6 @@ namespace AthameRPG.Objects.Characters.Heroes
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            spriteFontSmallLetters = content.Load<SpriteFont>(SmallLetterPath);
             
         }
         
@@ -93,6 +93,7 @@ namespace AthameRPG.Objects.Characters.Heroes
                 }
 
                 this.MakeCurrentAnimationFrame(gameTime);
+                this.SendSoundQuery(gameTime, this.lastAbstractCoord, this.abstractPlayerPositon);
             }
             else if (isInCastle)
             {
@@ -112,6 +113,45 @@ namespace AthameRPG.Objects.Characters.Heroes
                 //}
             }
 
+        }
+
+        //private void SendSoundQuery(GameTime gameTime)
+        //{
+        //    bool amIMoving = this.lastAbstractCoord != this.abstractPlayerPositon;
+
+        //    if (amIMoving)
+        //    {
+        //        this.soundFrame += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+        //        if (this.soundFrame >= 220)
+        //        {
+        //            this.soundFrame = 0;
+
+        //            if (this.OnEvent != null)
+        //            {
+        //                this.OnEvent(this);
+        //            }
+        //        }
+        //    }
+        //}
+        private void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
+        {
+            bool amIMoving = oldPosition != newPosition;
+
+            if (amIMoving)
+            {
+                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
+                {
+                    this.soundFrameSwitch = 0;
+
+                    if (this.OnEvent != null)
+                    {
+                        this.OnEvent(this);
+                    }
+                }
+            }
         }
 
         private void MakeCurrentAnimationFrame(GameTime gameTime)
@@ -182,7 +222,7 @@ namespace AthameRPG.Objects.Characters.Heroes
             if (!isInBattle && !isInCastle)
             {
                 spriteBatch.Draw(playerImage, drawCoordPlayer, this.CropCurrentFrame, Color.White);
-                spriteBatch.DrawString(spriteFontSmallLetters, "Available steps:" + $"{this.availableMove:F0}",
+                spriteBatch.DrawString(FontLoader.SmallSizeFont, "Available steps:" + $"{this.availableMove:F0}",
                         new Vector2(5, 5), Color.GreenYellow);
             }
             else if (isInCastle)

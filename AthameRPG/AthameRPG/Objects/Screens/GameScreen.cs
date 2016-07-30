@@ -11,7 +11,7 @@ namespace AthameRPG.Objects.Screens
     [ClickableObject]
     public abstract  class GameScreen : ISoundable
     {
-        public abstract event OnClick OnClick;
+        public abstract event OnEvent OnEvent;
 
         protected ContentManager content;
 

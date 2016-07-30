@@ -1,5 +1,4 @@
-﻿using AthameRPG.Attributes;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 
 namespace AthameRPG.Objects.Sounds
 {
@@ -10,6 +9,7 @@ namespace AthameRPG.Objects.Sounds
         public WalkSound(ContentManager contentManager) : base(contentManager)
         {
             this.soundPath = PathSound;
+            this.Init();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
 {
     public class Weakest : WarUnit
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const int DefaultStrengthLevel = 1;
         private const int DefaultHealth = 400;

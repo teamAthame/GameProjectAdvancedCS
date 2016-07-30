@@ -8,7 +8,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
     [WalkUnit]
     public class Goro : WarUnit
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const int DefaultStrengthLevel = 6;
         private const string DefaultImagePath = "../Content/Character/goro";

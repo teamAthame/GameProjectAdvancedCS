@@ -11,13 +11,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using OnClick = AthameRPG.Contracts.OnClick;
 
 namespace AthameRPG.Objects.Characters.WarUnits
 {
     public abstract class WarUnit : ISoundable //: IComparable<WarUnit>
     {
-        public abstract event OnClick OnClick;
+        public abstract event OnEvent OnEvent;
 
         protected const int MinFrameSwitch = 100;
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";

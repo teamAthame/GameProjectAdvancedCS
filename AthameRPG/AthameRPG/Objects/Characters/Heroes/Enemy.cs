@@ -1,5 +1,5 @@
-﻿using AthameRPG.Controls;
-using AthameRPG.GameEngine;
+﻿using AthameRPG.Contracts;
+using AthameRPG.Controls;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
 using AthameRPG.GameEngine.Managers;
@@ -12,6 +12,8 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public abstract class Enemy : Unit
     {
+        public override event OnEvent OnEvent;
+
         protected const int ViewRadius = 150;
         protected const int EnemySearchRadius = 120;
         protected const int BattleRadius = 5;
@@ -130,11 +132,13 @@ namespace AthameRPG.Objects.Characters.Heroes
                 MakeCurrentAnimationFrame(gameTime);
 
                 ShowEnemyArmy(plTopSide, plBottomSide, plLeftSide, plRightSide, gameTime);
-
+                
                 if (this.lastAbstractCoord != this.coordGargamel)
                 {
                     this.iSeePlayer = true;
                 }
+
+                this.SendSoundQuery(gameTime, this.lastAbstractCoord, this.coordGargamel);
             }
             else if (Character.GetIsInCastle)
             {
@@ -166,6 +170,26 @@ namespace AthameRPG.Objects.Characters.Heroes
             //    }
             //}
 
+        }
+
+        private void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
+        {
+            bool amIMoving = oldPosition != newPosition;
+
+            if (amIMoving)
+            {
+                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
+                {
+                    this.soundFrameSwitch = 0;
+
+                    if (this.OnEvent != null)
+                    {
+                        this.OnEvent(this);
+                    }
+                }
+            }
         }
 
         private void CheckForBattle(float plTopSide, float enemyBottom, float plLeftSide, float enemyRight, float plRightSide,

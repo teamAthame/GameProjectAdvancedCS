@@ -18,7 +18,7 @@ namespace AthameRPG.Objects.Castles
     [ClickableObject]
     public abstract class Castle : ISoundable
     {
-        public abstract event OnClick OnClick;
+        public abstract event OnEvent OnEvent;
 
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
         protected const int EntryInCastleMinX = 350;

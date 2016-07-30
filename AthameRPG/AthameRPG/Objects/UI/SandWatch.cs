@@ -13,7 +13,7 @@ namespace AthameRPG.Objects.UI
     [ClickableObject]
     public class SandWatch : ISoundable
     {
-        public event OnClick OnClick;
+        public event OnEvent OnEvent;
 
         // loaded from MapManager
         public static bool TurnIsClicked;

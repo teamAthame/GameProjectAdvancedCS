@@ -225,6 +225,8 @@ namespace AthameRPG.Objects.BattleFields
                 {
                     Enemy unit = CharacterManager.enemiesList.FirstOrDefault(x => x.ID == this.enemyId);
 
+                    this.UnsubscribeFromSoundEvent(unit);
+
                     CharacterManager.EnemiesPositionList.Remove(this.enemyId);
                     CharacterManager.barbarian.AvailableCreatures = this.playerUnits;
 
@@ -241,6 +243,11 @@ namespace AthameRPG.Objects.BattleFields
             }
         }
 
+        private void UnsubscribeFromSoundEvent(Unit unit)
+        {
+            unit.OnEvent -= ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+        }
+
         private void RestartGame()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -255,6 +262,7 @@ namespace AthameRPG.Objects.BattleFields
                 ScreenManager.Instance.ChangeScreens("MenuScreen");
 
                 CharacterManager.barbarian.Restart();
+                this.UnsubscribeFromSoundEvent(CharacterManager.barbarian);
                 foreach (var enemy in CharacterManager.enemiesList)
                 {
                     enemy.Restart();

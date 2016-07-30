@@ -54,6 +54,7 @@ namespace AthameRPG.GameEngine.Managers
             this.content = content;
 
             barbarian.LoadContent(content);
+            this.SubscribeUnitToSoundEvent(barbarian);
 
             this.ReadBuildingEnemyPositionAndCreateEnemies(content);
         }
@@ -68,9 +69,15 @@ namespace AthameRPG.GameEngine.Managers
             {
                 Enemy enemy = new Gargamel(enemyPos.Value.X, enemyPos.Value.Y, setEnemyid);
                 enemy.LoadContent(content);
+                this.SubscribeUnitToSoundEvent(enemy);
                 enemiesList.Add(enemy);
                 setEnemyid++;
             }
+        }
+
+        private void SubscribeUnitToSoundEvent(Unit unit)
+        {
+            unit.OnEvent += ScreenManager.Instance.SoundEffectManager.ExecuteQuery; 
         }
 
         public void PrepareUnitsForNextLevel()
@@ -95,11 +102,9 @@ namespace AthameRPG.GameEngine.Managers
 
             if (!Character.GetIsInBattle && !Character.GetIsInCastle)
             {
-
                 if (itIsPlayerTurn)
                 {
                     barbarian.Update(gameTime);
-
                 }
 
                 bool support = true;
@@ -110,7 +115,6 @@ namespace AthameRPG.GameEngine.Managers
 
                     if (!itIsPlayerTurn && enemy.ISeePlayer)
                     {
-
                         support = false;
                     }
                 }
@@ -119,7 +123,6 @@ namespace AthameRPG.GameEngine.Managers
                 {
                     itIsPlayerTurn = true;
                 }
-
             }
         }
 
@@ -152,7 +155,8 @@ namespace AthameRPG.GameEngine.Managers
                 Dictionary<int, Vector2> copyOfEnemiesList = enemiesPositionList;
                 return copyOfEnemiesList;
             }
-            set { enemiesPositionList = value; }
+            // this setter was public ....dont remember was it for some reason public or not.
+            private set { enemiesPositionList = value; } 
         }
 
         public static void AddEnemies(KeyValuePair<int, Vector2> enemyPosition)

@@ -9,7 +9,7 @@ namespace AthameRPG.Objects.Screens
 {
     public class MenuScreen : GameScreen
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         private const string NEW_GAME_TEXT = "NEW GAME";
         private const string EXIT_TEXT = "EXIT";
@@ -141,9 +141,9 @@ namespace AthameRPG.Objects.Screens
 
         private void Click()
         {
-            if (this.OnClick != null)
+            if (this.OnEvent != null)
             {
-                this.OnClick(this);
+                this.OnEvent(this);
             }
         }
 

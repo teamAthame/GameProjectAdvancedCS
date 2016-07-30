@@ -14,15 +14,18 @@ namespace AthameRPG.Objects.Characters.Heroes
     [WalkUnit]
     public abstract class Unit : ISoundable
     {
-        public abstract event OnClick OnClick;
+        public virtual event OnEvent OnEvent;
 
         private const int StartingIndexFrame = 0;
 
         protected static bool isInCastle;
         protected static bool isInBattle;
         protected const int MinFrameSwitch = 100;
+        //private const int SoundFrameSwitch = 220;
 
         protected int frameCounter;
+        protected int soundFrameSwitch;
+        protected int maxSoundFrameSwitch;
         protected int switchCounter;
         protected string direction;
         protected int cropFrame;
@@ -114,6 +117,26 @@ namespace AthameRPG.Objects.Characters.Heroes
             //this.availableCreatures[newUnit]++;
         }
 
+        //protected virtual void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
+        //{
+        //    bool amIMoving = oldPosition != newPosition;
+
+        //    if (amIMoving)
+        //    {
+        //        this.soundFrame += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+        //        if (this.soundFrame >= SoundFrameSwitch)
+        //        {
+        //            this.soundFrame = 0;
+
+        //            if (this.OnEvent != null)
+        //            {
+        //                this.OnEvent(this);
+        //            }
+        //        }
+        //    }
+        //}
+
         public Rectangle CropCurrentFrame
         {
             get { return this.cropCurrentFrame; }
@@ -155,6 +178,6 @@ namespace AthameRPG.Objects.Characters.Heroes
 
         protected abstract void LoadDefaultStartArmy();
 
-        public SoundStatus SoundStatus { get; protected set; }
+        public virtual SoundStatus SoundStatus { get; private set; }
     }
 }

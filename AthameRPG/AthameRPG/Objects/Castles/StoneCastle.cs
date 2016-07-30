@@ -7,7 +7,7 @@ namespace AthameRPG.Objects.Castles
 {
     public class StoneCastle : Castle
     {
-        public override event OnClick OnClick;
+        public override event OnEvent OnEvent;
 
         // units which will be generated in this castle
         private BlackDragon blackDragon;

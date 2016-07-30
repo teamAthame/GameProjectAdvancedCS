@@ -13,7 +13,7 @@ namespace AthameRPG.GameEngine.Managers
 
     public class SoundEffectManager
     {
-        public event OnClick OnClick;
+        public event OnEvent OnClick;
 
         private const string Suffix = "sound";
 
@@ -38,13 +38,13 @@ namespace AthameRPG.GameEngine.Managers
         {
             string soundName = currentSender.SoundStatus.ToString().ToLower() + Suffix;
 
-            if (!this.soundCollection.ContainsKey(currentSender.ToString()))
+            if (!this.soundCollection.ContainsKey(soundName))
             {
                 ISound newSound = this.GetSoundFromAssembly(soundName);
-                this.soundCollection.Add(currentSender.ToString(), newSound);
+                this.soundCollection.Add(newSound.GetType().Name.ToLower(), newSound);
             }
 
-            this.sound = this.soundCollection[currentSender.ToString()];
+            this.sound = this.soundCollection[soundName];
         }
 
         private ISound GetSoundFromAssembly(string soundName)

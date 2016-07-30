@@ -8,7 +8,7 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public class Barbarian : Character
     {
-        public override event OnClick OnClick;
+        //public override event OnEvent OnEvent;
 
         private const int DefaultBarbarianAttackPoints = 120;
         private const int DefaultBarbarianHealthPoints = 180;
@@ -26,7 +26,8 @@ namespace AthameRPG.Objects.Characters.Heroes
         private const int DeafaultBarbarianCropHeight = 80;
         private const float DefaultBarbarianMoveSpeed = 3f;
         private const double DefaultBarbarianMove = 300;
-
+        private const int SoundFrameSwitch = 220;
+        
         private const string BarbarianImagePath = @"../Content/Character/HexenFighter";
         
         public Barbarian(float startPositionX, float startPositionY)
@@ -55,6 +56,8 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.availableMove = DefaultBarbarianMove;
             this.defaultPlayerMove = DefaultBarbarianMove;
             this.direction = "NW";
+
+            this.maxSoundFrameSwitch = SoundFrameSwitch;
 
             this.LoadDefaultStartArmy();
         }

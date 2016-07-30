@@ -2,11 +2,11 @@
 
 namespace AthameRPG.Contracts
 {
-    public delegate void OnClick(ISoundable soundable);
+    public delegate void OnEvent(ISoundable soundable);
 
     public interface ISoundable
     {
         SoundStatus SoundStatus { get; }
-        event OnClick OnClick;
+        event OnEvent OnEvent;
     }
 }
