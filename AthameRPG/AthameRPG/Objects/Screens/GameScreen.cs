@@ -1,13 +1,24 @@
-﻿using AthameRPG.GameEngine.Managers;
+﻿using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
+using AthameRPG.GameEngine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AthameRPG.Objects.Screens
 {
-    public class GameScreen
+    [ClickableObject]
+    public abstract  class GameScreen : ISoundable
     {
+        public abstract event OnClick OnClick;
+
         protected ContentManager content;
+
+        protected GameScreen()
+        {
+            this.SoundStatus = SoundStatus.Click;
+        }
 
         public virtual void LoadContent()
         {
@@ -27,5 +38,8 @@ namespace AthameRPG.Objects.Screens
         {
             
         }
+
+        public SoundStatus SoundStatus { get; protected set; }
+        
     }
 }

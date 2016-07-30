@@ -1,7 +1,6 @@
-﻿using AthameRPG.Enums;
-using AthameRPG.Enums.Unused;
+﻿using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Contracts
+namespace AthameRPG.Contracts.Unused
 {
     public interface IAttacker
     {

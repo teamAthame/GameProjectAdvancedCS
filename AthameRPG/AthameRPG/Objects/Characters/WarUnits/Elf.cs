@@ -1,10 +1,16 @@
-﻿using AthameRPG.Objects.Weapons.Arrows;
+﻿using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using AthameRPG.Objects.Weapons.Arrows;
 using Microsoft.Xna.Framework;
 
-namespace AthameRPG.Characters.WarUnits
+namespace AthameRPG.Objects.Characters.WarUnits
 {
+    [RangeUnit]
+    [WalkUnit]
     public class Elf : WarUnit
     {
+        public override event OnClick OnClick;
+
         private const string DefaultImagePath = "../Content/Character/elf";
         private const int DefaultStrengthLevel = 5;
 

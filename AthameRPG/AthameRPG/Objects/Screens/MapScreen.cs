@@ -1,4 +1,5 @@
-﻿using AthameRPG.GameEngine.Managers;
+﻿using AthameRPG.Contracts;
+using AthameRPG.GameEngine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,6 +7,8 @@ namespace AthameRPG.Objects.Screens
 {
     public class MapScreen : GameScreen
     {
+        public override event OnClick OnClick;
+
         private Vector2 newScreenPosition;
         
         public MapScreen()
@@ -24,7 +27,7 @@ namespace AthameRPG.Objects.Screens
                 this.newScreenPosition = Vector2.Zero;
             }
         }
-
+        
         public override void LoadContent()
         {
             base.LoadContent();

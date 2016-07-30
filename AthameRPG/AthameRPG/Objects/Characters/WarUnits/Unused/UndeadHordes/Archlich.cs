@@ -1,7 +1,7 @@
-﻿using AthameRPG.Contracts;
+﻿using AthameRPG.Contracts.Unused;
 using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.UndeadHordes
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.UndeadHordes
 {
     public class Archlich : NightWalker
     {
@@ -28,12 +28,14 @@ namespace AthameRPG.Characters.WarUnits.Unused.UndeadHordes
             this.Immunity = ArchlichImmunity;
         }
 
-        public override void AttackCreature(IUnit enemyUnit)
-        {
-            base.AttackCreature(enemyUnit);
+        //public override void AttackCreature(IUnit enemyUnit)
+        //{
+        //    base.AttackCreature(enemyUnit);
 
-            var damage = this.Damage - enemyUnit.Armor > 0 ? this.Damage - enemyUnit.Armor : 0;
-            enemyUnit.Health -= damage;
-        }
+        //    var damage = this.Damage - enemyUnit.Armor > 0 ? this.Damage - enemyUnit.Armor : 0;
+        //    enemyUnit.Health -= damage;
+        //}
     }
+
+    
 }

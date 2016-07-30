@@ -1,4 +1,5 @@
-﻿using AthameRPG.GameEngine.Managers;
+﻿using AthameRPG.Contracts;
+using AthameRPG.GameEngine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,6 +8,8 @@ namespace AthameRPG.Objects.Screens
 {
     public class IntroScreen : GameScreen
     {
+        public override event OnClick OnClick;
+
         private const string INTRO_IMAGE_PATH =  @"../Content/Image/AthameSplashScreen";
         private const float HALF_SCREEN_WIDTH = ScreenManager.SCREEN_WIDTH / 2;
         private const float HALF_SCREEN_HEIGHT = ScreenManager.SCREEN_HEIGHT / 2;
@@ -17,12 +20,7 @@ namespace AthameRPG.Objects.Screens
         private Vector2 positionIntro; /// draw coordinates of image
 
         private MouseState mouse;
-
-        public IntroScreen()
-        {
-            
-        }
-
+        
         public Vector2 PositionIntro
         {
             get
@@ -34,7 +32,7 @@ namespace AthameRPG.Objects.Screens
                 this.positionIntro = value;
             }
         }
-
+        
         public override void LoadContent()
         {
             base.LoadContent();
@@ -56,6 +54,12 @@ namespace AthameRPG.Objects.Screens
 
             if (mouse.LeftButton == ButtonState.Pressed)
             {
+                if (this.OnClick != null)
+                {
+                    this.OnClick(this);
+                }
+
+                
                 ScreenManager.Instance.ChangeScreens("MenuScreen");
             }
         }
@@ -65,5 +69,6 @@ namespace AthameRPG.Objects.Screens
             spriteBatch.Draw(imageIntro, positionIntro, colorIntro);
         }
 
+        
     }
 }

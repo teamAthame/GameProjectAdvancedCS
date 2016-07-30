@@ -1,4 +1,4 @@
-﻿namespace AthameRPG.Characters.WarUnits.Unused.Empire.Melee
+﻿namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Melee
 {
     public class Paladin : Fighter
     {

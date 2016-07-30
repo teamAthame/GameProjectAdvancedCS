@@ -1,4 +1,5 @@
-﻿using AthameRPG.GameEngine.Loaders;
+﻿using AthameRPG.Contracts;
+using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +9,8 @@ namespace AthameRPG.Objects.Screens
 {
     public class MenuScreen : GameScreen
     {
+        public override event OnClick OnClick;
+
         private const string NEW_GAME_TEXT = "NEW GAME";
         private const string EXIT_TEXT = "EXIT";
         private const string ImagePath = @"../Content/Image/athame3";
@@ -76,12 +79,14 @@ namespace AthameRPG.Objects.Screens
                 this.exitTextPosition = new Vector2(EXIT_X, EXIT_Y);
             }
         }
-
+        
         public override void LoadContent()
         {
             base.LoadContent();
             
             image = content.Load<Texture2D>(imagePath);
+
+            this.PositioningInTheMiddleOfTheScreen();
         }
         public override void UnloadContent()
         {
@@ -90,37 +95,58 @@ namespace AthameRPG.Objects.Screens
         }
         public override void Update(GameTime gameTime)
         {
-            mouse = Mouse.GetState();
+            this.mouse = Mouse.GetState();
             
-            PositioningInTheMiddleOfTheScreen();
+            this.willChangeColor = this.IsMouseOverText(NEW_GAME_TEXT, NEW_GAME_Y);
 
-            willChangeColor = IsMouseOverText(NEW_GAME_TEXT, NEW_GAME_Y);
+            if (this.newGameColor == Color.Red && this.willChangeColor)
+            {
+                this.Click();
+            }
 
-            newGameColor = willChangeColor == true ? Color.White : Color.Red;
+            this.newGameColor = this.willChangeColor == true ? Color.White : Color.Red;
 
-            if (willChangeColor)
+            if (this.willChangeColor)
             {
                 // GO TO THE GAME !!!
                 if (mouse.LeftButton == ButtonState.Pressed)
                 {
+                    this.Click();
                     ScreenManager.Instance.ChangeScreens("MapScreen");
                 }
             }
 
-            willChangeColor = IsMouseOverText(EXIT_TEXT, EXIT_Y);
+            this.willChangeColor = this.IsMouseOverText(EXIT_TEXT, EXIT_Y);
 
-            exitColor = willChangeColor == true ? Color.White : Color.Red;
+            if (this.exitColor == Color.Red && this.willChangeColor)
+            {
+                this.Click();
+            }
 
-            if (willChangeColor)
+            this.exitColor = this.willChangeColor == true ? Color.White : Color.Red;
+
+            if (this.willChangeColor)
             {
                 if (mouse.LeftButton == ButtonState.Pressed)
                 {
                     Game1.exitGame = true;
-                }               
+                    this.Click();
+                }
             }
+
+            
 
             base.Update(gameTime);
         }
+
+        private void Click()
+        {
+            if (this.OnClick != null)
+            {
+                this.OnClick(this);
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);

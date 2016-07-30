@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AthameRPG.Contracts;
 using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
@@ -10,6 +10,8 @@ namespace AthameRPG.Objects.Screens
 {
     public class FinalScreen : GameScreen
     {
+        public override event OnClick OnClick;
+
         private const string Credits =
             "Copyright: Team Athame\r\n\r\nSoftware Developers:\r\n\r\nAleksey Tsekov\r\nStanimir Todorov\r\nNikolay Genov\r\nIvo Lekov\r\nZdravko Stoynov";
         
@@ -68,11 +70,15 @@ namespace AthameRPG.Objects.Screens
                 spriteBatch.DrawString(FontLoader.MediumSizeLetter, this.achievementText, this.DrawCoordAchievement, Color.Gray);
             }
         }
-
+        
         private void RestartGame()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
+                if (this.OnClick != null)
+                {
+                    this.OnClick(this);
+                }
                 MapManager.Instance.RestartGame();
                 MapManager.Instance.SandWatch.Restart();
                 MapManager.Instance.ChangeLevel.Restart();

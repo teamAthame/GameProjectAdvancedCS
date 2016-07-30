@@ -1,5 +1,6 @@
-﻿using AthameRPG.Characters.WarUnits;
+﻿using AthameRPG.Contracts;
 using AthameRPG.GameEngine.Managers;
+using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,6 +8,8 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public class Barbarian : Character
     {
+        public override event OnClick OnClick;
+
         private const int DefaultBarbarianAttackPoints = 120;
         private const int DefaultBarbarianHealthPoints = 180;
         private const int DefaultBarbarianDefencePoints = 70;

@@ -1,10 +1,13 @@
 ﻿using System;
+using AthameRPG.Contracts;
 using Microsoft.Xna.Framework;
 
-namespace AthameRPG.Characters.WarUnits
+namespace AthameRPG.Objects.Characters.WarUnits
 {
     public class Normal : WarUnit
     {
+        public override event OnClick OnClick;
+
         private const int DefaultStrengthLevel = 4;
         private const int DefaultHealth = 400;
         private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 5);

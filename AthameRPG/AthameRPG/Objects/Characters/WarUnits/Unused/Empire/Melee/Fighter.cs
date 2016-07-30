@@ -1,6 +1,6 @@
 ﻿using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.Empire.Melee
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Melee
 {
     public abstract class Fighter : AttackUnit
     {

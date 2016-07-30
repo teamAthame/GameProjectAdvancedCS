@@ -1,8 +1,8 @@
 ﻿using System;
-using AthameRPG.Contracts;
+using AthameRPG.Contracts.Unused;
 using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused
+namespace AthameRPG.Objects.Characters.WarUnits.Unused
 {
     public abstract class AttackUnit : Unit, IAttack
     {

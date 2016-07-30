@@ -1,7 +1,7 @@
-﻿using AthameRPG.Contracts;
+﻿using AthameRPG.Contracts.Unused;
 using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.UndeadHordes
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.UndeadHordes
 {
     public class Death : NightWalker
     {

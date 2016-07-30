@@ -1,15 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AthameRPG.Characters.WarUnits;
-using AthameRPG.GameEngine;
+using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
+using AthameRPG.GameEngine.Graphics;
+using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AthameRPG.Objects.Characters.Heroes
 {
-    public abstract class Unit
+    [WalkUnit]
+    public abstract class Unit : ISoundable
     {
+        public abstract event OnClick OnClick;
+
         private const int StartingIndexFrame = 0;
 
         protected static bool isInCastle;
@@ -45,6 +51,7 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.AtackPoints = atack;
             this.HealthPoints = health;
             this.DefencePoints = defence;
+            this.SoundStatus = SoundStatus.Walk;
 
             this.LoadDefaultStats();
         }
@@ -147,5 +154,7 @@ namespace AthameRPG.Objects.Characters.Heroes
         }
 
         protected abstract void LoadDefaultStartArmy();
+
+        public SoundStatus SoundStatus { get; protected set; }
     }
 }

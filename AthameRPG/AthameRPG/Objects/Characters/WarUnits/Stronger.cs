@@ -1,10 +1,14 @@
 ﻿using System;
+using AthameRPG.Contracts;
 using Microsoft.Xna.Framework;
 
-namespace AthameRPG.Characters.WarUnits
+namespace AthameRPG.Objects.Characters.WarUnits
 {
     public class Stronger : WarUnit
     {
+        public override event OnClick OnClick;
+
+
         private const int DefaultStrengthLevel = 5;
 
         private const int DefaultHealth = 400;

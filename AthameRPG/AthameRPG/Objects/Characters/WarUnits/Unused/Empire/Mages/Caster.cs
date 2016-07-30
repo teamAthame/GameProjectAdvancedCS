@@ -1,6 +1,6 @@
 ﻿using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.Empire.Mages
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Mages
 {
     public abstract class Caster : AttackUnit
     {

@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using AthameRPG.GameEngine;
-using AthameRPG.GameEngine.Loaders;
+﻿using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

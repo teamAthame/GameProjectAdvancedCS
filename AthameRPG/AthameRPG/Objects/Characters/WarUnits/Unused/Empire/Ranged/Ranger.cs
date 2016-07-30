@@ -1,6 +1,6 @@
 ﻿using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.Empire.Ranged
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Ranged
 {
     public abstract class Ranger : AttackUnit
     {

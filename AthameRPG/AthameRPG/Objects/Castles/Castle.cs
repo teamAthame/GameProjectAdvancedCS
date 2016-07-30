@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AthameRPG.Characters.WarUnits;
+using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
 using AthameRPG.Controls;
+using AthameRPG.Enums;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
+using AthameRPG.Objects.Characters.WarUnits;
 using AthameRPG.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,8 +15,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Objects.Castles
 {
-    public abstract class Castle
+    [ClickableObject]
+    public abstract class Castle : ISoundable
     {
+        public abstract event OnClick OnClick;
+
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
         protected const int EntryInCastleMinX = 350;
         protected const int EntryInCastleMaxX = 450;
@@ -22,7 +28,7 @@ namespace AthameRPG.Objects.Castles
         protected static Texture2D insideCastle;
         protected static SpriteFont spriteFont;
         protected static SpriteFont spriteFontSmallLetters;
-
+        
         protected bool mouseIsOverReturnButton;
         protected string insideFirstCastlePath;
         protected Rectangle cropCastle;
@@ -61,6 +67,19 @@ namespace AthameRPG.Objects.Castles
             this.coordinatesOnMap = coordinatesOnMap;
             this.gadini = new Dictionary<WarUnit, decimal>();
             this.supportList = new List<WarUnit>();
+            this.SoundStatus = SoundStatus.Click;
+            
+            this.LoadDefaults();
+
+            // index 0- nai silna , 1- sredno silna ..... 
+            this.creatureCounter = new int[7];
+
+            this.LoadUnitsThatWillBeGenerated();
+
+        }
+
+        private void LoadDefaults()
+        {
             this.switchCounter = 100;
             this.frameCounter = 0;
             this.naiSilnaGadinaCount = 0;
@@ -77,12 +96,6 @@ namespace AthameRPG.Objects.Castles
             this.maxXPlusButton = 350;
             this.minXCheckButton = 360;
             this.maxXCheckButton = 410;
-
-            // index 0- nai silna , 1- sredno silna ..... 
-            this.creatureCounter = new int[7];
-
-            this.LoadUnitsThatWillBeGenerated();
-
         }
 
         protected abstract void LoadUnitsThatWillBeGenerated();
@@ -509,5 +522,7 @@ namespace AthameRPG.Objects.Castles
         {
             this.gadini[warUnit]++;
         }
+
+        public  SoundStatus SoundStatus { get; protected set; }
     }
 }

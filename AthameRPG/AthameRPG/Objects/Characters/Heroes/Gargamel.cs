@@ -1,4 +1,5 @@
-﻿using AthameRPG.Characters.WarUnits;
+﻿using AthameRPG.Contracts;
+using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +8,8 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public class Gargamel : Enemy
     {
+        public override event OnClick OnClick;
+
         private const int DefaultWariorAttackPoints = 80;
         private const int DefaultWariorHealthPoints = 80;
         private const int DefaultWariorDefence = 40;

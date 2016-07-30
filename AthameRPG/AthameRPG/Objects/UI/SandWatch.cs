@@ -1,4 +1,7 @@
-﻿using AthameRPG.GameEngine;
+﻿using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using AthameRPG.Enums;
+using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
 using Microsoft.Xna.Framework;
@@ -7,8 +10,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Objects.UI
 {
-    public class SandWatch
+    [ClickableObject]
+    public class SandWatch : ISoundable
     {
+        public event OnClick OnClick;
+
         // loaded from MapManager
         public static bool TurnIsClicked;
 
@@ -29,6 +35,7 @@ namespace AthameRPG.Objects.UI
         {
             this.drawCoord = new Vector2(DrawCoordX, DrawCoordY);
             this.cropDimmensionsOfWatch = new Rectangle(ImageCropX, ImageCropY, ImageWidthHeight, ImageWidthHeight);
+            this.SoundStatus = SoundStatus.Click;
         }
 
         public int TurnCounter { get; private set; }
@@ -90,5 +97,7 @@ namespace AthameRPG.Objects.UI
                 spriteBatch.Draw(MapManager.Instance.Terrain, this.drawCoord, this.cropDimmensionsOfWatch, Color.White);
             }
         }
+
+        public SoundStatus SoundStatus { get; private set; }
     }
 }

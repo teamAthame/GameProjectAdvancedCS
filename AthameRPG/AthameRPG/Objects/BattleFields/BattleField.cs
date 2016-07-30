@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AthameRPG.Characters.WarUnits;
 using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
+using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,8 +20,6 @@ namespace AthameRPG.Objects.BattleFields
         // instance/loaded from MapManager
 
         private const string DefaultImagePath = "../Content/Obstacles/stonebattlefield";
-        //private const string SmallLettersPath = "../Content/Fonts/SmallLetters";
-        //private const string BigSizeLetterPath = @"../Content/Fonts/ArialBig";
         private const string WinText = "You Won the battle!";
         private const string LoseText = "Game Over!";
         private const string SupportText = "Press ENTER to continue.";
@@ -46,8 +45,6 @@ namespace AthameRPG.Objects.BattleFields
         private Texture2D battlefieldImage;
         private string imagePath;
         private Vector2 battlefieldDrawCoord;
-        //private SpriteFont spriteFontSmallLetters;
-        //private SpriteFont bigFont;
         private Vector2 winTextCoord;
         private Vector2 loseTextCoord;
         private Vector2 supportTextCoord;
@@ -86,9 +83,7 @@ namespace AthameRPG.Objects.BattleFields
         public void LoadContent(ContentManager contentManager)
         {
             this.battlefieldImage = contentManager.Load<Texture2D>(this.imagePath);
-            //this.spriteFontSmallLetters = contentManager.Load<SpriteFont>(SmallLettersPath);
-            //this.bigFont = contentManager.Load<SpriteFont>(BigSizeLetterPath);
-
+            
             this.winTextCoord = new Vector2(ScreenManager.SCREEN_WIDTH/2 - FontLoader.BigSizeFont.MeasureString(WinText).X/2,
                 WinTextY);
             this.loseTextCoord = new Vector2(

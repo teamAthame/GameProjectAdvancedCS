@@ -1,8 +1,8 @@
 ﻿using System;
-using AthameRPG.Contracts;
+using AthameRPG.Contracts.Unused;
 using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.Empire.Healers
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Healers
 {
     public abstract class Healer : Unit, IHeal
     {

@@ -161,7 +161,7 @@ namespace AthameRPG.GameEngine.Managers
 
             this.changeLevel.Update(gameTime);
 
-            if (this.changeLevel.Status == Status.Complete)
+            if (this.changeLevel.Status == Status.Completed)
             {
                 this.IsDrawLevelChanging = false;
             }

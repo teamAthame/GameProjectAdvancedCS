@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace AthameRPG.GameEngine
+namespace AthameRPG.GameEngine.Graphics
 {
     public static class Animation
     {

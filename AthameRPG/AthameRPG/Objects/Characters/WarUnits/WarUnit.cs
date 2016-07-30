@@ -1,6 +1,9 @@
 ﻿using System;
+using AthameRPG.Contracts;
 using AthameRPG.Controls;
-using AthameRPG.GameEngine;
+using AthameRPG.Enums;
+using AthameRPG.GameEngine.Collisions;
+using AthameRPG.GameEngine.Graphics;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Weapons;
 using AthameRPG.Objects.Weapons.Arrows;
@@ -8,11 +11,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using OnClick = AthameRPG.Contracts.OnClick;
 
-namespace AthameRPG.Characters.WarUnits
+namespace AthameRPG.Objects.Characters.WarUnits
 {
-    public abstract class WarUnit //: IComparable<WarUnit>
+    public abstract class WarUnit : ISoundable //: IComparable<WarUnit>
     {
+        public abstract event OnClick OnClick;
+
         protected const int MinFrameSwitch = 100;
         protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const float smallLetterCoordX = 395;
@@ -923,5 +929,7 @@ namespace AthameRPG.Characters.WarUnits
         //    return other.GetType().Name.CompareTo(this.GetType().Name);
 
         //}
+        public SoundStatus SoundStatus { get; protected set; }
+        
     }
 }

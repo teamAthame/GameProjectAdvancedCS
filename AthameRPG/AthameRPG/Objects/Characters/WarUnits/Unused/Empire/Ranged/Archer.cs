@@ -1,4 +1,4 @@
-﻿namespace AthameRPG.Characters.WarUnits.Unused.Empire.Ranged
+﻿namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Ranged
 {
     public class Archer : Ranger
     {

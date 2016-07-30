@@ -12,6 +12,7 @@ namespace AthameRPG.GameEngine.Managers
         public const float SCREEN_HEIGHT = 600f;
 
         private static ScreenManager instance;
+        private SoundEffectManager soundEffectManager;
 
         GameScreen currentScreen;
         GameScreen newScreen;
@@ -57,6 +58,7 @@ namespace AthameRPG.GameEngine.Managers
                 currentScreen.UnloadContent();
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
+                this.currentScreen.OnClick += this.soundEffectManager.ExecuteQuery;
                 IsTransitioning = false;
             }
         }
@@ -65,6 +67,9 @@ namespace AthameRPG.GameEngine.Managers
         {
             this.Content = new ContentManager(Content.ServiceProvider, "Content");
             currentScreen.LoadContent();
+
+            this.soundEffectManager = new SoundEffectManager(this.Content);
+            this.currentScreen.OnClick += this.soundEffectManager.ExecuteQuery;
         }
 
         public void UnloadContent()

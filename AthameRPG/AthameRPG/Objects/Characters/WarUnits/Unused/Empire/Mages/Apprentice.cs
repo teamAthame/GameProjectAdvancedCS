@@ -1,4 +1,4 @@
-﻿namespace AthameRPG.Characters.WarUnits.Unused.Empire.Mages
+﻿namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Mages
 {
     public class Apprentice : Caster
     {

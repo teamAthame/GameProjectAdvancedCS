@@ -1,4 +1,4 @@
-﻿namespace AthameRPG.Contracts
+﻿namespace AthameRPG.Contracts.Unused
 {
     public interface IAttack
     {

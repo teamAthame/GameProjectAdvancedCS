@@ -33,7 +33,7 @@ namespace AthameRPG.Objects.UI
 
         private void LoadDefaults()
         {
-            this.Status = Status.Complete;
+            this.Status = Status.Completed;
             this.symbolDrawCoord = new Vector2(300, 450);
             this.imageDrawCoord = Vector2.Zero;
             this.switchCounter = MinFrameSwitch;
@@ -66,7 +66,7 @@ namespace AthameRPG.Objects.UI
 
                 if (this.elapsedTime == MaxLoadingTime)
                 {
-                    this.Status = Status.Complete;
+                    this.Status = Status.Completed;
                 }
             }
         }

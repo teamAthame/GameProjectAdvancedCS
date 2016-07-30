@@ -1,5 +1,7 @@
 ﻿using AthameRPG.Controls;
 using AthameRPG.GameEngine;
+using AthameRPG.GameEngine.Collisions;
+using AthameRPG.GameEngine.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

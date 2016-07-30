@@ -1,7 +1,7 @@
 ﻿using System;
 using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused
+namespace AthameRPG.Objects.Characters.WarUnits.Unused
 {
     public abstract class Unit
     {

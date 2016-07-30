@@ -1,8 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-namespace AthameRPG.Characters.WarUnits
+﻿using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using Microsoft.Xna.Framework;
+
+namespace AthameRPG.Objects.Characters.WarUnits
 {
+    [MaleUnit]
+    [WalkUnit]
     public class Goro : WarUnit
     {
+        public override event OnClick OnClick;
+
         private const int DefaultStrengthLevel = 6;
         private const string DefaultImagePath = "../Content/Character/goro";
         //private const int DefaultStayRow = 0;

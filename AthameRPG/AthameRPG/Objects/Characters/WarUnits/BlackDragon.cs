@@ -1,8 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-namespace AthameRPG.Characters.WarUnits
+﻿using AthameRPG.Attributes;
+using AthameRPG.Attributes.Behavior;
+using AthameRPG.Contracts;
+using Microsoft.Xna.Framework;
+
+namespace AthameRPG.Objects.Characters.WarUnits
 {
+    [FireBreatheUnit]
+    [FlyUnit]
     public class BlackDragon : WarUnit
     {
+        public override event OnClick OnClick;
+
         private const int DefaultStrengthLevel = 7;
         private const string DefaultImagePath = "../Content/Character/blackDragon";
         //private const int DefaultStayRow = 0;
@@ -102,8 +110,7 @@ namespace AthameRPG.Characters.WarUnits
         {
             return DefaultHealth;
         }
-
-
+        
         public override void SetStartPositionInBattleLikePlayer()
         {
             this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;

@@ -1,6 +1,6 @@
 ﻿using AthameRPG.Enums.Unused;
 
-namespace AthameRPG.Characters.WarUnits.Unused.Empire.Healers
+namespace AthameRPG.Objects.Characters.WarUnits.Unused.Empire.Healers
 {
     public class Cleric : Healer
     {

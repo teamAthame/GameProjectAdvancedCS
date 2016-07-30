@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using AthameRPG.Characters.WarUnits;
+﻿using System;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
+using AthameRPG.Objects.Characters.WarUnits;
 using AthameRPG.Objects.Maps;
 using AthameRPG.Objects.Weapons.Arrows;
+using Microsoft.Xna.Framework;
 
-namespace AthameRPG.GameEngine
+namespace AthameRPG.GameEngine.Collisions
 {
     public static class CollisionDetection
     {
