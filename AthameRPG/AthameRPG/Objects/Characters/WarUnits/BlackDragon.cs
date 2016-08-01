@@ -35,8 +35,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
 
         private const int MaxSoundFrameSwitch = 200;
 
-        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
-        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
+        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(10,10);
+        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(715, 10);
 
         public BlackDragon() : base()
         {

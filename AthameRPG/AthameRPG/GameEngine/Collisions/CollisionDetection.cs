@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AthameRPG.Contracts;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
@@ -7,7 +8,6 @@ using AthameRPG.Objects.Characters.WarUnits;
 using AthameRPG.Objects.Maps;
 using AthameRPG.Objects.Weapons.Arrows;
 using Microsoft.Xna.Framework;
-using IDraw = AthameRPG.Contracts.IDraw;
 
 namespace AthameRPG.GameEngine.Collisions
 {
@@ -27,7 +27,7 @@ namespace AthameRPG.GameEngine.Collisions
             float pLeft = currentUnit.DrawCoord.X;
             float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
 
-            if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            if (pUp - moveSpeed <= 0)
             {
                 return 0;
             }
@@ -77,7 +77,7 @@ namespace AthameRPG.GameEngine.Collisions
             float pLeft = currentUnit.DrawCoord.X;
             float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
 
-            if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            if ( pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT)
             {
                 return 0;
             }
@@ -127,10 +127,10 @@ namespace AthameRPG.GameEngine.Collisions
             float pLeft = currentUnit.DrawCoord.X;
             float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
 
-            //if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
-            //{
-            //    return 0;
-            //}
+            if (pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            {
+                return 0;
+            }
 
             foreach (var unit in playerUnits.Keys)
             {
@@ -177,10 +177,10 @@ namespace AthameRPG.GameEngine.Collisions
             float pLeft = currentUnit.DrawCoord.X;
             float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
 
-            //if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
-            //{
-            //    return 0;
-            //}
+            if (pLeft - moveSpeed <= 0)
+            {
+                return 0;
+            }
 
             foreach (var unit in playerUnits.Keys)
             {
@@ -834,10 +834,10 @@ namespace AthameRPG.GameEngine.Collisions
             return result;
         }
 
-        public static double CalculateDistanceTravelled(Vector2 lastCoords, Vector2 curruntCoords)
+        public static double CalculateDistanceTravelled(Vector2 lastCoords, Vector2 currentCoords)
         {
-            return Math.Sqrt((Math.Pow(lastCoords.X - curruntCoords.X, 2)) +
-                          (Math.Pow(lastCoords.Y - curruntCoords.Y, 2)));
+            return Math.Sqrt((Math.Pow(lastCoords.X - currentCoords.X, 2)) +
+                          (Math.Pow(lastCoords.Y - currentCoords.Y, 2)));
         }
 
         public static bool IsMouseOverObject(Vector2 currentObject, int width, int height, GameTime gameTime)
@@ -865,11 +865,9 @@ namespace AthameRPG.GameEngine.Collisions
             return collisionByX ;//&& collisionByY;
         }
 
-        /// <summary>
+        
         /// ---------------------------------------   NE TRII -----------------------------
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-
+        
         //private void MovingWithMouse()
         //{
         //    if (mouse.LeftButton == ButtonState.Pressed)

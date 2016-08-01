@@ -35,8 +35,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
 
         private const int MaxSoundFrameSwitch = 200;
 
-        private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 200);
-        private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 200);
+        private Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(10, 200);
+        private Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(715, 200);
 
         public Goro():base()
         {

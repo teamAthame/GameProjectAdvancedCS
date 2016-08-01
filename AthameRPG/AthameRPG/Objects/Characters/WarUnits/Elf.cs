@@ -40,8 +40,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
 
         private const int MaxSoundFrameSwitch = 170;
 
-        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
-        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 400);
+        private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(10, 400);
+        private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(715, 400);
 
         public Elf() : base()
         {
