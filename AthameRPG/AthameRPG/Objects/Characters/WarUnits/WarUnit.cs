@@ -661,44 +661,44 @@ namespace AthameRPG.Objects.Characters.WarUnits
 
                 if (this.warUnitDrawCoord.X < this.wantedPosition.X)
                 {
-                    //this.warUnitDrawCoord.X += this.moveSpeed;
-                    float newMoveSpeed = CollisionDetection
-                        .WarUnitGoRight(this, this.moveSpeed, playerUnits, enemyUnits);
-                    this.warUnitDrawCoord.X += newMoveSpeed;
+                    this.warUnitDrawCoord.X += this.moveSpeed;
+                    //float newMoveSpeed = CollisionDetection
+                    //    .WarUnitGoRight(this, this.moveSpeed, playerUnits, enemyUnits);
+                    //this.warUnitDrawCoord.X += newMoveSpeed;
 
-                    if (newMoveSpeed == 0)
-                    {
-                        this.CanIMoveX = false;
-                    }
+                    //if (newMoveSpeed == 0)
+                    //{
+                    //    this.CanIMoveX = false;
+                    //}
                 }
                 if (this.warUnitDrawCoord.X > this.wantedPosition.X)
                 {
-                    //this.warUnitDrawCoord.X -= this.moveSpeed;
-                    float newMoveSpeed = CollisionDetection
-                        .WarUnitGoLeft(this, this.moveSpeed, playerUnits, enemyUnits);
-                    this.warUnitDrawCoord.X -= newMoveSpeed;
+                    this.warUnitDrawCoord.X -= this.moveSpeed;
+                    //float newMoveSpeed = CollisionDetection
+                    //    .WarUnitGoLeft(this, this.moveSpeed, playerUnits, enemyUnits);
+                    //this.warUnitDrawCoord.X -= newMoveSpeed;
 
-                    if (newMoveSpeed == 0)
-                    {
-                        this.CanIMoveX = false;
-                    }
+                    //if (newMoveSpeed == 0)
+                    //{
+                    //    this.CanIMoveX = false;
+                    //}
                 }
                 if (this.warUnitDrawCoord.Y > this.wantedPosition.Y)
                 {
-                    //this.warUnitDrawCoord.Y -= this.moveSpeed;
+                    this.warUnitDrawCoord.Y -= this.moveSpeed;
                 }
                 if (this.warUnitDrawCoord.Y < this.wantedPosition.Y)
                 {
-                    //this.warUnitDrawCoord.Y += this.moveSpeed;
+                    this.warUnitDrawCoord.Y += this.moveSpeed;
                 }
 
                 this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastDrawCoord,
                     this.DrawCoord);
 
-                if (this.DrawCoord == oldPosition && !this.CanIMoveX && !this.CanIMoveY)
-                {
-                    this.availableMove = 0;
-                }
+                //if (this.DrawCoord == oldPosition && !this.CanIMoveX && !this.CanIMoveY)
+                //{
+                //    this.availableMove = 0;
+                //}
                 
             }
         }
