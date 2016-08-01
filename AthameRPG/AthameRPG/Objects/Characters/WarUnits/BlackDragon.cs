@@ -1,6 +1,6 @@
-﻿using AthameRPG.Attributes;
+﻿using System;
 using AthameRPG.Attributes.Behavior;
-using AthameRPG.Contracts;
+using AthameRPG.Enums;
 using Microsoft.Xna.Framework;
 
 namespace AthameRPG.Objects.Characters.WarUnits
@@ -9,9 +9,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
     [FlyUnit]
     public class BlackDragon : WarUnit
     {
-        public override event OnEvent OnEvent;
-
-        private const int DefaultStrengthLevel = 7;
+        //private const int DefaultStrengthLevel1 = 7;
+        private const StrenghtLevel DefaultStrengthLevel = StrenghtLevel.Strongest;
         private const string DefaultImagePath = "../Content/Character/blackDragon";
         //private const int DefaultStayRow = 0;
         //private const int DefaultCropStayWidth = 69;
@@ -30,6 +29,11 @@ namespace AthameRPG.Objects.Characters.WarUnits
         private const int DefaultProtectedStep = 90;
         private const int DefaultAttackAnywayDistance = 250;
         private const int DefaultMinAttackDistance = 10;
+
+        private const int CropWidth = 70;
+        private const int CropHeight = 100;
+
+        private const int MaxSoundFrameSwitch = 200;
 
         private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5,5);
         private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 5);
@@ -68,8 +72,10 @@ namespace AthameRPG.Objects.Characters.WarUnits
             this.protectedStep = DefaultProtectedStep;
             this.attackAnywayDistance = DefaultAttackAnywayDistance;
 
-            this.cropWidth = 70; //---------------------------------
-            this.cropHeight = 100; //--------------------------------
+            this.maxSoundFrameSwitch = MaxSoundFrameSwitch;
+
+            this.cropWidth = CropWidth;
+            this.cropHeight = CropHeight; 
 
             this.cropStay = new[]
             {
@@ -110,7 +116,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
         {
             return DefaultHealth;
         }
-        
+
         public override void SetStartPositionInBattleLikePlayer()
         {
             this.warUnitDrawCoord = this.DefaultStartPositionInBattleLikePlayer;
@@ -126,6 +132,26 @@ namespace AthameRPG.Objects.Characters.WarUnits
             return DefaultAvailableMove;
         }
 
-        
+        protected override void SetSoundMoveStatus()
+        {
+            this.SoundStatus = SoundStatus.Fly;
+        }
+
+        protected override void SetSoundAttackStatus()
+        {
+            this.SoundStatus = SoundStatus.AttackWithFireBreath;
+        }
+
+        protected override void SetSoundTakeDamageStatus(SoundStatus attackerSoundStatus)
+        {
+            if (attackerSoundStatus == SoundStatus.AttackWithFireBreath)
+            {
+                this.SoundStatus = SoundStatus.TakeDamageFromFire;
+            }
+            else
+            {
+                this.SoundStatus = SoundStatus.TakeDamage;
+            }
+        }
     }
 }

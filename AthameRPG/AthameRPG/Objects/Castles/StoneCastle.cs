@@ -1,5 +1,4 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.Objects.Characters.WarUnits;
+﻿using AthameRPG.Objects.Characters.WarUnits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
@@ -7,7 +6,7 @@ namespace AthameRPG.Objects.Castles
 {
     public class StoneCastle : Castle
     {
-        public override event OnEvent OnEvent;
+        //public override event OnEvent OnEvent;
 
         // units which will be generated in this castle
         private BlackDragon blackDragon;

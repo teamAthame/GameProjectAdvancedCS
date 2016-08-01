@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using AthameRPG.Contracts;
 using AthameRPG.Controls;
 using AthameRPG.Enums;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
+using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Weapons;
 using AthameRPG.Objects.Weapons.Arrows;
@@ -14,18 +16,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AthameRPG.Objects.Characters.WarUnits
 {
-    public abstract class WarUnit : ISoundable //: IComparable<WarUnit>
+    public abstract class WarUnit : ISoundable, IDraw //: IComparable<WarUnit>
     {
-        public abstract event OnEvent OnEvent;
-
+        public virtual event OnEvent OnEvent;
+        
         protected const int MinFrameSwitch = 100;
-        protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
         protected const float smallLetterCoordX = 395;
         protected const float smallLetterCoordY = 580;
         private const int SearchAnyEnemyRadius = 1000;
         private const int DefaultAttackingFrames = 8;
 
-        protected int strengthLevel;
+        protected int soundFrameSwitch;
+        protected int maxSoundFrameSwitch;
+
+        protected StrenghtLevel strengthLevel;
         protected Texture2D warUnitImage;
         protected string imagePath;
         protected Vector2 warUnitDrawCoord;
@@ -54,7 +58,6 @@ namespace AthameRPG.Objects.Characters.WarUnits
         protected Rectangle[] cropAttack;
         protected Rectangle[] cropHit;
         
-        protected SpriteFont spriteFontSmallLetters;
         protected Vector2 smallLettersDrawCoord;
         protected AnimationReturnedValue newAnimationFrame;
         protected MouseState newMouseState;
@@ -73,6 +76,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
         protected bool isAttacked;
         private bool amIAttacking;
         private int attackingFrames;
+        
 
         protected Arrow arrow;
         protected WarUnit attacker;
@@ -104,6 +108,17 @@ namespace AthameRPG.Objects.Characters.WarUnits
             this.LoadDefaultUnitStats();
         }
 
+        public bool CanIMoveX { get; protected set; }
+        public bool CanIMoveY { get; protected set; }
+
+        public SoundStatus SoundStatus { get; protected set; }
+
+        protected abstract void SetSoundMoveStatus();
+
+        protected abstract void SetSoundAttackStatus();
+
+        protected abstract void SetSoundTakeDamageStatus(SoundStatus attackerSoundStatus);
+
         public bool AmIAttacking
         {
             get { return this.amIAttacking; }
@@ -118,6 +133,11 @@ namespace AthameRPG.Objects.Characters.WarUnits
         public bool AmIArcherOrMage
         {
             get { return this.amIArcherOrMage; }
+        }
+
+        public Vector2 DrawCoord
+        {
+            get { return this.warUnitDrawCoord; }
         }
 
         public int CropWidth
@@ -148,6 +168,26 @@ namespace AthameRPG.Objects.Characters.WarUnits
         public int MinAttackDistance
         {
             get { return this.minAttackDistance; }
+        }
+
+        protected virtual void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
+        {
+            bool amIMoving = oldPosition != newPosition;
+
+            if (amIMoving)
+            {
+                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
+                {
+                    this.soundFrameSwitch = 0;
+
+                    if (this.OnEvent != null)
+                    {
+                        this.OnEvent(this);
+                    }
+                }
+            }
         }
 
         public abstract void SetStartPositionInBattleLikePlayer();
@@ -181,23 +221,23 @@ namespace AthameRPG.Objects.Characters.WarUnits
 
         public bool CanBeSeleted { get; set; }
 
-        public Vector2 WarUnitDrawCoord
-        {
-            get { return this.warUnitDrawCoord; }
-        }
+        //public Vector2 WarUnitDrawCoord
+        //{
+        //    get { return this.warUnitDrawCoord; }
+        //}
 
         public virtual void LoadContent(ContentManager content)
         {
             this.warUnitImage = content.Load<Texture2D>(this.imagePath);
 
-            this.spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
-
             this.cropCurrentFrame = new Rectangle(120, 0, 69, 100);
-
         }
 
         public virtual void Update(GameTime gameTime)
         {
+            this.SetSoundMoveStatus();
+            this.SendSoundQuery(gameTime, this.lastDrawCoord, this.warUnitDrawCoord);
+
             if (this.playerUnit)
             {
                 this.lastDrawCoord = this.warUnitDrawCoord;
@@ -308,7 +348,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
                 if (this.isChoosen)
                 {
                     spriteBatch.Draw(this.warUnitImage, this.warUnitDrawCoord, this.cropCurrentFrame, Color.Red);
-                    spriteBatch.DrawString(this.spriteFontSmallLetters,
+                    spriteBatch.DrawString(FontLoader.SmallSizeFont,
                         string.Format("{0:F0}", this.availableMove > 0 ? this.availableMove : 0),
                         this.smallLettersDrawCoord, Color.Red);
                 }
@@ -375,7 +415,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
             this.oldMouseState = this.newMouseState;
             this.newMouseState = Mouse.GetState();
 
-            IsAnotherSelectedUnit();
+            this.IsAnotherSelectedUnit();
 
             if (CollisionDetection.IsMouseOverObject(this.warUnitDrawCoord, cropWidth, cropHeight, gameTime)
                 && this.newMouseState.RightButton == ButtonState.Pressed &&
@@ -419,6 +459,13 @@ namespace AthameRPG.Objects.Characters.WarUnits
         {
             if (CollisionDetection.HaveCollisonBetweenTwoObj(this, this.attackerArrow))
             {
+                this.SetSoundTakeDamageStatus(this.attacker.SoundStatus);
+
+                if (this.OnEvent != null)
+                {
+                    this.OnEvent(this);
+                }
+
                 if (this.attacker.playerUnit)
                 {
                     MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this.attacker, this, this.attackerArrow);
@@ -455,7 +502,14 @@ namespace AthameRPG.Objects.Characters.WarUnits
                     {
                         if (this.AmIArcherOrMage)
                         {
-                            this.arrow.FlyTo(this.WarUnitDrawCoord, enemy.warUnitDrawCoord, this.warUnitImage);
+                            // play sound
+                            this.SetSoundAttackStatus();
+                            if (this.OnEvent != null)
+                            {
+                                this.OnEvent(this);
+                            }
+
+                            this.arrow.FlyTo(this.DrawCoord, enemy.warUnitDrawCoord, this.warUnitImage);
                             enemy.isAttacked = true;
                             enemy.SetAttacker(this, arrow);
                             this.amIAttacking = true;
@@ -493,6 +547,20 @@ namespace AthameRPG.Objects.Characters.WarUnits
                             //}
                             if (CollisionDetection.IsBehindOrInFrontUsForAttack(this, enemy))
                             {
+                                // play sound
+                                this.SetSoundAttackStatus();
+                                if (this.OnEvent != null)
+                                {
+                                    this.OnEvent(this);
+                                }
+
+                                // play sound
+                                enemy.SetSoundTakeDamageStatus(this.SoundStatus);
+                                if (enemy.OnEvent != null)
+                                {
+                                    enemy.OnEvent(enemy);
+                                }
+
                                 MapManager.Instance.Battlefield.TryToAttackEnemyUnit(this, enemy, this.weapon);
                                 this.amIAttacking = true;
                                 enemy.IsAttackable = false;
@@ -586,25 +654,52 @@ namespace AthameRPG.Objects.Characters.WarUnits
         {
             if (this.availableMove > 0)
             {
+                IReadOnlyDictionary<WarUnit, decimal> playerUnits = MapManager.Instance.Battlefield.PlayerUnits;
+                IReadOnlyDictionary<WarUnit, decimal> enemyUnits = MapManager.Instance.Battlefield.EnemyUnits;
+
+                Vector2 oldPosition = this.DrawCoord;
+
                 if (this.warUnitDrawCoord.X < this.wantedPosition.X)
                 {
-                    this.warUnitDrawCoord.X += this.moveSpeed;
+                    //this.warUnitDrawCoord.X += this.moveSpeed;
+                    float newMoveSpeed = CollisionDetection
+                        .WarUnitGoRight(this, this.moveSpeed, playerUnits, enemyUnits);
+                    this.warUnitDrawCoord.X += newMoveSpeed;
+
+                    if (newMoveSpeed == 0)
+                    {
+                        this.CanIMoveX = false;
+                    }
                 }
                 if (this.warUnitDrawCoord.X > this.wantedPosition.X)
                 {
-                    this.warUnitDrawCoord.X -= this.moveSpeed;
+                    //this.warUnitDrawCoord.X -= this.moveSpeed;
+                    float newMoveSpeed = CollisionDetection
+                        .WarUnitGoLeft(this, this.moveSpeed, playerUnits, enemyUnits);
+                    this.warUnitDrawCoord.X -= newMoveSpeed;
+
+                    if (newMoveSpeed == 0)
+                    {
+                        this.CanIMoveX = false;
+                    }
                 }
                 if (this.warUnitDrawCoord.Y > this.wantedPosition.Y)
                 {
-                    this.warUnitDrawCoord.Y -= this.moveSpeed;
+                    //this.warUnitDrawCoord.Y -= this.moveSpeed;
                 }
                 if (this.warUnitDrawCoord.Y < this.wantedPosition.Y)
                 {
-                    this.warUnitDrawCoord.Y += this.moveSpeed;
+                    //this.warUnitDrawCoord.Y += this.moveSpeed;
                 }
 
                 this.availableMove -= CollisionDetection.CalculateDistanceTravelled(this.lastDrawCoord,
-                    this.WarUnitDrawCoord);
+                    this.DrawCoord);
+
+                if (this.DrawCoord == oldPosition && !this.CanIMoveX && !this.CanIMoveY)
+                {
+                    this.availableMove = 0;
+                }
+                
             }
         }
 
@@ -620,14 +715,14 @@ namespace AthameRPG.Objects.Characters.WarUnits
             return true;
         }
 
-        public int GetStrengthLevel
+        public StrenghtLevel GetStrengthLevel
         {
             get { return this.strengthLevel; }
         }
 
+        //enemy behavior
         public void MoveInBattle()
         {
-
             Predicate<WarUnit> isThereAnArcher = x => x.amIArcherOrMage == true;
 
             bool hasArcherFriend = false;
@@ -657,6 +752,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
                             {
                                 this.amIAttacking = true;
                                 this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+
+                                this.SetSoundFromEnemyAttack();
                             }
                             else
                             {
@@ -698,6 +795,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
                             {
                                 this.amIAttacking = true;
                                 this.EnemyTryAttackPlayer(this, this.supportUnit, this.weapon);
+
+                                this.SetSoundFromEnemyAttack();
                             }
                             else
                             {
@@ -722,12 +821,17 @@ namespace AthameRPG.Objects.Characters.WarUnits
                     // check if there is another attack with arrow ... when other attack end then this will continue
                     if (MapManager.Instance.Battlefield.CanShoot())
                     {
-                        this.arrow.FlyTo(this.WarUnitDrawCoord, this.supportUnit.warUnitDrawCoord, this.warUnitImage);
-                        //this.EnemyTryAttackPlayer(this, this.supportUnit);
+                        this.arrow.FlyTo(this.DrawCoord, this.supportUnit.warUnitDrawCoord, this.warUnitImage);
+                        
+                        // play sound
+                        this.SetSoundAttackStatus();
+                        if (this.OnEvent != null)
+                        {
+                            this.OnEvent(this);
+                        }
 
                         this.supportUnit.isAttacked = true;
                         this.supportUnit.SetAttacker(this, arrow);
-                        //this.supportUnit.WaitForHit();
                         this.amIAttacking = true;
                         this.availableMove = 0;
                     }
@@ -735,6 +839,23 @@ namespace AthameRPG.Objects.Characters.WarUnits
                 }
             }
 
+        }
+
+        private void SetSoundFromEnemyAttack()
+        {
+            // play sound
+            this.SetSoundAttackStatus();
+            if (this.OnEvent != null)
+            {
+                this.OnEvent(this);
+            }
+
+            //play sound
+            this.supportUnit.SetSoundTakeDamageStatus(this.SoundStatus);
+            if (this.supportUnit.OnEvent != null)
+            {
+                this.supportUnit.OnEvent(this.supportUnit);
+            }
         }
 
         private void SearchForArcher()
@@ -832,12 +953,12 @@ namespace AthameRPG.Objects.Characters.WarUnits
             // make default protected move;
             if (this.HaveActionForCurrentTurn)
             {
-                this.wantedPosition = new Vector2(this.WarUnitDrawCoord.X - 90, this.WarUnitDrawCoord.Y);
+                this.wantedPosition = new Vector2(this.DrawCoord.X - 90, this.DrawCoord.Y);
                 this.HaveActionForCurrentTurn = false;
             }
             else
             {
-                if (this.wantedPosition == this.WarUnitDrawCoord)
+                if (this.wantedPosition == this.DrawCoord)
                 {
                     this.inBattleTurn = false;
                 }
@@ -855,10 +976,10 @@ namespace AthameRPG.Objects.Characters.WarUnits
             }
             // make default radius;
 
-            if (CollisionDetection.IsNear(this.WarUnitDrawCoord.Y, this.supportUnit.WarUnitDrawCoord.Y, 10)
+            if (CollisionDetection.IsNear(this.DrawCoord.Y, this.supportUnit.DrawCoord.Y, 10)
                 &&
-                CollisionDetection.IsNear(this.WarUnitDrawCoord.X + this.cropWidth,
-                    this.supportUnit.WarUnitDrawCoord.X, 10)
+                CollisionDetection.IsNear(this.DrawCoord.X + this.cropWidth,
+                    this.supportUnit.DrawCoord.X, 10)
                 && this.inBattleTurn == true)
             {
                 this.inBattleTurn = false;
@@ -882,19 +1003,19 @@ namespace AthameRPG.Objects.Characters.WarUnits
             //}
 
             //this.wantedPosition = new Vector2(unit.WarUnitDrawCoord.X - this.cropWidth, unit.warUnitDrawCoord.Y);
-            this.wantedPosition.X = unit.WarUnitDrawCoord.X - this.cropWidth;
+            this.wantedPosition.X = unit.DrawCoord.X - this.cropWidth;
             this.wantedPosition.Y = unit.warUnitDrawCoord.Y;
         }
 
         protected void SetMoveToEnemy(WarUnit enemy)
         {
-            if (this.WarUnitDrawCoord.X > enemy.WarUnitDrawCoord.X)
+            if (this.DrawCoord.X > enemy.DrawCoord.X)
             {
-                this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X + enemy.CropWidth, enemy.WarUnitDrawCoord.Y);
+                this.wantedPosition = new Vector2(enemy.DrawCoord.X + enemy.CropWidth, enemy.DrawCoord.Y);
             }
             else
             {
-                this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X - this.cropWidth, enemy.warUnitDrawCoord.Y);
+                this.wantedPosition = new Vector2(enemy.DrawCoord.X - this.cropWidth, enemy.warUnitDrawCoord.Y);
             }
             //this.wantedPosition = new Vector2(enemy.WarUnitDrawCoord.X, enemy.WarUnitDrawCoord.Y);
 
@@ -903,6 +1024,8 @@ namespace AthameRPG.Objects.Characters.WarUnits
         public void ReFillAvailableMove()
         {
             this.availableMove = this.GetDefaultMove();
+            this.CanIMoveX = true;
+            this.CanIMoveY = true;
         }
 
 
@@ -928,7 +1051,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
         //    return other.GetType().Name.CompareTo(this.GetType().Name);
 
         //}
-        public SoundStatus SoundStatus { get; protected set; }
+        
         
     }
 }

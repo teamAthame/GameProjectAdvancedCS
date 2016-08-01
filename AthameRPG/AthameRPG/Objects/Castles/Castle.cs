@@ -16,9 +16,13 @@ using Microsoft.Xna.Framework.Input;
 namespace AthameRPG.Objects.Castles
 {
     [ClickableObject]
-    public abstract class Castle : ISoundable
+    public abstract class Castle : ISoundable 
     {
-        public abstract event OnEvent OnEvent;
+        // loaded from building manager
+        public virtual event OnEvent OnEvent;
+
+        protected static int castlesCounter;
+        protected static int getInCurrentCastle;
 
         protected const string ImageOfCastleOutsidePath = @"../Content/Obstacles/castles";
         protected const int EntryInCastleMinX = 350;
@@ -44,7 +48,8 @@ namespace AthameRPG.Objects.Castles
         protected MouseState oldMouseState;
         protected int supportCreatureIndex;
         protected int supportButtonRow;
-        protected int supportCreatureLevel;
+        protected StrenghtLevel supportCreatureLevel;
+        protected int id;
 
         protected Dictionary<WarUnit, decimal> gadini;
         protected List<WarUnit> supportList;
@@ -67,7 +72,7 @@ namespace AthameRPG.Objects.Castles
             this.coordinatesOnMap = coordinatesOnMap;
             this.gadini = new Dictionary<WarUnit, decimal>();
             this.supportList = new List<WarUnit>();
-            this.SoundStatus = SoundStatus.Click;
+            this.SoundStatus = SoundStatus.Click2;
             
             this.LoadDefaults();
 
@@ -80,6 +85,7 @@ namespace AthameRPG.Objects.Castles
 
         private void LoadDefaults()
         {
+            this.id = castlesCounter++;
             this.switchCounter = 100;
             this.frameCounter = 0;
             this.naiSilnaGadinaCount = 0;
@@ -129,26 +135,26 @@ namespace AthameRPG.Objects.Castles
                 if (SandWatch.TurnIsClicked)
                 {
                     CreatureGenerator(gameTime);
-                    SandWatch.TurnIsClicked = false;
+                    //SandWatch.TurnIsClicked = false;
                 }
 
 
                 this.drawCoordinates.X = this.coordinatesOnMap.X + CharacterManager.barbarian.CoordP().X;
                 this.drawCoordinates.Y = this.coordinatesOnMap.Y + CharacterManager.barbarian.CoordP().Y;
 
-                GetInCastle(gameTime);
+                this.GetInCastle(gameTime);
             }
             else if (Character.GetIsInCastle)
             {
                 MouseExtended.Current.GetState(gameTime);
 
-                TryExitFromCastle();
+                this.TryExitFromCastle();
 
-                BuyCreature(gameTime);
-            }
-            else if (Character.GetIsInBattle)
-            {
-
+                if (getInCurrentCastle == this.id)
+                {
+                    this.BuyCreature(gameTime);
+                    
+                }
             }
         }
 
@@ -161,74 +167,72 @@ namespace AthameRPG.Objects.Castles
             else if (Character.GetIsInCastle)
             {
 
-                spriteBatch.Draw(insideCastle, new Vector2(0, 0), Color.White);
-
-                if (this.mouseIsOverReturnButton)
+                if (getInCurrentCastle == this.id)
                 {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
-                        Color.Red);
+                    spriteBatch.Draw(insideCastle, new Vector2(0, 0), Color.White);
+
+                    if (this.mouseIsOverReturnButton)
+                    {
+                        spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
+                            Color.Red);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
+                            Color.White);
+                    }
+
+                    this.increaseYforPrintNameOfCreature = 20;
+                    this.supportCreatureIndex = 0;
+                    // print available creatures
+                    foreach (var gadinki in this.gadini)
+                    {
+                        spriteBatch.DrawString(spriteFont,
+                            gadinki.Key.GetType().Name + " : " +
+                            (gadinki.Value - this.creatureCounter[this.supportCreatureIndex]).ToString(),
+                            new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
+                        this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                        this.supportCreatureIndex++;
+                    }
+
+                    this.increaseYforPrintNameOfCreature = 20;
+                    // print purchase creatures
+                    foreach (var index in this.creatureCounter)
+                    {
+                        spriteBatch.DrawString(spriteFont, index.ToString(),
+                            new Vector2(280, this.increaseYforPrintNameOfCreature), Color.Yellow);
+                        this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                    }
+
+                    //print buttons
+                    this.increaseYforPrintNameOfCreature = 7;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(360, this.increaseYforPrintNameOfCreature),
+                            new Rectangle(250, 48, 50, 50), Color.White);
+                        spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(300, this.increaseYforPrintNameOfCreature),
+                            new Rectangle(250, 98, 50, 50), Color.Yellow);
+                        spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(215, this.increaseYforPrintNameOfCreature),
+                            new Rectangle(250, 148, 50, 50), Color.Gray);
+                        this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
+                    }
+
+                    // print our army
+                    spriteBatch.DrawString(spriteFontSmallLetters, "Our Army:",
+                        new Vector2(15, 400), Color.White);
+
+                    this.increaseYforPrintNameOfCreature = 430;
+
+                    //CharacterManager.barbarian.availableCreatures
+                    foreach (var creatures in CharacterManager.barbarian.AvailableCreatures)
+                    {
+                        spriteBatch.DrawString(spriteFontSmallLetters,
+                            creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
+                            new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
+                        this.increaseYforPrintNameOfCreature += 20;
+                    }
                 }
-                else
-                {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(750, 550), new Rectangle(250, 0, 50, 50),
-                        Color.White);
-                }
-
-                this.increaseYforPrintNameOfCreature = 20;
-                this.supportCreatureIndex = 0;
-                // print available creatures
-                foreach (var gadinki in this.gadini)
-                {
-                    spriteBatch.DrawString(spriteFont,
-                        gadinki.Key.GetType().Name + " : " +
-                        (gadinki.Value - this.creatureCounter[this.supportCreatureIndex]).ToString(),
-                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                    this.supportCreatureIndex++;
-                }
-
-                this.increaseYforPrintNameOfCreature = 20;
-                // print purchase creatures
-                foreach (var index in this.creatureCounter)
-                {
-                    spriteBatch.DrawString(spriteFont, index.ToString(),
-                        new Vector2(280, this.increaseYforPrintNameOfCreature), Color.Yellow);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                }
-
-                //print buttons
-                this.increaseYforPrintNameOfCreature = 7;
-                for (int i = 0; i < 7; i++)
-                {
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(360, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 48, 50, 50), Color.White);
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(300, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 98, 50, 50), Color.Yellow);
-                    spriteBatch.Draw(MapManager.Instance.Terrain, new Vector2(215, this.increaseYforPrintNameOfCreature),
-                        new Rectangle(250, 148, 50, 50), Color.Gray);
-                    this.increaseYforPrintNameOfCreature += this.buttonDifferenceStep;
-                }
-
-                // print our army
-                spriteBatch.DrawString(spriteFontSmallLetters, "Our Army:",
-                    new Vector2(15, 400), Color.White);
-
-                this.increaseYforPrintNameOfCreature = 430;
-
-                //CharacterManager.barbarian.availableCreatures
-                foreach (var creatures in CharacterManager.barbarian.AvailableCreatures)
-                {
-                    spriteBatch.DrawString(spriteFontSmallLetters,
-                        creatures.Key.GetType().Name + ": " + creatures.Value.ToString(),
-                        new Vector2(5, this.increaseYforPrintNameOfCreature), Color.White);
-                    this.increaseYforPrintNameOfCreature += 20;
-                }
-
-
-            }
-            else if (Character.GetIsInBattle)
-            {
-
+                
             }
         }
 
@@ -238,50 +242,50 @@ namespace AthameRPG.Objects.Castles
 
             this.supportCreatureIndex = 0;
             this.supportButtonRow = 0;
-            this.supportCreatureLevel = 7;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.supportCreatureLevel = StrenghtLevel.Strongest;
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
 
             this.supportCreatureLevel--;
             this.supportCreatureIndex++;
             this.supportButtonRow++;
-            CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
+            this.CheckAndTakActionOnClickedButton(this.supportCreatureLevel, this.supportCreatureIndex,
                 this.minYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep),
                 this.maxYFirstButton + (this.supportButtonRow*this.buttonDifferenceStep), gameTime);
         }
@@ -301,6 +305,12 @@ namespace AthameRPG.Objects.Castles
                 {
                     // exit from castle
                     Character.GetIsInCastle = false;
+
+                    this.SoundStatus = SoundStatus.Impact;
+
+                    this.SendClickRequest();
+
+                    this.SoundStatus = SoundStatus.Click2;
                 }
             }
             else
@@ -337,7 +347,14 @@ namespace AthameRPG.Objects.Castles
                     Character.GetIsInCastle = true;
 
                     // clear creature counter = 0
+                    getInCurrentCastle = this.id;
                     this.creatureCounter = new int[7];
+
+                    this.SoundStatus = SoundStatus.Impact;
+
+                    this.SendClickRequest();
+
+                    this.SoundStatus = SoundStatus.Click2;
                 }
             }
         }
@@ -357,21 +374,21 @@ namespace AthameRPG.Objects.Castles
 
             foreach (var warUnit in this.supportList)
             {
-                if (warUnit.GetStrengthLevel == 7 && this.gadini[warUnit] < 10000)
+                if (warUnit.GetStrengthLevel == StrenghtLevel.Strongest && this.gadini[warUnit] < 10000)
                 {
                     if (this.turnCounter % 7 == 0)
                     {
                         this.gadini[warUnit] += 3m;
                     }
                 }
-                else if (warUnit.GetStrengthLevel == 6 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Stronger && this.gadini[warUnit] < 10000)
                 {
                     if (this.turnCounter % 5 == 0)
                     {
                         this.gadini[warUnit] += 5m;
                     }
                 }
-                else if (warUnit.GetStrengthLevel == 5 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Strong && this.gadini[warUnit] < 10000)
                 {
 
                     if (this.turnCounter % 3 == 0)
@@ -379,19 +396,19 @@ namespace AthameRPG.Objects.Castles
                         this.gadini[warUnit] += 4m;
                     }
                 }
-                else if (warUnit.GetStrengthLevel == 4 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Normal && this.gadini[warUnit] < 10000)
                 {
                     this.gadini[warUnit] += 0.5m;
                 }
-                else if (warUnit.GetStrengthLevel == 3 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Weak && this.gadini[warUnit] < 10000)
                 {
                     this.gadini[warUnit] += 1m;
                 }
-                else if (warUnit.GetStrengthLevel == 2 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Weaker && this.gadini[warUnit] < 10000)
                 {
                     this.gadini[warUnit] += 2m;
                 }
-                else if (warUnit.GetStrengthLevel == 1 && this.gadini[warUnit] < 10000)
+                else if (warUnit.GetStrengthLevel == StrenghtLevel.Weakest && this.gadini[warUnit] < 10000)
                 {
                     this.gadini[warUnit] += 3m;
                 }
@@ -445,12 +462,11 @@ namespace AthameRPG.Objects.Castles
             //}
         }
 
-        private void CheckAndTakActionOnClickedButton(int strengthCreatureLevel, int index, int minY, int maxY,
+        private void CheckAndTakActionOnClickedButton(StrenghtLevel strengthCreatureLevel, int index, int minY, int maxY,
             GameTime gameTime)
         {
             MouseExtended.Current.GetState(gameTime);
-
-
+            
             // if mouse over PLUS button
             if (MouseExtended.Current.CurrentState.Position.X > this.minXPlusButton &&
                 MouseExtended.Current.CurrentState.Position.X < this.maxXPlusButton &&
@@ -468,6 +484,7 @@ namespace AthameRPG.Objects.Castles
                     {
                         this.creatureCounter[index]++;
 
+                        this.SendClickRequest();
                     }
                 }
             }
@@ -483,6 +500,7 @@ namespace AthameRPG.Objects.Castles
                     this.oldMouseState.LeftButton == ButtonState.Released)
                 {
                     int a = 0;
+                    this.SendClickRequest();
                     for (int i = 0; i < this.creatureCounter[index]; i++)
                     {
                         // add creature to Player / remove creature from Castle
@@ -496,6 +514,7 @@ namespace AthameRPG.Objects.Castles
                 }
             }
 
+            // if mouse is over minus button
             if (MouseExtended.Current.CurrentState.Position.X > this.minXMinusButton &&
                 MouseExtended.Current.CurrentState.Position.X < this.maxXMinusButton &&
                 MouseExtended.Current.CurrentState.Position.Y > minY &&
@@ -507,12 +526,21 @@ namespace AthameRPG.Objects.Castles
                     if (this.creatureCounter[index] > 0)
                     {
                         this.creatureCounter[index]--;
+                        this.SendClickRequest();
                     }
 
                 }
             }
         }
-        
+
+        private void SendClickRequest()
+        {
+            if (this.OnEvent != null)
+            {
+                this.OnEvent(this);
+            }
+        }
+
         protected void RemoveCreature(WarUnit warUnit)
         {
             this.gadini[warUnit]--;

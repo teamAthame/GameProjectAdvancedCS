@@ -10,6 +10,8 @@
         TakeDamageFromFire,
         Walk,
         Fly,
-        Click
+        Click,
+        Click2,
+        Impact
     }
 }

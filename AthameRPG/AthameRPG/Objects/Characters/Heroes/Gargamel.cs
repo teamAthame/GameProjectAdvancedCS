@@ -7,8 +7,6 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public class Gargamel : Enemy
     {
-        //public override event OnEvent OnEvent;
-
         private const int DefaultWariorAttackPoints = 80;
         private const int DefaultWariorHealthPoints = 80;
         private const int DefaultWariorDefence = 40;
@@ -63,9 +61,9 @@ namespace AthameRPG.Objects.Characters.Heroes
         
         protected override void LoadDefaultStartArmy()
         {
-            //this.availableCreatures.Add(new BlackDragon(), 20);
-            //this.availableCreatures.Add(new Goro(), 3);
-            this.availableCreatures.Add(new Elf(), 1);
+            this.availableCreatures.Add(new BlackDragon(), 1);
+            this.availableCreatures.Add(new Goro(), 3);
+            this.availableCreatures.Add(new Elf(), 11);
         }
     }
 }

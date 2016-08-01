@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AthameRPG.Contracts;
 using AthameRPG.Enums;
 using AthameRPG.GameEngine.Loaders;
 using AthameRPG.Objects.BattleFields;
@@ -47,6 +48,15 @@ namespace AthameRPG.GameEngine.Managers
             this.changeLevel = new ChangeLevel();
         }
 
+        private void SubscribeForSoundEvents(ISoundable soundable)
+        {
+            soundable.OnEvent += ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+        }
+
+        private void UnsubscribeForSoundEvents(ISoundable soundable)
+        {
+            soundable.OnEvent -= ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+        }
 
         public static MapManager Instance
         {
@@ -66,6 +76,7 @@ namespace AthameRPG.GameEngine.Managers
             this.IsDrawLevelChanging = false;
             this.MapIndex = StartingMapIndex;
             this.currentMap = new Map(this.MapListPath[MapIndex]);
+            this.UnsubscribeForSoundEvents(this.sandWatch);
         }
 
         public ChangeLevel ChangeLevel
@@ -127,6 +138,7 @@ namespace AthameRPG.GameEngine.Managers
             this.buildingManager.LoadContent(contentManager);
             this.battlefield.LoadContent(contentManager);
             this.changeLevel.LoadContent(contentManager);
+            this.SubscribeForSoundEvents(this.sandWatch);
         }
 
         public void UnloadContent()

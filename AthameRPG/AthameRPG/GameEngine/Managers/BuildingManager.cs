@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using AthameRPG.Contracts;
 using AthameRPG.Objects.Castles;
+using AthameRPG.Objects.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,8 +24,8 @@ namespace AthameRPG.GameEngine.Managers
             foreach (var castle in listOfCastlesOnMap)
             {
                 castle.LoadContent(content);
+                this.SubscribeForSoundEvents(castle);
             }
-
         }
         
         public void UnloadContent()
@@ -36,6 +39,7 @@ namespace AthameRPG.GameEngine.Managers
             {
                 castle.Update(gameTime);
             }
+            SandWatch.TurnIsClicked = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -46,10 +50,24 @@ namespace AthameRPG.GameEngine.Managers
             }
         }
 
+        private void SubscribeForSoundEvents(ISoundable soundable)
+        {
+            soundable.OnEvent += ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+        }
+        
         public static void AddCastleFromTxtMapToList(Castle castle)
         {
-            listOfCastlesOnMap.Clear();
             listOfCastlesOnMap.Add(castle);
+        }
+
+        public static void Restart()
+        {
+            foreach (var castle in listOfCastlesOnMap)
+            {
+                castle.OnEvent -= ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+            }
+
+            listOfCastlesOnMap.Clear();
         }
     }
 }

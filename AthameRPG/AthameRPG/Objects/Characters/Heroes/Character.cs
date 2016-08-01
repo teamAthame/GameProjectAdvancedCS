@@ -1,5 +1,4 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.Controls;
+﻿using AthameRPG.Controls;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
 using AthameRPG.GameEngine.Loaders;
@@ -16,8 +15,6 @@ namespace AthameRPG.Objects.Characters.Heroes
         /// Unit is  abstract class for ALL GOOD PLAYERS
         /// </summary>
          
-        public override event OnEvent OnEvent;
-
         protected static int cropWidth;
         protected static int cropHeight;
         protected static Texture2D playerImage;
@@ -51,12 +48,6 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.lastMouseClickPosition = new Vector2(startPositionX - cropWidth / 2, startPositionY - cropHeight / 2);
             this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
             this.CropCurrentFrame = this.cropCurrentFrame;
-            
-        }
-
-        public override void LoadContent(ContentManager content)
-        {
-            base.LoadContent(content);
             
         }
         
@@ -113,45 +104,6 @@ namespace AthameRPG.Objects.Characters.Heroes
                 //}
             }
 
-        }
-
-        //private void SendSoundQuery(GameTime gameTime)
-        //{
-        //    bool amIMoving = this.lastAbstractCoord != this.abstractPlayerPositon;
-
-        //    if (amIMoving)
-        //    {
-        //        this.soundFrame += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-        //        if (this.soundFrame >= 220)
-        //        {
-        //            this.soundFrame = 0;
-
-        //            if (this.OnEvent != null)
-        //            {
-        //                this.OnEvent(this);
-        //            }
-        //        }
-        //    }
-        //}
-        private void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
-        {
-            bool amIMoving = oldPosition != newPosition;
-
-            if (amIMoving)
-            {
-                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
-                {
-                    this.soundFrameSwitch = 0;
-
-                    if (this.OnEvent != null)
-                    {
-                        this.OnEvent(this);
-                    }
-                }
-            }
         }
 
         private void MakeCurrentAnimationFrame(GameTime gameTime)

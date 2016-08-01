@@ -229,3 +229,51 @@
 /processorParam:Quality=Best
 /build:SoundEffects\click.wav
 
+#begin SoundEffects/fly.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/fly.wav
+
+#begin SoundEffects/takeDamage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/takeDamage.wav
+
+#begin SoundEffects/TakeDamageFromFire.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/TakeDamageFromFire.wav
+
+#begin SoundEffects/AttackWithFireBreath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/AttackWithFireBreath.wav
+
+#begin SoundEffects/AttackWithRangeWeapon.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/AttackWithRangeWeapon.wav
+
+#begin SoundEffects/AttackWithMele.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/AttackWithMele.wav
+
+#begin SoundEffects/Click2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Click2.wav
+
+#begin SoundEffects/Impact.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Impact.wav
+

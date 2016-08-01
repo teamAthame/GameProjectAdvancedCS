@@ -21,8 +21,7 @@ namespace AthameRPG.Objects.Characters.Heroes
         protected static bool isInCastle;
         protected static bool isInBattle;
         protected const int MinFrameSwitch = 100;
-        //private const int SoundFrameSwitch = 220;
-
+        
         protected int frameCounter;
         protected int soundFrameSwitch;
         protected int maxSoundFrameSwitch;
@@ -117,25 +116,25 @@ namespace AthameRPG.Objects.Characters.Heroes
             //this.availableCreatures[newUnit]++;
         }
 
-        //protected virtual void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
-        //{
-        //    bool amIMoving = oldPosition != newPosition;
+        protected virtual void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
+        {
+            bool amIMoving = oldPosition != newPosition;
 
-        //    if (amIMoving)
-        //    {
-        //        this.soundFrame += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (amIMoving)
+            {
+                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-        //        if (this.soundFrame >= SoundFrameSwitch)
-        //        {
-        //            this.soundFrame = 0;
+                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
+                {
+                    this.soundFrameSwitch = 0;
 
-        //            if (this.OnEvent != null)
-        //            {
-        //                this.OnEvent(this);
-        //            }
-        //        }
-        //    }
-        //}
+                    if (this.OnEvent != null)
+                    {
+                        this.OnEvent(this);
+                    }
+                }
+            }
+        }
 
         public Rectangle CropCurrentFrame
         {

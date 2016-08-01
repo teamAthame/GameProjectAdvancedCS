@@ -1,5 +1,5 @@
 ﻿using AthameRPG.Attributes.Behavior;
-using AthameRPG.Contracts;
+using AthameRPG.Enums;
 using AthameRPG.Objects.Weapons.Arrows;
 using Microsoft.Xna.Framework;
 
@@ -9,11 +9,9 @@ namespace AthameRPG.Objects.Characters.WarUnits
     [WalkUnit]
     public class Elf : WarUnit
     {
-        public override event OnEvent OnEvent;
-
         private const string DefaultImagePath = "../Content/Character/elf";
-        private const int DefaultStrengthLevel = 5;
-
+        private const StrenghtLevel DefaultStrengthLevel = StrenghtLevel.Strong;
+        
         //private const int DefaultStayCorrection = 0;
         //private const int DefaultStayRow = 0;
         //private const int DefaultCropStayWidth = 62;
@@ -29,13 +27,18 @@ namespace AthameRPG.Objects.Characters.WarUnits
         //private const int DefaultCropAttackWidth = 75;
         //private const int DefaultCropAttackHeight = 90;
 
-        private const float DefaultMoveSpeed = 6f;
+        private const float DefaultMoveSpeed = 4f;
         private const float DefaultAvailableMove = 150f;
         private const int DefaultHealth = 200;
         private const int DefaultDamage = 30;
         private const int DefaultMinAttackDistance = 650;
         private const int DefaultProtectedStep = 90;
         private const int DefaultAttackAnywayDistance = 250;
+
+        private const int CropWidth = 55;
+        private const int CropHeight = 90;
+
+        private const int MaxSoundFrameSwitch = 170;
 
         private readonly Vector2 DefaultStartPositionInBattleLikePlayer = new Vector2(5, 400);
         private readonly Vector2 DefaultStartPositionInBattleLikeEnemy = new Vector2(725, 400);
@@ -58,8 +61,10 @@ namespace AthameRPG.Objects.Characters.WarUnits
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
 
-            this.cropWidth = 55; //---------------------------------
-            this.cropHeight = 90; //--------------------------------
+            this.cropWidth = CropWidth; 
+            this.cropHeight = CropHeight;
+
+            this.maxSoundFrameSwitch = MaxSoundFrameSwitch;
 
             this.cropStay = new[]
             {
@@ -142,6 +147,26 @@ namespace AthameRPG.Objects.Characters.WarUnits
             return DefaultAvailableMove;
         }
 
-        
+        protected override void SetSoundMoveStatus()
+        {
+            this.SoundStatus = SoundStatus.Walk;
+        }
+
+        protected override void SetSoundAttackStatus()
+        {
+            this.SoundStatus = SoundStatus.AttackWithRangeWeapon;
+        }
+
+        protected override void SetSoundTakeDamageStatus(SoundStatus attackerSoundStatus)
+        {
+            if (attackerSoundStatus == SoundStatus.AttackWithFireBreath)
+            {
+                this.SoundStatus = SoundStatus.TakeDamageFromFire;
+            }
+            else
+            {
+                this.SoundStatus = SoundStatus.TakeDamage;
+            }
+        }
     }
 }

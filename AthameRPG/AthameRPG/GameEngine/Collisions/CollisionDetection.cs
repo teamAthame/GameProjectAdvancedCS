@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AthameRPG.Controls;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.Characters.Heroes;
@@ -6,12 +7,213 @@ using AthameRPG.Objects.Characters.WarUnits;
 using AthameRPG.Objects.Maps;
 using AthameRPG.Objects.Weapons.Arrows;
 using Microsoft.Xna.Framework;
+using IDraw = AthameRPG.Contracts.IDraw;
 
 namespace AthameRPG.GameEngine.Collisions
 {
     public static class CollisionDetection
     {
         private static int minPixelCollison = 4;
+
+        public static float WarUnitGoUp(IDraw currentUnit, float moveSpeed, IReadOnlyDictionary<WarUnit, decimal> playerUnits, IReadOnlyDictionary<WarUnit, decimal> enemyUnits)
+        {
+            float unitTop;
+            float unitBottom;
+            float unitLeft;
+            float unitRight;
+
+            float pUp = currentUnit.DrawCoord.Y;
+            float pDown = currentUnit.DrawCoord.Y + currentUnit.CropHeight;
+            float pLeft = currentUnit.DrawCoord.X;
+            float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
+
+            if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            {
+                return 0;
+            }
+
+            foreach (var unit in playerUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pUp, unitBottom, pLeft, unitRight, pRight, unitLeft, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            foreach (var unit in enemyUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pUp, unitBottom, pLeft, unitRight, pRight, unitLeft, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            return moveSpeed;
+        }
+
+        public static float WarUnitGoDown(IDraw currentUnit, float moveSpeed, IReadOnlyDictionary<WarUnit, decimal> playerUnits, IReadOnlyDictionary<WarUnit, decimal> enemyUnits)
+        {
+            float unitTop;
+            float unitBottom;
+            float unitLeft;
+            float unitRight;
+
+            float pUp = currentUnit.DrawCoord.Y;
+            float pDown = currentUnit.DrawCoord.Y + currentUnit.CropHeight;
+            float pLeft = currentUnit.DrawCoord.X;
+            float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
+
+            if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            {
+                return 0;
+            }
+
+            foreach (var unit in playerUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pDown, unitTop, pLeft, unitRight, pRight, unitLeft, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            foreach (var unit in enemyUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pDown, unitTop, pLeft, unitRight, pRight, unitLeft, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            return moveSpeed;
+        }
+
+        public static float WarUnitGoRight(IDraw currentUnit, float moveSpeed, IReadOnlyDictionary<WarUnit, decimal> playerUnits, IReadOnlyDictionary<WarUnit, decimal> enemyUnits)
+        {
+            float unitTop;
+            float unitBottom;
+            float unitLeft;
+            float unitRight;
+
+            float pUp = currentUnit.DrawCoord.Y;
+            float pDown = currentUnit.DrawCoord.Y + currentUnit.CropHeight;
+            float pLeft = currentUnit.DrawCoord.X;
+            float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
+
+            //if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            //{
+            //    return 0;
+            //}
+
+            foreach (var unit in playerUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pRight, unitLeft, pUp, unitBottom, pDown, unitTop, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            foreach (var unit in enemyUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pRight, unitLeft, pUp, unitBottom, pDown, unitTop, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            return moveSpeed;
+        }
+
+        public static float WarUnitGoLeft(IDraw currentUnit, float moveSpeed, IReadOnlyDictionary<WarUnit, decimal> playerUnits, IReadOnlyDictionary<WarUnit, decimal> enemyUnits)
+        {
+            float unitTop;
+            float unitBottom;
+            float unitLeft;
+            float unitRight;
+
+            float pUp = currentUnit.DrawCoord.Y;
+            float pDown = currentUnit.DrawCoord.Y + currentUnit.CropHeight;
+            float pLeft = currentUnit.DrawCoord.X;
+            float pRight = currentUnit.DrawCoord.X + currentUnit.CropWidth;
+
+            //if (pUp - moveSpeed <= 0 || pDown + moveSpeed >= ScreenManager.SCREEN_HEIGHT || pLeft - moveSpeed <= 0 || pRight + moveSpeed >= ScreenManager.SCREEN_WIDTH)
+            //{
+            //    return 0;
+            //}
+
+            foreach (var unit in playerUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pLeft, unitRight, pUp, unitBottom, pDown, unitTop, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            foreach (var unit in enemyUnits.Keys)
+            {
+                unitTop = unit.DrawCoord.Y;
+                unitBottom = unit.DrawCoord.Y + unit.CropHeight;
+                unitLeft = unit.DrawCoord.X;
+                unitRight = unit.DrawCoord.X + unit.CropWidth;
+
+                moveSpeed = HaveCollision(pLeft, unitRight, pUp, unitBottom, pDown, unitTop, moveSpeed);
+
+                if (moveSpeed == 0)
+                {
+                    return 0;
+                }
+            }
+
+            return moveSpeed;
+        }
 
         public static float GoUp(Vector2 playerPositon, float moveSpeedPlayer, Vector2 coordPlayer, int cropWidth, int cropHeight)
         {
@@ -612,18 +814,18 @@ namespace AthameRPG.GameEngine.Collisions
 
         public static bool IsBehindOrInFrontUsForAttack(WarUnit currentUnit, WarUnit targetUnit)
         {
-            bool isBehind = IsNear(currentUnit.WarUnitDrawCoord.X + currentUnit.CropWidth, targetUnit.WarUnitDrawCoord.X,
+            bool isBehind = IsNear(currentUnit.DrawCoord.X + currentUnit.CropWidth, targetUnit.DrawCoord.X,
                 currentUnit.MinAttackDistance);
 
-            bool inFront = IsNear(currentUnit.WarUnitDrawCoord.X, targetUnit.WarUnitDrawCoord.X + targetUnit.CropWidth,
+            bool inFront = IsNear(currentUnit.DrawCoord.X, targetUnit.DrawCoord.X + targetUnit.CropWidth,
                 currentUnit.MinAttackDistance);
 
-            bool nearUsByY = currentUnit.WarUnitDrawCoord.Y >= targetUnit.WarUnitDrawCoord.Y &&
-                             currentUnit.WarUnitDrawCoord.Y <= targetUnit.WarUnitDrawCoord.Y + targetUnit.CropHeight;
+            bool nearUsByY = currentUnit.DrawCoord.Y >= targetUnit.DrawCoord.Y &&
+                             currentUnit.DrawCoord.Y <= targetUnit.DrawCoord.Y + targetUnit.CropHeight;
 
-            bool nearUsByYCrop = currentUnit.WarUnitDrawCoord.Y + currentUnit.CropHeight >= targetUnit.WarUnitDrawCoord.Y &&
-                                 currentUnit.WarUnitDrawCoord.Y + currentUnit.CropHeight <=
-                                 targetUnit.WarUnitDrawCoord.Y + targetUnit.CropHeight;
+            bool nearUsByYCrop = currentUnit.DrawCoord.Y + currentUnit.CropHeight >= targetUnit.DrawCoord.Y &&
+                                 currentUnit.DrawCoord.Y + currentUnit.CropHeight <=
+                                 targetUnit.DrawCoord.Y + targetUnit.CropHeight;
 
             bool byY = nearUsByY || nearUsByYCrop;
 
@@ -651,14 +853,14 @@ namespace AthameRPG.GameEngine.Collisions
 
         public static bool HaveCollisonBetweenTwoObj(WarUnit target, Arrow arrow)
         {
-            bool collisionByX = (arrow.DrawCoords.X > target.WarUnitDrawCoord.X &&
-                                 arrow.DrawCoords.X < (target.WarUnitDrawCoord.X + target.CropWidth))
+            bool collisionByX = (arrow.DrawCoords.X > target.DrawCoord.X &&
+                                 arrow.DrawCoords.X < (target.DrawCoord.X + target.CropWidth))
                                 ||
-                                ((arrow.DrawCoords.X + arrow.CropWidth) > target.WarUnitDrawCoord.X &&
-                                 (arrow.DrawCoords.X + arrow.CropWidth) < (target.WarUnitDrawCoord.X + target.CropWidth));
+                                ((arrow.DrawCoords.X + arrow.CropWidth) > target.DrawCoord.X &&
+                                 (arrow.DrawCoords.X + arrow.CropWidth) < (target.DrawCoord.X + target.CropWidth));
 
-            bool collisionByY = arrow.DrawCoords.Y > target.WarUnitDrawCoord.Y &&
-                                arrow.DrawCoords.Y < (target.WarUnitDrawCoord.Y + target.CropHeight);
+            bool collisionByY = arrow.DrawCoords.Y > target.DrawCoord.Y &&
+                                arrow.DrawCoords.Y < (target.DrawCoord.Y + target.CropHeight);
 
             return collisionByX ;//&& collisionByY;
         }

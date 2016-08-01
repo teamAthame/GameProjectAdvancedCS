@@ -9,8 +9,6 @@ using Microsoft.Xna.Framework.Content;
 
 namespace AthameRPG.GameEngine.Managers
 {
-    //public delegate void OnClick(ISoundable currentSender);
-
     public class SoundEffectManager
     {
         public event OnEvent OnClick;
@@ -58,8 +56,7 @@ namespace AthameRPG.GameEngine.Managers
             {
                 throw new ArgumentNullException("Sound Effect Manager", "Cant find current sound!");
             }
-
-            //Sound sound = new ClickSound(this.contentManager);
+            
             ISound currentSound =(ISound)Activator.CreateInstance(newSound, this.contentManager);
  
             return currentSound;

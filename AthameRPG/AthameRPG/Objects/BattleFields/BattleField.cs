@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AthameRPG.Enums;
 using AthameRPG.GameEngine;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Loaders;
@@ -40,7 +41,7 @@ namespace AthameRPG.Objects.BattleFields
         private const int SupportTextY = 300;
 
         // class Enemy change this value when set ItIsBattle....
-        public static int unitStreghtLevelIndex = 7;
+        public static StrenghtLevel unitStreghtLevelIndex = StrenghtLevel.Strongest;
 
         private Texture2D battlefieldImage;
         private string imagePath;
@@ -51,9 +52,9 @@ namespace AthameRPG.Objects.BattleFields
         private Vector2 drawInfo;
 
         private Dictionary<WarUnit, decimal> playerUnits;
+        private Dictionary<WarUnit, decimal> enemyUnits;
         private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromPlayerArmy;
         private Queue<KeyValuePair<WarUnit, decimal>> supportRemoveKilledUnitsFromEnemyArmy;
-        private Dictionary<WarUnit, decimal> enemyUnits;
 
         protected MouseState newMouseState;
         protected MouseState oldMouseState;
@@ -78,6 +79,16 @@ namespace AthameRPG.Objects.BattleFields
             this.loseTextCoord = new Vector2(LoseTextX,LoseTextY);
             this.supportTextCoord = new Vector2(SupportTextX,SupportTextY);
             
+        }
+
+        public IReadOnlyDictionary<WarUnit, decimal> PlayerUnits
+        {
+            get { return this.playerUnits; }
+        }
+
+        public IReadOnlyDictionary<WarUnit, decimal> EnemyUnits
+        {
+            get { return this.enemyUnits; }
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -188,13 +199,13 @@ namespace AthameRPG.Objects.BattleFields
             {
                 playerUnit.Key.Draw(spriteBatch);
                 spriteBatch.DrawString(FontLoader.SmallSizeFont, playerUnit.Value.ToString(),
-                    playerUnit.Key.WarUnitDrawCoord, Color.Red);
+                    playerUnit.Key.DrawCoord, Color.Red);
             }
             foreach (var enemyUnit in this.enemyUnits)
             {
                 enemyUnit.Key.Draw(spriteBatch);
                 spriteBatch.DrawString(FontLoader.SmallSizeFont, enemyUnit.Value.ToString(),
-                    new Vector2(enemyUnit.Key.WarUnitDrawCoord.X, enemyUnit.Key.WarUnitDrawCoord.Y), Color.Red);
+                    new Vector2(enemyUnit.Key.DrawCoord.X, enemyUnit.Key.DrawCoord.Y), Color.Red);
             }
         }
 
@@ -260,6 +271,7 @@ namespace AthameRPG.Objects.BattleFields
                 CharacterManager.enemiesList.Clear();
                 ScreenManager.Instance.UnloadContent();
                 ScreenManager.Instance.ChangeScreens("MenuScreen");
+                BuildingManager.Restart();
 
                 CharacterManager.barbarian.Restart();
                 this.UnsubscribeFromSoundEvent(CharacterManager.barbarian);
@@ -309,6 +321,7 @@ namespace AthameRPG.Objects.BattleFields
 
         private void TryRemovedKilledUnits()
         {
+            // remove one or several counts of units
             while (this.supportRemoveKilledUnitsFromPlayerArmy.Count > 0)
             {
                 KeyValuePair<WarUnit, decimal> currentUnit = this.supportRemoveKilledUnitsFromPlayerArmy.Dequeue();
@@ -343,6 +356,7 @@ namespace AthameRPG.Objects.BattleFields
 
             while (deathUnit.Count > 0)
             {
+                this.UnsubscribeFromSoundEvent(deathUnit.Peek());
                 this.playerUnits.Remove(deathUnit.Dequeue());
             }
 
@@ -356,6 +370,7 @@ namespace AthameRPG.Objects.BattleFields
 
             while (deathUnit.Count > 0)
             {
+                this.UnsubscribeFromSoundEvent(deathUnit.Peek());
                 this.enemyUnits.Remove(deathUnit.Dequeue());
             }
 
@@ -365,7 +380,7 @@ namespace AthameRPG.Objects.BattleFields
         public void LoadArmies(Dictionary<WarUnit, decimal> playerArmy,
             Dictionary<WarUnit, decimal> enemyArmy, int enemyID)
         {
-            // we take enemy ID because if we win to know whick enemy to remove from the active enemies.
+            // we take enemy ID because if we win would know which enemy to remove from the active enemies.
             this.enemyId = enemyID;
 
             // need in the end of round.
@@ -379,10 +394,30 @@ namespace AthameRPG.Objects.BattleFields
             this.playerUnits =  playerArmy;
             this.enemyUnits = enemyArmy;
 
+            this.SubscribeForSoundEvents(this.playerUnits, this.enemyUnits);
+
             this.ResetDrawPosition();
 
             this.playerTurn = true;
             this.PrepareUnitsForTurn();
+        }
+
+        private void SubscribeForSoundEvents(Dictionary<WarUnit, decimal> playerUnits, Dictionary<WarUnit, decimal> enemyUnits)
+        {
+            foreach (var unit in playerUnits)
+            {
+                unit.Key.OnEvent += ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+            }
+
+            foreach (var unit in enemyUnits)
+            {
+                unit.Key.OnEvent += ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
+            }
+        }
+
+        private void UnsubscribeFromSoundEvent(WarUnit unit)
+        {
+            unit.OnEvent -= ScreenManager.Instance.SoundEffectManager.ExecuteQuery;
         }
 
         public void EndCurrentTurn()
@@ -462,7 +497,7 @@ namespace AthameRPG.Objects.BattleFields
 
             if (unitStreghtLevelIndex < 0)
             {
-                unitStreghtLevelIndex = 7;
+                unitStreghtLevelIndex = StrenghtLevel.Strongest;
             }
         }
         
@@ -515,10 +550,10 @@ namespace AthameRPG.Objects.BattleFields
             
             foreach (var unit in this.playerUnits)
             {
-                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.WarUnitDrawCoord,
-                    enemyUnit.WarUnitDrawCoord);
+                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.DrawCoord,
+                    enemyUnit.DrawCoord);
 
-                if ((currentDistance < minDistance) && ((int)currentDistance < radius))
+                if ((currentDistance < minDistance) && ((int)currentDistance <= radius))
                 {
                     this.supportUnit = unit.Key;
 
@@ -537,8 +572,8 @@ namespace AthameRPG.Objects.BattleFields
 
             foreach (var unit in this.enemyUnits)
             {
-                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.WarUnitDrawCoord,
-                    enemyUnit.WarUnitDrawCoord);
+                double currentDistance = CollisionDetection.CalculateDistanceTravelled(unit.Key.DrawCoord,
+                    enemyUnit.DrawCoord);
 
                 if ((currentDistance < minDistance) && ((int)currentDistance < radius))
                 {

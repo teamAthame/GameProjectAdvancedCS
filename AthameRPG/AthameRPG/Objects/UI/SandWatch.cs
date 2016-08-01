@@ -35,7 +35,7 @@ namespace AthameRPG.Objects.UI
         {
             this.drawCoord = new Vector2(DrawCoordX, DrawCoordY);
             this.cropDimmensionsOfWatch = new Rectangle(ImageCropX, ImageCropY, ImageWidthHeight, ImageWidthHeight);
-            this.SoundStatus = SoundStatus.Click;
+            this.SoundStatus = SoundStatus.Click2;
         }
 
         public int TurnCounter { get; private set; }
@@ -74,6 +74,11 @@ namespace AthameRPG.Objects.UI
                         }
                         CharacterManager.itIsPlayerTurn = false;
                         TurnIsClicked = true;
+
+                        if (this.OnEvent != null)
+                        {
+                            this.OnEvent(this);
+                        }
                     }
                 }
                 
@@ -85,6 +90,11 @@ namespace AthameRPG.Objects.UI
                     if (this.newMouseState.LeftButton == ButtonState.Pressed && this.oldMouseState.LeftButton == ButtonState.Released)
                     {
                         MapManager.Instance.Battlefield.EndCurrentTurn();
+
+                        if (this.OnEvent != null)
+                        {
+                            this.OnEvent(this);
+                        }
                     }
                 }
             }

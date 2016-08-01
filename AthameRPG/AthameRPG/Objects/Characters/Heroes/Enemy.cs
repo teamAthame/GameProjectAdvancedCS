@@ -1,7 +1,8 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.Controls;
+﻿using AthameRPG.Controls;
+using AthameRPG.Enums;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
+using AthameRPG.GameEngine.Loaders;
 using AthameRPG.GameEngine.Managers;
 using AthameRPG.Objects.BattleFields;
 using Microsoft.Xna.Framework;
@@ -12,15 +13,11 @@ namespace AthameRPG.Objects.Characters.Heroes
 {
     public abstract class Enemy : Unit
     {
-        public override event OnEvent OnEvent;
-
+        protected const string InvitationForBattle = "Click twice over Enemy for battle.";
         protected const int ViewRadius = 150;
         protected const int EnemySearchRadius = 120;
         protected const int BattleRadius = 5;
-        protected const string SmallLettersPath = "../Content/Fonts/SmallLetters";
-        protected const string BigLettersPath = "../Content/Fonts/ArialBig";
-        protected const string InvitationForBattle = "Click twice over Enemy for battle.";
-        protected const int MaxStrenghtLevel = 7;
+        protected const StrenghtLevel MaxStrenghtLevel = StrenghtLevel.Strongest;
         public const int cropWidth = 80;
         public const int cropHeight = 85;
 
@@ -73,10 +70,8 @@ namespace AthameRPG.Objects.Characters.Heroes
         {
             base.LoadContent(content);
 
-            spriteFontSmallLetters = content.Load<SpriteFont>(SmallLettersPath);
-            bigLetters = content.Load<SpriteFont>(BigLettersPath);
             this.invitationTextCoord =
-                new Vector2(ScreenManager.SCREEN_WIDTH - spriteFontSmallLetters.MeasureString(InvitationForBattle).X, 5);
+                new Vector2(ScreenManager.SCREEN_WIDTH - FontLoader.SmallSizeFont.MeasureString(InvitationForBattle).X, 5);
         }
 
         public override void UnloadContent()
@@ -171,27 +166,7 @@ namespace AthameRPG.Objects.Characters.Heroes
             //}
 
         }
-
-        private void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)
-        {
-            bool amIMoving = oldPosition != newPosition;
-
-            if (amIMoving)
-            {
-                this.soundFrameSwitch += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-                if (this.soundFrameSwitch >= this.maxSoundFrameSwitch)
-                {
-                    this.soundFrameSwitch = 0;
-
-                    if (this.OnEvent != null)
-                    {
-                        this.OnEvent(this);
-                    }
-                }
-            }
-        }
-
+        
         private void CheckForBattle(float plTopSide, float enemyBottom, float plLeftSide, float enemyRight, float plRightSide,
             float enemyLeft, float plBottomSide, float enemyTop, GameTime gameTime)
         {
@@ -329,14 +304,14 @@ namespace AthameRPG.Objects.Characters.Heroes
                     this.indexCounterSupport = 25;
                     foreach (var creature in this.availableCreatures)
                     {
-                        spriteBatch.DrawString(spriteFontSmallLetters, creature.Key.GetType().Name + ": " + creature.Value,
+                        spriteBatch.DrawString(FontLoader.SmallSizeFont, creature.Key.GetType().Name + ": " + creature.Value,
                         new Vector2(5, this.indexCounterSupport), Color.Red);
                         this.indexCounterSupport += 20;
                     }
                 }
                 if (this.showInvitationText)
                 {
-                    spriteBatch.DrawString(spriteFontSmallLetters, InvitationForBattle,
+                    spriteBatch.DrawString(FontLoader.SmallSizeFont, InvitationForBattle,
                         this.invitationTextCoord, Color.Red);
 
                     this.showInvitationText = false;
