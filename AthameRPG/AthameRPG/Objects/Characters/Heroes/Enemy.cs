@@ -1,16 +1,16 @@
-﻿using AthameRPG.Controls;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Collisions;
-using AthameRPG.GameEngine.Graphics;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.BattleFields;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Characters.Heroes
+﻿namespace AthameRPG.Objects.Characters.Heroes
 {
+    using AthameRPG.Controls;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Collisions;
+    using AthameRPG.GameEngine.Graphics;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.BattleFields;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class Enemy : Unit
     {
         protected const string InvitationForBattle = "Click twice over Enemy for battle.";
@@ -62,8 +62,6 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.enemySearchRadius = EnemySearchRadius;
             this.cropCurrentFrame = new Rectangle(this.cropStay, this.south, cropWidth, cropHeight);
             this.CropCurrentFrame = this.cropCurrentFrame;
-            //this.invitationTextCoord =
-            //    new Vector2(ScreenManager.SCREEN_WIDTH - bigLetters.MeasureString(InvitationForBattle).X, 5);
         }
 
         public override void LoadContent(ContentManager content)
@@ -135,16 +133,7 @@ namespace AthameRPG.Objects.Characters.Heroes
 
                 this.SendSoundQuery(gameTime, this.lastAbstractCoord, this.coordGargamel);
             }
-            else if (Character.GetIsInCastle)
-            {
-
-            }
-            else if (Character.GetIsInBattle)
-            {
-
-            }
-
-
+            
             // Check if the mouse position is inside the rectangle
             // fix it !
 
@@ -317,14 +306,6 @@ namespace AthameRPG.Objects.Characters.Heroes
                     this.showInvitationText = false;
                     
                 }
-            }
-            else if (Character.GetIsInCastle)
-            {
-
-            }
-            else if (Character.GetIsInBattle)
-            {
-
             }
         }
 

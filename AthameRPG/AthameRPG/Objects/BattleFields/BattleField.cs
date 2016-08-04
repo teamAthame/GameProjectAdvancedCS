@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine;
-using AthameRPG.GameEngine.Collisions;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Characters.Heroes;
-using AthameRPG.Objects.Characters.WarUnits;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using AthameRPG.Objects.Weapons;
-
-namespace AthameRPG.Objects.BattleFields
+﻿namespace AthameRPG.Objects.BattleFields
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Collisions;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Weapons;
+    using AthameRPG.Objects.Characters.Heroes;
+    using AthameRPG.Objects.Characters.WarUnits;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public class Battlefield
     {
         // instance/loaded from MapManager

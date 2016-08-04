@@ -1,20 +1,19 @@
 ﻿using AthameRPG.Controls;
 using AthameRPG.GameEngine.Collisions;
 using AthameRPG.GameEngine.Graphics;
-using AthameRPG.GameEngine.Loaders;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
 namespace AthameRPG.Objects.Characters.Heroes
 {
+    using AthameRPG.GameEngine.Loaders;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public abstract class Character : Unit
     {
         /// <summary>
-        /// Unit is  abstract class for ALL GOOD PLAYERS
+        /// Character is  abstract class for ALL GOOD PLAYERS
         /// </summary>
-         
+
         protected static int cropWidth;
         protected static int cropHeight;
         protected static Texture2D playerImage;
@@ -62,7 +61,6 @@ namespace AthameRPG.Objects.Characters.Heroes
             if (!isInCastle && !isInBattle)
             {
                 this.lastAbstractCoord = this.abstractPlayerPositon;
-
                 
                 // take position where need to go
                 //this.mouse.LeftButton == ButtonState.Pressed - for single click movement
@@ -86,24 +84,6 @@ namespace AthameRPG.Objects.Characters.Heroes
                 this.MakeCurrentAnimationFrame(gameTime);
                 this.SendSoundQuery(gameTime, this.lastAbstractCoord, this.abstractPlayerPositon);
             }
-            else if (isInCastle)
-            {
-
-                // if EXIT is clicked
-                //if (true)
-                //{
-                //    isInCastle = false;
-                //}
-            }
-            else if (isInBattle)
-            {
-                // when have a winner .. continue is clicked
-                //if (true)
-                //{
-                //    isInBattle = false;
-                //}
-            }
-
         }
 
         private void MakeCurrentAnimationFrame(GameTime gameTime)

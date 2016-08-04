@@ -1,19 +1,19 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Characters.Heroes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.Screens
+﻿namespace AthameRPG.Objects.Screens
 {
+    using AthameRPG.Contracts;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Characters.Heroes;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public class FinalScreen : GameScreen
     {
         public override event OnEvent OnEvent;
 
         private const string Credits =
-            "Copyright: Team Athame\r\n\r\nSoftware Developers:\r\n\r\nAleksey Tsekov\r\nStanimir Todorov\r\nNikolay Genov\r\nIvo Lekov\r\nZdravko Stoynov";
+            "  Team Athame:\r\n\r\nAleksey Tsekov\r\nStanimir Todorov\r\nNikolay Genov\r\nIvo Lekov\r\nZdravko Stoynov";
         
         // congratulations you complete the game in xx turns;
         private const int SwitchCounter = 50;

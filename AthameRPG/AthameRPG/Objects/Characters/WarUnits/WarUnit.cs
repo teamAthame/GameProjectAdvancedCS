@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using AthameRPG.Contracts;
-using AthameRPG.Controls;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Collisions;
-using AthameRPG.GameEngine.Graphics;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Weapons;
-using AthameRPG.Objects.Weapons.Arrows;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.Characters.WarUnits
+﻿namespace AthameRPG.Objects.Characters.WarUnits
 {
-    public abstract class WarUnit : ISoundable, IDraw //: IComparable<WarUnit>
+    using System;
+    using System.Collections.Generic;
+    using AthameRPG.Contracts;
+    using AthameRPG.Controls;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Collisions;
+    using AthameRPG.GameEngine.Graphics;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Weapons;
+    using AthameRPG.Objects.Weapons.Arrows;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
+    public abstract class WarUnit : ISoundable, IDraw
     {
         public virtual event OnEvent OnEvent;
         
@@ -44,8 +44,7 @@ namespace AthameRPG.Objects.Characters.WarUnits
         internal bool inBattleTurn;
         internal bool HaveActionForCurrentTurn;
         private Color color;
-
-
+        
         protected int frameCounter;
         protected int switchCounter;
         protected int cropFrame;
@@ -77,13 +76,11 @@ namespace AthameRPG.Objects.Characters.WarUnits
         private bool amIAttacking;
         private int attackingFrames;
         
-
         protected Arrow arrow;
         protected WarUnit attacker;
         protected Weapon weapon;
         protected Arrow attackerArrow;
-
-
+        
         protected WarUnit()
         {
             this.playerUnit = false;
@@ -93,7 +90,6 @@ namespace AthameRPG.Objects.Characters.WarUnits
             this.inBattleTurn = true;
             this.isAlive = true;
             
-
             this.LoadDefaultUnitStats();
         }
 
@@ -1091,7 +1087,6 @@ namespace AthameRPG.Objects.Characters.WarUnits
         //    return other.GetType().Name.CompareTo(this.GetType().Name);
 
         //}
-        
         
     }
 }

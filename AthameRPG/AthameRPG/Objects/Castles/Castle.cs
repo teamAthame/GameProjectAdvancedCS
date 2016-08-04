@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AthameRPG.Attributes.Behavior;
-using AthameRPG.Contracts;
-using AthameRPG.Controls;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Characters.Heroes;
-using AthameRPG.Objects.Characters.WarUnits;
-using AthameRPG.Objects.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.Castles
+﻿namespace AthameRPG.Objects.Castles
 {
-    [ClickableObject]
+    using System.Collections.Generic;
+    using System.Linq;
+    using AthameRPG.Contracts;
+    using AthameRPG.Controls;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Characters.Heroes;
+    using AthameRPG.Objects.Characters.WarUnits;
+    using AthameRPG.Objects.UI;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public abstract class Castle : ISoundable 
     {
         // loaded from building manager

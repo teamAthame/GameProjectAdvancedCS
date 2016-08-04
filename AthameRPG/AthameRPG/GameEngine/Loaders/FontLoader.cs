@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.GameEngine.Loaders
+﻿namespace AthameRPG.GameEngine.Loaders
 {
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public static class FontLoader
     {
         private const string ArialBigSizePath = @"../Content/Fonts/ArialBig";
@@ -15,7 +15,6 @@ namespace AthameRPG.GameEngine.Loaders
 
         public static void LoadContent(ContentManager content)
         {
-            //this.Content = new ContentManager(Content.ServiceProvider, "Content");
             BigSizeFont = content.Load<SpriteFont>(ArialBigSizePath);
             SmallSizeFont = content.Load<SpriteFont>(SmallSizeLetterPath);
             MediumSizeLetter = content.Load<SpriteFont>(MediumSizeLetterPath);

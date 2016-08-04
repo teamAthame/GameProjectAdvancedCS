@@ -1,10 +1,10 @@
-﻿using AthameRPG.Objects.Characters.WarUnits;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Characters.Heroes
+﻿namespace AthameRPG.Objects.Characters.Heroes
 {
+    using AthameRPG.Objects.Characters.WarUnits;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class Gargamel : Enemy
     {
         private const int DefaultWariorAttackPoints = 80;
@@ -23,6 +23,7 @@ namespace AthameRPG.Objects.Characters.Heroes
         private const int DefaultGargamelDirectionSouthEast = 770;
         private const int DefaultGargamelDirectionSouthWest = 122;
         private const double DefaultGargamelMove = 90;
+
         private const int SoundFrameSwitch = 300;
         
         public Gargamel(float startPositionX, float startPositionY, int id)

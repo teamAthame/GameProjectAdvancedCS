@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
-
-namespace AthameRPG.Controls
+﻿namespace AthameRPG.Controls
 {
+    using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework;
+
     public class MouseExtended : InputDeviceExtended<MouseState>
     {
         private static MouseExtended m_Current;

@@ -1,10 +1,10 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.GameEngine.Managers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Screens
+﻿namespace AthameRPG.Objects.Screens
 {
+    using AthameRPG.Contracts;
+    using AthameRPG.GameEngine.Managers;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class MapScreen : GameScreen
     {
         public override event OnEvent OnEvent;
@@ -40,6 +40,7 @@ namespace AthameRPG.Objects.Screens
             base.UnloadContent();
             MapManager.Instance.UnloadContent();
         }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

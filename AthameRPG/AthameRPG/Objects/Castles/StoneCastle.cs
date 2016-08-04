@@ -1,18 +1,11 @@
-﻿using AthameRPG.Objects.Characters.WarUnits;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-
-namespace AthameRPG.Objects.Castles
+﻿namespace AthameRPG.Objects.Castles
 {
+    using AthameRPG.Objects.Characters.WarUnits;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+
     public class StoneCastle : Castle
     {
-        //public override event OnEvent OnEvent;
-
-        // units which will be generated in this castle
-        private BlackDragon blackDragon;
-        private Goro goro;
-        private Elf elf;
-        
         private const int DefaultCastleImageWidth = 250;
         private const int DefaultCastleImageHeight = 200;
         private const int CurrentRowOnImage = 0;
@@ -30,6 +23,7 @@ namespace AthameRPG.Objects.Castles
 
         }
 
+        // units which will be generated in this castle
         protected override void LoadUnitsThatWillBeGenerated()
         {
             this.gadini.Add(new BlackDragon(true), 0);

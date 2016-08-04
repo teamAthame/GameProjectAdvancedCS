@@ -1,11 +1,11 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.GameEngine.Managers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.Screens
+﻿namespace AthameRPG.Objects.Screens
 {
+    using AthameRPG.Contracts;
+    using AthameRPG.GameEngine.Managers;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public class IntroScreen : GameScreen
     {
         public override event OnEvent OnEvent;

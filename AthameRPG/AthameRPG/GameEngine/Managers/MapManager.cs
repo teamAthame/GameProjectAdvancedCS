@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using AthameRPG.Contracts;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.Objects.BattleFields;
-using AthameRPG.Objects.Characters.Heroes;
-using AthameRPG.Objects.Maps;
-using AthameRPG.Objects.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.GameEngine.Managers
+﻿namespace AthameRPG.GameEngine.Managers
 {
+    using System.Collections.Generic;
+    using AthameRPG.Contracts;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.Objects.BattleFields;
+    using AthameRPG.Objects.Characters.Heroes;
+    using AthameRPG.Objects.Maps;
+    using AthameRPG.Objects.UI;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class MapManager
     {
         private const string Map_List_Path = @"../../../../Content/Maps/mapList.txt";
@@ -167,13 +167,13 @@ namespace AthameRPG.GameEngine.Managers
             if (this.isLevelChanging)
             {
                 this.NextLevel();
-                this.changeLevel.Status = Status.Working;
+                this.changeLevel.Status = ChangeLevelStatus.LevelIsChanging;
                 this.isLevelChanging = false;
             }
 
             this.changeLevel.Update(gameTime);
 
-            if (this.changeLevel.Status == Status.Completed)
+            if (this.changeLevel.Status == ChangeLevelStatus.LevelIsChanged)
             {
                 this.IsDrawLevelChanging = false;
             }

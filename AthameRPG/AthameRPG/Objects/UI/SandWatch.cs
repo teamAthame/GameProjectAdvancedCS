@@ -1,16 +1,14 @@
-﻿using AthameRPG.Attributes.Behavior;
-using AthameRPG.Contracts;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Collisions;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Characters.Heroes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.UI
+﻿namespace AthameRPG.Objects.UI
 {
-    [ClickableObject]
+    using AthameRPG.Contracts;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Collisions;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Characters.Heroes;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public class SandWatch : ISoundable
     {
         public event OnEvent OnEvent;

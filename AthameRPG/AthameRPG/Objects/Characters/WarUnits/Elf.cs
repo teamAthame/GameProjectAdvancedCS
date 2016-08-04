@@ -1,32 +1,14 @@
-﻿using AthameRPG.Attributes.Behavior;
-using AthameRPG.Enums;
-using AthameRPG.Objects.Weapons.Arrows;
-using Microsoft.Xna.Framework;
-
-namespace AthameRPG.Objects.Characters.WarUnits
+﻿namespace AthameRPG.Objects.Characters.WarUnits
 {
-    [RangeUnit]
-    [WalkUnit]
+    using AthameRPG.Enums;
+    using AthameRPG.Objects.Weapons.Arrows;
+    using Microsoft.Xna.Framework;
+
     public class Elf : WarUnit
     {
         private const string DefaultImagePath = "../Content/Character/elf";
         private const StrenghtLevel DefaultStrengthLevel = StrenghtLevel.Strong;
         
-        //private const int DefaultStayCorrection = 0;
-        //private const int DefaultStayRow = 0;
-        //private const int DefaultCropStayWidth = 62;
-        //private const int DefaultCropStayHeight = 90;
-
-        //private const int DefaultMoveRow = 200;
-        //private const int DefaultCorrectionMove = 12;
-        //private const int DefaultCropMoveWidth = 47;
-        //private const int DefaultCropMoveHeight = 90;
-
-        //private const int DefaultAttackRow = 110;
-        //private const int DefaultCorrectionAttack = 0;
-        //private const int DefaultCropAttackWidth = 75;
-        //private const int DefaultCropAttackHeight = 90;
-
         private const float DefaultMoveSpeed = 4f;
         private const float DefaultAvailableMove = 150f;
         private const int DefaultHealth = 200;

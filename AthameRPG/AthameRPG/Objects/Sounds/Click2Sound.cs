@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework.Content;
-
-namespace AthameRPG.Objects.Sounds
+﻿namespace AthameRPG.Objects.Sounds
 {
+    using Microsoft.Xna.Framework.Content;
+
     public class Click2Sound : Sound
     {
         private const string PathSound = @"../Content/SoundEffects/Click2";

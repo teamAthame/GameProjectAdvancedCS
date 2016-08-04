@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace AthameRPG.GameEngine.Graphics
+﻿namespace AthameRPG.GameEngine.Graphics
 {
+    using Microsoft.Xna.Framework;
+
     public class AnimationReturnedValue
     {
         private string direction;

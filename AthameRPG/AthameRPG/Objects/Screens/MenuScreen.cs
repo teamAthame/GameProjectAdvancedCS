@@ -1,12 +1,12 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace AthameRPG.Objects.Screens
+﻿namespace AthameRPG.Objects.Screens
 {
+    using AthameRPG.Contracts;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     public class MenuScreen : GameScreen
     {
         public override event OnEvent OnEvent;
@@ -88,11 +88,7 @@ namespace AthameRPG.Objects.Screens
 
             this.PositioningInTheMiddleOfTheScreen();
         }
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
-            
-        }
+        
         public override void Update(GameTime gameTime)
         {
             this.mouse = Mouse.GetState();

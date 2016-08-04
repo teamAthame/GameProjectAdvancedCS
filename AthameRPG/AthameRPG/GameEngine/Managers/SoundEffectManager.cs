@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using AthameRPG.Attributes;
-using AthameRPG.Contracts;
-using AthameRPG.Objects.Sounds;
-using Microsoft.Xna.Framework.Content;
-
-namespace AthameRPG.GameEngine.Managers
+﻿namespace AthameRPG.GameEngine.Managers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using AthameRPG.Attributes;
+    using AthameRPG.Contracts;
+    using Microsoft.Xna.Framework.Content;
+
     public class SoundEffectManager
     {
         public event OnEvent OnClick;

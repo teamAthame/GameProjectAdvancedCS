@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace AthameRPG.GameEngine.Graphics
+﻿namespace AthameRPG.GameEngine.Graphics
 {
+    using Microsoft.Xna.Framework;
+
     public static class Animation
     {
         public static AnimationReturnedValue SpriteSheetAnimation(Vector2 lastAbstractCoord, Vector2 abstractPlayerPositon,string direction, int cropFrame, int cropWidth, int cropHeight, int cropStay, int north, int south, int east, int west, int northEast, int northWest, int southEast, int southWest)

@@ -1,10 +1,10 @@
-﻿using AthameRPG.Attributes;
-using AthameRPG.Contracts;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-
-namespace AthameRPG.Objects.Sounds
+﻿namespace AthameRPG.Objects.Sounds
 {
+    using AthameRPG.Attributes;
+    using AthameRPG.Contracts;
+    using Microsoft.Xna.Framework.Audio;
+    using Microsoft.Xna.Framework.Content;
+
     [SoundAttribute]
     public abstract class Sound : ISound
     {

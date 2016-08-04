@@ -44,13 +44,6 @@
     <Compile Include="Attack\Attack.cs" />
     <Compile Include="Attack\AttackBarbarian.cs" />
     <Compile Include="Attack\CombatHandler.cs" />
-    <Compile Include="Attributes\Behavior\BehaviorAttribute.cs" />
-    <Compile Include="Attributes\Behavior\ClickableObjectAttribute.cs" />
-    <Compile Include="Attributes\Behavior\FireBreatheUnitAttribute.cs" />
-    <Compile Include="Attributes\Behavior\FlyUnitAttribute.cs" />
-    <Compile Include="Attributes\Behavior\MaleUnitAttribute.cs" />
-    <Compile Include="Attributes\Behavior\RangeUnitAttribute.cs" />
-    <Compile Include="Attributes\Behavior\WalkUnitAttribute.cs" />
     <Compile Include="Attributes\SoundAttribute.cs" />
     <Compile Include="Contracts\IDraw.cs" />
     <Compile Include="Contracts\ISound.cs" />
@@ -149,7 +142,7 @@
     <Compile Include="Controls\KeyboardExtended.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseExtended.cs" />
-    <Compile Include="Enums\Status.cs" />
+    <Compile Include="Enums\ChangeLevelStatus.cs" />
     <Compile Include="Enums\Unused\AttackSource.cs" />
     <Compile Include="Enums\Unused\AttackType.cs" />
     <Compile Include="Enums\Unused\Immunity.cs" />

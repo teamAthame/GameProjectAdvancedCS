@@ -1,26 +1,12 @@
-﻿using AthameRPG.Attributes.Behavior;
-using AthameRPG.Enums;
-using Microsoft.Xna.Framework;
-
-namespace AthameRPG.Objects.Characters.WarUnits
+﻿namespace AthameRPG.Objects.Characters.WarUnits
 {
-    [MaleUnit]
-    [WalkUnit]
+    using AthameRPG.Enums;
+    using Microsoft.Xna.Framework;
+
     public class Goro : WarUnit
     {
         private const StrenghtLevel DefaultStrengthLevel = StrenghtLevel.Stronger;
         private const string DefaultImagePath = "../Content/Character/goro";
-        //private const int DefaultStayRow = 0;
-        //private const int DefaultCropStayWidth = 50;
-        //private const int DefaultCropStayHeight = 95;
-        //private const int DefaultMoveRow = 0; //-------------------------------
-        //private const int DefaultCropMoveWidth = 0;
-        //private const int DefaultCropMoveHeight = 0;
-        //private const int DefaultAttackRow = 0; //----------------------------
-        //private const int DefaultCropAttackWidth = 0;
-        //private const int DefaultCropAttackHeight = 0;
-        //private const int DefaultCorrectionCropByX = 7;
-
         private const int DefaultProtectedStep = 90;
         private const float DefaultMoveSpeed = 2f;
         private const float DefaultAvailableMove = 200f;
@@ -52,14 +38,6 @@ namespace AthameRPG.Objects.Characters.WarUnits
             base.LoadDefaultUnitStats();
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            //this.cropStayRow = DefaultStayRow;
-            //this.cropStayWidth = DefaultCropStayWidth;
-            //this.cropStayHeight = DefaultCropStayHeight;
-            //this.cropMoveWidth = 0;
-            //this.cropMoveHeight = 0;
-            //this.cropAttackWidth = 0;
-            //this.cropAttackHeight = 0;
-            //this.correctionStayCropByX = DefaultCorrectionCropByX;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
             this.damage = DefaultDamage;

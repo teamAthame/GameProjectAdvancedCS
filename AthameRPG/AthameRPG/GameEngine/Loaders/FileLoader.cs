@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Castles;
-using Microsoft.Xna.Framework;
-
-namespace AthameRPG.GameEngine.Loaders
+﻿namespace AthameRPG.GameEngine.Loaders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Castles;
+    using Microsoft.Xna.Framework;
+
     public static class FileLoader
     {
         private const int DefaultMapSquareSize = 50;

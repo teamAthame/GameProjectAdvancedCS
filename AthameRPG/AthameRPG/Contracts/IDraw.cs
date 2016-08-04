@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace AthameRPG.Contracts
+﻿namespace AthameRPG.Contracts
 {
+    using Microsoft.Xna.Framework;
+
     public interface IDraw
     {
         Vector2 DrawCoord { get; }

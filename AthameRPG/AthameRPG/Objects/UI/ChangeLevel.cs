@@ -1,11 +1,11 @@
-﻿using AthameRPG.Enums;
-using AthameRPG.GameEngine.Loaders;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.UI
+﻿namespace AthameRPG.Objects.UI
 {
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Loaders;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     // loaded from MapManager
     public class ChangeLevel
     {
@@ -33,14 +33,14 @@ namespace AthameRPG.Objects.UI
 
         private void LoadDefaults()
         {
-            this.Status = Status.Completed;
+            this.Status = ChangeLevelStatus.LevelIsChanged;
             this.symbolDrawCoord = new Vector2(300, 450);
             this.imageDrawCoord = Vector2.Zero;
             this.switchCounter = MinFrameSwitch;
             this.elapsedTime = StartingTime;
         }
 
-        public Status Status { get; set; }
+        public ChangeLevelStatus Status { get; set; }
 
         public void Restart()
         {
@@ -66,7 +66,7 @@ namespace AthameRPG.Objects.UI
 
                 if (this.elapsedTime == MaxLoadingTime)
                 {
-                    this.Status = Status.Completed;
+                    this.Status = ChangeLevelStatus.LevelIsChanged;
                 }
             }
         }

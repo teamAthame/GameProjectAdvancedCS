@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.Objects.Characters.Heroes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.GameEngine.Managers
+﻿namespace AthameRPG.GameEngine.Managers
 {
+    using System.Collections.Generic;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.Objects.Characters.Heroes;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class CharacterManager
     {
         // SandWatch can change this value;

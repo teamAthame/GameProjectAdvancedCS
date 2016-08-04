@@ -1,11 +1,10 @@
-﻿using AthameRPG.Contracts;
-using AthameRPG.GameEngine.Managers;
-using AthameRPG.Objects.Characters.WarUnits;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Characters.Heroes
+﻿namespace AthameRPG.Objects.Characters.Heroes
 {
+    using AthameRPG.GameEngine.Managers;
+    using AthameRPG.Objects.Characters.WarUnits;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class Barbarian : Character
     {
         private const int DefaultBarbarianAttackPoints = 120;
@@ -35,8 +34,7 @@ namespace AthameRPG.Objects.Characters.Heroes
             
              //this.AtackHandler =new AtackBarbarian();
         }
-
-
+        
         protected override void LoadDefaultStats()
         {
             cropWidth = DefaultBarbarianCropWidth;

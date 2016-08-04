@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AthameRPG.GameEngine.Loaders;
-using AthameRPG.GameEngine.Managers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Maps
+﻿namespace AthameRPG.Objects.Maps
 {
-    public class Map 
+    using System.Collections.Generic;
+    using System.Linq;
+    using AthameRPG.GameEngine.Loaders;
+    using AthameRPG.GameEngine.Managers;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
+    public class Map
     {
+        private const int SquareCropSize = 50;
+
+        private readonly Rectangle earthImageCrop = new Rectangle(0, 0, 50, 50);
+        private readonly Rectangle grassImageCrop = new Rectangle(50, 0, 50, 50);
+        private readonly Rectangle darkStoneImageCrop = new Rectangle(100, 0, 50, 50);
+
         private string mapPath;
         private List<List<int>> fullMap;
         private Rectangle cropWall;
         private Vector2 currentCoord;
         private static List<Vector2> obstacles;
-
-
+        
         public Map(string mapPath)
         {
             this.MapPath = mapPath;
@@ -24,7 +29,6 @@ namespace AthameRPG.Objects.Maps
             
         }
         
-
         public string MapPath
         {
             get
@@ -73,7 +77,7 @@ namespace AthameRPG.Objects.Maps
                     switch (currentNum)
                     {
                         case 1:
-                            AddObstacle(new Vector2((float)(j * 50), (float)(i * 50)));
+                            AddObstacle(new Vector2((float)(j * SquareCropSize), (float)(i * SquareCropSize)));
                             break;
                         
                         default:
@@ -96,7 +100,6 @@ namespace AthameRPG.Objects.Maps
         public void Draw(SpriteBatch spriteBatch)
         {
             this.DrawWorld(spriteBatch);
-
         }
 
         private void DrawWorld(SpriteBatch spriteBatch)
@@ -110,14 +113,14 @@ namespace AthameRPG.Objects.Maps
 
                     switch (currentNum)
                     {
-                        case 0:
-                            this.cropWall = new Rectangle(0, 0, 50, 50);
+                        case 0://earth
+                            this.cropWall = this.earthImageCrop;
                             break;
-                        case 1:
-                            this.cropWall = new Rectangle(50, 0, 50, 50);
+                        case 1://grass
+                            this.cropWall = this.grassImageCrop;
                             break;
-                        case 2:
-                            this.cropWall = new Rectangle(100, 0, 50, 50);
+                        case 2://dark stone
+                            this.cropWall = this.darkStoneImageCrop;
                             break;
 
                         default:
@@ -126,8 +129,8 @@ namespace AthameRPG.Objects.Maps
                             break;
                     }
 
-                    this.currentCoord.X = (float) (j*50) + CharacterManager.barbarian.CoordP().X;
-                    this.currentCoord.Y = (float) (i*50) + CharacterManager.barbarian.CoordP().Y;
+                    this.currentCoord.X = (float) (j* SquareCropSize) + CharacterManager.barbarian.CoordP().X;
+                    this.currentCoord.Y = (float) (i* SquareCropSize) + CharacterManager.barbarian.CoordP().Y;
 
                     spriteBatch.Draw(MapManager.Instance.Terrain, this.currentCoord, this.cropWall, currentColor);
                 }

@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using AthameRPG.Contracts;
-using AthameRPG.Objects.Castles;
-using AthameRPG.Objects.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.GameEngine.Managers
+﻿namespace AthameRPG.GameEngine.Managers
 {
+    using System.Collections.Generic;
+    using AthameRPG.Contracts;
+    using AthameRPG.Objects.Castles;
+    using AthameRPG.Objects.UI;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class BuildingManager
     {
         private static List<Castle> listOfCastlesOnMap;

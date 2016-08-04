@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AthameRPG.Attributes.Behavior;
-using AthameRPG.Contracts;
-using AthameRPG.Enums;
-using AthameRPG.GameEngine.Graphics;
-using AthameRPG.Objects.Characters.WarUnits;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Characters.Heroes
+﻿namespace AthameRPG.Objects.Characters.Heroes
 {
-    [WalkUnit]
+    using System.Collections.Generic;
+    using System.Linq;
+    using AthameRPG.Enums;
+    using AthameRPG.GameEngine.Graphics;
+    using AthameRPG.Objects.Characters.WarUnits;
+    using AthameRPG.Contracts;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class Unit : ISoundable
     {
         public virtual event OnEvent OnEvent;
@@ -49,7 +47,6 @@ namespace AthameRPG.Objects.Characters.Heroes
             this.switchCounter = MinFrameSwitch;
             this.cropFrame = StartingIndexFrame;
             this.returnedValue = new AnimationReturnedValue();
-            //this.CropCurrentFrame = cropCurrentFrame;
             this.AtackPoints = atack;
             this.HealthPoints = health;
             this.DefencePoints = defence;
@@ -96,7 +93,6 @@ namespace AthameRPG.Objects.Characters.Heroes
 
         public virtual void AddCreature(WarUnit newUnit)
         {
-
             this.supportUnitForAdding =
             this.availableCreatures.Keys.FirstOrDefault(x => x.GetStrengthLevel == newUnit.GetStrengthLevel);
 
@@ -108,12 +104,6 @@ namespace AthameRPG.Objects.Characters.Heroes
             {
                 this.availableCreatures[supportUnitForAdding]++;
             }
-
-            //if (!this.availableCreatures.ContainsKey(newUnit))
-            //{
-            //    this.availableCreatures.Add(newUnit,0);
-            //}
-            //this.availableCreatures[newUnit]++;
         }
 
         protected virtual void SendSoundQuery(GameTime gameTime, Vector2 oldPosition, Vector2 newPosition)

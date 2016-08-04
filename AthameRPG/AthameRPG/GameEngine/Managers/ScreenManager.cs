@@ -1,11 +1,11 @@
-﻿using System;
-using AthameRPG.Objects.Screens;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.GameEngine.Managers
+﻿namespace AthameRPG.GameEngine.Managers
 {
+    using System;
+    using AthameRPG.Objects.Screens;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class ScreenManager
     {
         public const float SCREEN_WIDTH = 800f;
@@ -61,9 +61,10 @@ namespace AthameRPG.GameEngine.Managers
         {
             if (IsTransitioning)
             {
-                currentScreen.UnloadContent();
-                currentScreen = newScreen;
-                currentScreen.LoadContent();
+                this.currentScreen.OnEvent -= this.soundEffectManager.ExecuteQuery;
+                this.currentScreen.UnloadContent();
+                this.currentScreen = newScreen;
+                this.currentScreen.LoadContent();
                 this.currentScreen.OnEvent += this.soundEffectManager.ExecuteQuery;
                 IsTransitioning = false;
             }
@@ -72,7 +73,7 @@ namespace AthameRPG.GameEngine.Managers
         public void LoadContent(ContentManager Content)
         {
             this.Content = new ContentManager(Content.ServiceProvider, "Content");
-            currentScreen.LoadContent();
+            this.currentScreen.LoadContent();
 
             this.soundEffectManager = new SoundEffectManager(this.Content);
             this.currentScreen.OnEvent += this.soundEffectManager.ExecuteQuery;

@@ -1,27 +1,12 @@
-﻿using System;
-using AthameRPG.Attributes.Behavior;
-using AthameRPG.Enums;
-using Microsoft.Xna.Framework;
-
-namespace AthameRPG.Objects.Characters.WarUnits
+﻿namespace AthameRPG.Objects.Characters.WarUnits
 {
-    [FireBreatheUnit]
-    [FlyUnit]
+    using AthameRPG.Enums;
+    using Microsoft.Xna.Framework;
+    
     public class BlackDragon : WarUnit
     {
-        //private const int DefaultStrengthLevel1 = 7;
         private const StrenghtLevel DefaultStrengthLevel = StrenghtLevel.Strongest;
         private const string DefaultImagePath = "../Content/Character/blackDragon";
-        //private const int DefaultStayRow = 0;
-        //private const int DefaultCropStayWidth = 69;
-        //private const int DefaultCropStayHeight = 97;
-        //private const int DefaultMoveRow = 0; //-------------------------------
-        //private const int DefaultCropMoveWidth = 0;
-        //private const int DefaultCropMoveHeight = 0;
-        //private const int DefaultAttackRow = 0; //----------------------------
-        //private const int DefaultCropAttackWidth = 0;
-        //private const int DefaultCropAttackHeight = 0;
-        //private const int DefaultCorrectionCropByX = 326;
         private const float DefaultMoveSpeed = 6f;
         private const float DefaultAvailableMove = 450f;
         private const int DefaultHealth = 500;
@@ -56,14 +41,6 @@ namespace AthameRPG.Objects.Characters.WarUnits
             base.LoadDefaultUnitStats();
             this.strengthLevel = DefaultStrengthLevel;
             this.imagePath = DefaultImagePath;
-            //this.cropStayRow = DefaultStayRow;
-            //this.cropStayWidth = DefaultCropStayWidth;
-            //this.cropStayHeight = DefaultCropStayHeight;
-            //this.cropMoveWidth = 0;
-            //this.cropMoveHeight = 0;
-            //this.cropAttackWidth = 0;
-            //this.cropAttackHeight = 0;
-            //this.correctionStayCropByX = DefaultCorrectionCropByX;
             this.moveSpeed = DefaultMoveSpeed;
             this.availableMove = DefaultAvailableMove;
             this.damage = DefaultDamage;

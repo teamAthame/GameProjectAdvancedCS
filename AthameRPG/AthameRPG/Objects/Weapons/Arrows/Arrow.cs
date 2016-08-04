@@ -1,17 +1,19 @@
-﻿using System;
-using AthameRPG.GameEngine.Collisions;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AthameRPG.Objects.Weapons.Arrows
+﻿namespace AthameRPG.Objects.Weapons.Arrows
 {
+    using System;
+    using AthameRPG.GameEngine.Collisions;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public abstract class Arrow : Weapon
     {
         private const double MinDistanceToDraw = 20;
         private const int StepDivider = 50;
         private const int DrawCorrection = 30;
-        private int cropWidth = 42;
+
+        private int cropWidth = 42; 
         private int cropHeight = 12;
+
         private Vector2 drawCoords;
         private Vector2 targetCoords;
         private Vector2 midPoint;
@@ -139,7 +141,7 @@ namespace AthameRPG.Objects.Weapons.Arrows
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture2D, // The Texture2D
+            spriteBatch.Draw(this.texture2D,
                         new Rectangle((int)this.drawCoords.X, (int)this.drawCoords.Y + DrawCorrection, cropWidth, cropHeight),
                         this.cropArrow,
                         Color.White,
